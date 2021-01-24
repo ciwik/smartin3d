@@ -94,7 +94,17 @@ endif (MACOS)
 
 include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH})
 
-add_executable(smartin3d main.cpp)
+set (HEADER_FILES
+    Log.h
+    Window.h
+)
+
+set (SOURCE_FILES
+    Window.cpp
+    main.cpp
+)
+
+add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 
 target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
