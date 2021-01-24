@@ -97,12 +97,14 @@ include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH
 set (HEADER_FILES
     Log.h
     Window.h
-)
+    Time.h
+    Log.h)
 
 set (SOURCE_FILES
     Window.cpp
     main.cpp
-)
+    Log.cpp
+    Time.cpp)
 
 add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 

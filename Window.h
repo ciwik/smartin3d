@@ -6,10 +6,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-namespace smartin::graphics
-{
-    class Window
-    {
+#include "Log.h"
+
+namespace smartin::graphics {
+    class Window {
     public:
         Window(GLuint width, GLuint height);
 

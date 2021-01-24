@@ -1,15 +1,15 @@
 #ifndef SMARTIN3D_LOG_H
 #define SMARTIN3D_LOG_H
 
+#include <ostream>
 #include <string>
 
-namespace smartin::utils::log
-{
-    enum LOG_TYPE { ERROR = 0, WARNING = 1, INFO = 2 };
+namespace smartin::utils::log {
+    void Init(std::ostream &out);
 
-    void Write(const std::string tag, const std::string message, std::ostream &out, LOG_TYPE type = INFO) {
-        out << "[" << tag << "]: " << message << "\n";
-    }
+    void I(const std::string tag, const std::string message);
+    void W(const std::string tag, const std::string message);
+    void E(const std::string tag, const std::string message);
 }
 
 #endif //SMARTIN3D_LOG_H

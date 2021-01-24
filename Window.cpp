@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include "Window.h"
-#include "Log.h"
 
 smartin::graphics::Window::Window(GLuint _width, GLuint _height) {
     width = _width;
@@ -11,7 +8,7 @@ smartin::graphics::Window::Window(GLuint _width, GLuint _height) {
 void smartin::graphics::Window::Init(std::string title) {
     // Init GLFW
     if (!glfwInit()) {
-        utils::log::Write("OpenGL", "GLFW failed to initialize", std::cout, utils::log::ERROR);
+        utils::log::E("OpenGL", "GLFW failed to initialize");
         Destroy();
         return;
     }
@@ -27,7 +24,7 @@ void smartin::graphics::Window::Init(std::string title) {
 
     instance = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (instance == nullptr) {
-        utils::log::Write("OpenGL", "GLFW failed to create window", std::cout, utils::log::ERROR);
+        utils::log::E("OpenGL", "GLFW failed to create window");
         Destroy();
         return;
     }
@@ -43,7 +40,7 @@ void smartin::graphics::Window::Init(std::string title) {
 
     // Init GLEW
     if (glewInit() != GLEW_OK) {
-        utils::log::Write("OpenGL", "GLEW failed to init", std::cout, utils::log::ERROR);
+        utils::log::E("OpenGL", "GLEW failed to init");
         Destroy();
         return;
     }
@@ -53,7 +50,7 @@ void smartin::graphics::Window::Init(std::string title) {
     // Setup viewport size
     glViewport(0, 0, bufferWidth, bufferHeight);
 
-    utils::log::Write("OpenGL", "Window initialized", std::cout);
+    utils::log::I("OpenGL", "Window initialized");
 }
 
 void smartin::graphics::Window::Render() {
