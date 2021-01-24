@@ -98,13 +98,15 @@ set (HEADER_FILES
     Log.h
     Window.h
     Time.h
-    Log.h)
+    Log.h
+    Mesh.h)
 
 set (SOURCE_FILES
     Window.cpp
     main.cpp
     Log.cpp
-    Time.cpp)
+    Time.cpp
+    Mesh.cpp)
 
 add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 
