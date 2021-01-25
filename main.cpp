@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "Log.h"
 #include "Mesh.h"
+#include "Shader.h"
 
 using namespace smartin;
 
@@ -19,6 +20,9 @@ void Exit();
 int main() {
     utils::log::Init(std::cout);
 
+    graphics::Shader* mainShader = graphics::ReadShaderFromFiles("Shaders/default.vshader", "Shaders/default.fshader");
+    mainShader->Compile();
+
     graphics::Window* window = new graphics::Window(1280, 720);
     window->Init("Test Window");
 
@@ -27,6 +31,9 @@ int main() {
     // Main loop
     while (!window->IsAboutToClose()) {
         utils::time::Update(glfwGetTime());
+
+        mainShader->Validate();
+        mainShader->Apply();
 
         RenderScene();
 
