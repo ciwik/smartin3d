@@ -99,14 +99,21 @@ set (HEADER_FILES
     Window.h
     Time.h
     Log.h
-    Mesh.h)
+    Mesh.h
+    Shader.h
+    FileUtils.h
+    Actor.h)
 
 set (SOURCE_FILES
     Window.cpp
     main.cpp
     Log.cpp
     Time.cpp
-    Mesh.cpp)
+    Mesh.cpp
+    Shader.cpp
+    Camera.cpp
+    Transform.cpp
+    Actor.cpp)
 
 add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 
