@@ -3,7 +3,6 @@
 
 #include "Window.h"
 #include "Time.h"
-#include "Log.h"
 #include "Mesh.h"
 #include "Shader.h"
 
@@ -20,7 +19,7 @@ void Exit();
 int main() {
     utils::log::Init(std::cout);
 
-    graphics::Shader* mainShader = graphics::ReadShaderFromFiles("Shaders/default.vshader", "Shaders/default.fshader");
+    graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
     mainShader->Compile();
 
     graphics::Window* window = new graphics::Window(1280, 720);

@@ -30,7 +30,7 @@ if (WINDOWS)
     # GLEW - OpenGL Extension Wrangler Library
     # Provides efficient run-time mechanisms for determining which OpenGL extensions are supported on the target platform.
     # OpenGL core and extension functionality is exposed in a single header file.
-    find_path(GLEW_INCLUDE_PATH NAMES "GL/glew.h" GLEW_ROOT)
+    set(GLEW_INCLUDE_PATH "${GLEW_ROOT}/include")
 
     if (32BIT)
         set(GLEW_LIB_PATH "lib/Release/Win32")
@@ -121,4 +121,5 @@ target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY
 
 if (WINDOWS)
     add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/dll" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
 endif (WINDOWS)

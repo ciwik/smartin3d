@@ -15,9 +15,9 @@ namespace smartin::base {
         // TODO: friend class ...
 
     public:
-        Transform(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                  glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
-                  glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+        Transform(glm::vec3 position,
+                  glm::vec3 size,
+                  glm::vec3 eulerAngles);
 
         Transform(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
                   glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),

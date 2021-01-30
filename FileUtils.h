@@ -7,7 +7,7 @@
 #include "Log.h"
 
 namespace smartin::utils::io {
-    std::string ReadFile(const char *filePath) {
+    static std::string ReadFile(const char *filePath) {
         std::string result;
         std::ifstream fileStream(filePath, std::ios::in);
 
