@@ -102,7 +102,7 @@ set (HEADER_FILES
     Mesh.h
     Shader.h
     FileUtils.h
-    Actor.h)
+    Actor.h OpenGLContext.h)
 
 set (SOURCE_FILES
     Window.cpp
@@ -117,6 +117,7 @@ set (SOURCE_FILES
 
 add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 
+message(${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
 if (WINDOWS)

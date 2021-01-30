@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+#include "OpenGLContext.h"
 #include "Window.h"
 #include "Time.h"
 #include "Mesh.h"
@@ -19,11 +20,16 @@ void Exit();
 int main() {
     utils::log::Init(std::cout);
 
-    graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
-    mainShader->Compile();
+    utils::context::InitGLFW();
 
     graphics::Window* window = new graphics::Window(1280, 720);
-    window->Init("Test Window");
+    window->Instantiate("Test Window");
+
+    utils::context::InitGLEW();
+    window->Init();
+
+    graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
+    mainShader->Compile();
 
     CreateScene();
 

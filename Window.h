@@ -13,7 +13,8 @@ namespace smartin::graphics {
     public:
         Window(GLuint width, GLuint height);
 
-        void Init(std::string title);
+        void Instantiate(std::string title);
+        void Init();
         void Render();
 
         bool IsAboutToClose() const;
