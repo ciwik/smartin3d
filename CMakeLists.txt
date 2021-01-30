@@ -37,12 +37,23 @@ if (WINDOWS)
     elseif (64BIT)
         set(GLEW_LIB_PATH "lib/Release/x64")
     endif()
-
     find_library(GLEW_LIBRARY NAMES glew glew32 glew32s PATHS "${GLEW_ROOT}/${GLEW_LIB_PATH}")
+
+    if (32BIT)
+        set(GLEW_DLL_PATH "${GLEW_ROOT}/bin/Release/Win32/glew32.dll")
+    elseif(64BIT)
+        set(GLEW_DLL_PATH "${GLEW_ROOT}/bin/Release/x64/glew32.dll")
+    endif()
 
 
     # GLFW - Graphics Library Framework
     # Provides a simple API for creating windows, contexts and surfaces, receiving input and events.
+    if (32BIT)
+        set(GLFW_ROOT ${GLFW32_ROOT})
+    elseif(64BIT)
+        set(GLFW_ROOT ${GLFW64_ROOT})
+    endif()
+
     set(GLFW_INCLUDE_PATH "${GLFW_ROOT}/include")
 
     if (MINGW)
@@ -76,6 +87,7 @@ if (WINDOWS)
     endif()
 
     find_library(GLFW_LIBRARY NAMES glfw glfw3 libglfw3 libglfw3dll PATHS "${GLFW_ROOT}/${GLFW_LIB_PATH}")
+    set(GLFW_DLL_PATH "${GLFW_ROOT}/${GLFW_LIB_PATH}/glfw3.dll")
 
 
     # GLM - OpenGL Mathematics
@@ -123,6 +135,7 @@ add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
 if (WINDOWS)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/dll" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
     add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
 endif (WINDOWS)
