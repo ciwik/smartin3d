@@ -13,7 +13,7 @@
 namespace smartin::graphics {
     class Shader {
     public:
-        Shader(const char* vertexCode, const char* fragmentCode);
+        Shader(std::string vertexCode, std::string fragmentCode);
 
         void Compile();
         void Validate();
@@ -28,11 +28,11 @@ namespace smartin::graphics {
         ~Shader();
 
 private:
-        void AddShader(const char* shaderCode, GLenum shaderType);
+        void AddShader(std::string shaderCode, GLenum shaderType);
         void CompileProgram();
 
-        const char* vertexCode;
-        const char* fragmentCode;
+        std::string vertexCode;
+        std::string fragmentCode;
 
         GLuint shaderProgramId;
     };

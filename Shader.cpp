@@ -1,13 +1,15 @@
 #include "Shader.h"
 
-smartin::graphics::Shader::Shader(const char* _vertexCode, const char* _fragmentCode) : vertexCode(_vertexCode), fragmentCode(_fragmentCode) {
+smartin::graphics::Shader::Shader(std::string _vertexCode, std::string _fragmentCode) {
+    vertexCode = _vertexCode;
+    fragmentCode = _fragmentCode;
     shaderProgramId = 0;
 }
 
 void smartin::graphics::Shader::Compile() {
     shaderProgramId = glCreateProgram();
     if (!shaderProgramId) {
-        utils::log::E("Shader", "Error compiling shader program");
+        utils::log::E("Shader", "Error creating shader program");
         return;
     }
 
@@ -15,6 +17,9 @@ void smartin::graphics::Shader::Compile() {
     AddShader(fragmentCode, GL_FRAGMENT_SHADER);
 
     CompileProgram();
+
+    vertexCode.clear();
+    fragmentCode.clear();
 }
 
 void smartin::graphics::Shader::Validate() {
@@ -36,6 +41,9 @@ void smartin::graphics::Shader::Destroy() {
         glDeleteProgram(shaderProgramId);
         shaderProgramId = 0;
     }
+
+    vertexCode.clear();
+    fragmentCode.clear();
 }
 
 void smartin::graphics::Shader::SetFloat(const char *variable, GLfloat value) {
@@ -62,10 +70,10 @@ smartin::graphics::Shader::~Shader() {
     Destroy();
 }
 
-void smartin::graphics::Shader::AddShader(const char *shaderCode, GLenum shaderType) {
+void smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderType) {
     GLuint shaderId = glCreateShader(shaderType);
-    const GLchar* code[1] = { shaderCode };
-    GLint codeLength[1] = { (GLint)strlen(shaderCode) };
+    const GLchar* code[1]; code[0] = shaderCode.c_str();
+    GLint codeLength[1] = { (int)shaderCode.size() };
     glShaderSource(shaderId, 1, code, codeLength);
     glCompileShader(shaderId);
     glLinkProgram(shaderId);
