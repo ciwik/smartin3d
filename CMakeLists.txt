@@ -92,32 +92,34 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH})
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} include)
+
+add_subdirectory(src)
 
 set (HEADER_FILES
-    Log.h
-    Window.h
-    Time.h
-    Log.h
-    Mesh.h
-    Shader.h
-    FileUtils.h
-    Actor.h OpenGLContext.h)
+        include/Log.h
+        include/Window.h
+        include/Time.h
+        include/Log.h
+        include/Mesh.h
+        include/Shader.h
+        include/FileUtils.h
+        include/Actor.h
+        include/OpenGLContext.h)
 
 set (SOURCE_FILES
-    Window.cpp
-    main.cpp
-    Log.cpp
-    Time.cpp
-    Mesh.cpp
-    Shader.cpp
-    Camera.cpp
-    Transform.cpp
-    Actor.cpp)
+        src/Window.cpp
+        src/main.cpp
+        src/Log.cpp
+        src/Time.cpp
+        src/Mesh.cpp
+        src/Shader.cpp
+        src/Camera.cpp
+        src/Transform.cpp
+        src/Actor.cpp)
 
 add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 
-message(${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
 if (WINDOWS)
