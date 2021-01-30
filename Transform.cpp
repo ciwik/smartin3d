@@ -1,44 +1,58 @@
 #include "Transform.h"
 
-smartin::base::Transform::Transform(glm::vec3 _position, glm::vec3 _size, glm::vec3 _rotation) {
+smartin::base::Transform::Transform(glm::vec3 _position, glm::vec3 _size, glm::vec3 _eulerAngles) {
+    position = _position;
+    size = _size;
+    rotation = glm::quat(_eulerAngles);
+
+    Update();
+}
+
+smartin::base::Transform::Transform(glm::vec3 _position, glm::vec3 _size, glm::quat _rotation) {
     position = _position;
     size = _size;
     rotation = _rotation;
+
+    Update();
 }
 
-void smartin::base::Transform::SetPosition(glm::vec3 _position) {
-    position = _position;
+glm::vec3 smartin::base::Transform::GetEulerAngles() const {
+    GLfloat t0 = 2.0f * (rotation.w * rotation.x + rotation.y * rotation.z);
+    GLfloat t1 = 1.0f - 2.0f * (rotation.x * rotation.x + rotation.y * rotation.y);
+    GLfloat roll = atan2(t0, t1);
+
+    GLfloat t2 = 2.0f * (rotation.w * rotation.y - rotation.z * rotation.x);
+    t2 = t2 > 1.0f ? 1.0f : t2;
+    t2 = t2 < -1.0f ? 1.0f : t2;
+    GLfloat pitch = asin(t2);
+
+    GLfloat t3 = 2.0f * (rotation.w * rotation.z + rotation.x * rotation.y);
+    GLfloat t4 = 1.0f - 2.0f * (rotation.y * rotation.y + rotation.z * rotation.z);
+    GLfloat yaw = atan2(t3, t4);
+
+    return glm::vec3(glm::radians(roll), glm::radians(pitch), glm::radians(yaw));
 }
 
 void smartin::base::Transform::Move(glm::vec3 direction) {
-    SetPosition(position + direction);
-}
-
-void smartin::base::Transform::SetSize(glm::vec3 _size) {
-    size = _size;
+    position += direction;
 }
 
 void smartin::base::Transform::Scale(glm::vec3 scale) {
-    SetSize(size * scale);
+    size *= scale;
 }
 
 void smartin::base::Transform::Scale(GLfloat scale) {
-    SetSize(size * scale);
+    size *= scale;
 }
 
-void smartin::base::Transform::SetRotation(glm::vec3 _rotation) {
-    rotation = _rotation;
+void smartin::base::Transform::Rotate(glm::quat additionalRotation) {
+    rotation *= additionalRotation;
 }
 
-void smartin::base::Transform::Rotate(glm::vec3 axis, float angle) {
-    glm::mat4 rot(1.0f);
-    rot = glm::rotate(rot, glm::radians(angle), axis);
-    modelMatrix *= rot;
-    // TODO: Update rotation
-}
-
-smartin::base::Transform::~Transform() {
-
+void smartin::base::Transform::RotateAround(glm::vec3 axis, GLfloat angle) {
+    float a = glm::radians(angle) / 2;
+    glm::quat q = glm::quat(cos(a), axis.x * sin(a), axis.y * sin(a), axis.z * sin(a));
+    rotation *= q;
 }
 
 void smartin::base::Transform::Update() {
@@ -51,11 +65,14 @@ void smartin::base::Transform::Update() {
     mat = glm::scale(mat, size);
 
     // Rotate
-    mat = glm::rotate(mat, glm::radians(rotation.x), RIGHT);
-    mat = glm::rotate(mat, glm::radians(rotation.y), UP);
-    mat = glm::rotate(mat, glm::radians(rotation.z), FORWARD);
+    glm::mat4 rot = glm::toMat4(rotation);
+    mat *= rot;
 
     modelMatrix = mat;
+}
+
+smartin::base::Transform::~Transform() {
+
 }
 
 // Axes

@@ -1,43 +1,55 @@
 #ifndef SMARTIN3D_TRANSFORM_H
 #define SMARTIN3D_TRANSFORM_H
 
+#include <math.h>
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 
 namespace smartin::base {
-    class Transform {
+    class Transform final {
+        // TODO: friend class ...
+
     public:
         Transform(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
                   glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
-                  glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f));
+                  glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+
+        Transform(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+                  glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
+                  glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f));
 
         glm::vec3 GetPosition() const { return position; }
         glm::vec3 GetSize() const { return size; }
-        glm::vec3 GetRotation() const { return rotation; }
+        glm::quat GetRotation() const { return rotation; }
+        glm::vec3 GetEulerAngles() const;
+
         glm::mat4 GetModelMatrix() const { return modelMatrix; }
 
-        glm::vec3 GetForward();             // TODO
-        glm::vec3 GetRight();               // TODO
-        glm::vec3 GetUp();                  // TODO
+        glm::vec3 GetRight() const { return rotation * RIGHT; }
+        glm::vec3 GetUp() const { return rotation * UP; }
+        glm::vec3 GetForward() const { return rotation * FORWARD; }
 
         void Update();
 
-        void SetPosition(glm::vec3 position);
         void Move(glm::vec3 direction);
 
-        void SetSize(glm::vec3 size);
         void Scale(glm::vec3 scale);
         void Scale(GLfloat scale);
 
-        void SetRotation(glm::vec3 rotation);
-        void Rotate(glm::vec3 axis, float angle);
+        void Rotate(glm::quat additionalRotation);
+        void RotateAround(glm::vec3 axis, GLfloat angle);
 
         ~Transform();
 
     private:
-        // TODO: Use quaternion for rotation
-        glm::vec3 position, size, rotation;
+        glm::vec3 position, size;
+        glm::quat rotation;
+
         glm::mat4 modelMatrix;
 
         // Axes
