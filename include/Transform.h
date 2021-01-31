@@ -30,9 +30,9 @@ namespace smartin::base {
 
         glm::mat4 GetModelMatrix() const { return modelMatrix; }
 
-        glm::vec3 GetRight() const { return rotation * RIGHT; }
-        glm::vec3 GetUp() const { return rotation * UP; }
-        glm::vec3 GetForward() const { return rotation * FORWARD; }
+        glm::vec3 GetRight() const { return glm::normalize(rotation * RIGHT); }
+        glm::vec3 GetUp() const { return glm::normalize(rotation * UP); }
+        glm::vec3 GetForward() const { return glm::normalize(rotation * FORWARD); }
 
         void Update();
 

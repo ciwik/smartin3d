@@ -30,7 +30,7 @@ glm::vec3 smartin::base::Transform::GetEulerAngles() const {
     GLfloat t4 = 1.0f - 2.0f * (rotation.y * rotation.y + rotation.z * rotation.z);
     GLfloat yaw = atan2(t3, t4);
 
-    return glm::vec3(glm::radians(roll), glm::radians(pitch), glm::radians(yaw));
+    return glm::vec3(glm::degrees(roll), glm::degrees(pitch), glm::degrees(yaw));
 }
 
 void smartin::base::Transform::Move(glm::vec3 direction) {
