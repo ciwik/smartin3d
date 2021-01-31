@@ -23,13 +23,7 @@ void smartin::graphics::Shader::Compile() {
 }
 
 void smartin::graphics::Shader::Validate() {
-    GLint result = 0; GLchar log[1024] = { 0 };
-    glGetShaderiv(shaderProgramId, GL_VALIDATE_STATUS, &result);
-    if (!result) {
-        glGetShaderInfoLog(shaderProgramId, sizeof(log), NULL, log);
-        utils::log::E("Shader", "Error validating shader program: ");    // TODO
-        return;
-    }
+    CheckProgramStatus(shaderProgramId, GL_VALIDATE_STATUS, "validate");
 }
 
 void smartin::graphics::Shader::Apply() {
@@ -78,13 +72,8 @@ void smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderT
     glCompileShader(shaderId);
     glLinkProgram(shaderId);
 
-    GLint result = 0; GLchar log[1024] = { 0 };
-    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &result);
-    if (!result) {
-        glGetShaderInfoLog(shaderId, sizeof(log), NULL, log);
-        utils::log::E("Shader", "Error compiling shader: ");    // TODO
+    if (!CheckShaderStatus(shaderId, GL_COMPILE_STATUS, "compile"))
         return;
-    }
 
     glAttachShader(shaderProgramId, shaderId);
 }
@@ -92,13 +81,8 @@ void smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderT
 void smartin::graphics::Shader::CompileProgram() {
     glLinkProgram(shaderProgramId);
 
-    GLint result = 0; GLchar log[1024] = { 0 };
-    glGetShaderiv(shaderProgramId, GL_LINK_STATUS, &result);
-    if (!result) {
-        glGetShaderInfoLog(shaderProgramId, sizeof(log), NULL, log);
-        utils::log::E("Shader", "Error linking shader program: ");    // TODO
+    if (!CheckProgramStatus(shaderProgramId, GL_LINK_STATUS, "link"))
         return;
-    }
 }
 
 smartin::graphics::Shader* smartin::graphics::ReadShaderFromFiles(const char *vertexCodePath, const char *fragmentCodePath) {
@@ -107,4 +91,30 @@ smartin::graphics::Shader* smartin::graphics::ReadShaderFromFiles(const char *ve
 
     Shader* shader = new Shader(vertexCode.c_str(), fragmentCode.c_str());
     return shader;
+}
+
+bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, std::string tag) {
+    GLint result = 0;
+    glGetShaderiv(id, checkType, &result);
+    if (result != GL_TRUE) {
+        GLchar log[1024] = { 0 };
+        glGetShaderInfoLog(id, sizeof(log), NULL, log);
+        utils::log::E("Shader", "Couldn't " + tag + ": " + std::to_string(result) + "\n" + std::string(log));
+        return false;
+    }
+
+    return true;
+}
+
+bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, std::string tag) {
+    GLint result = 0;
+    glGetProgramiv(id, checkType, &result);
+    if (result != GL_TRUE) {
+        GLchar log[1024] = { 0 };
+        glGetProgramInfoLog(id, sizeof(log), NULL, log);
+        utils::log::E("Shader", "Couldn't " + tag + ": " + std::to_string(result) + "\n" + std::string(log));
+        return false;
+    }
+
+    return true;
 }

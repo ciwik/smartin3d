@@ -30,6 +30,7 @@ int main() {
 
     graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
     mainShader->Compile();
+    mainShader->Validate();
 
     CreateScene();
 
@@ -37,14 +38,13 @@ int main() {
     while (!window->IsAboutToClose()) {
         utils::time::Update(glfwGetTime());
 
-        mainShader->Validate();
         mainShader->Apply();
 
         RenderScene();
 
         window->Render();
 
-        utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
+        // utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
     }
 
     Exit();

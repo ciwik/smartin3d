@@ -31,6 +31,9 @@ private:
         void AddShader(std::string shaderCode, GLenum shaderType);
         void CompileProgram();
 
+        bool CheckShaderStatus(GLuint shaderId, GLenum checkType, std::string tag);
+        bool CheckProgramStatus(GLuint programId, GLenum checkType, std::string tag);
+
         std::string vertexCode;
         std::string fragmentCode;
 
