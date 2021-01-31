@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 
-#include "../include/OpenGLContext.h"
-#include "../include/Window.h"
-#include "../include/Time.h"
-#include "../include/Mesh.h"
-#include "../include/Shader.h"
+#include "OpenGLContext.h"
+#include "Window.h"
+#include "Time.h"
+#include "Mesh.h"
+#include "Shader.h"
 
 using namespace smartin;
 
