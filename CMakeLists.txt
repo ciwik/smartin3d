@@ -111,7 +111,7 @@ add_subdirectory(src)
 set (HEADER_FILES
         include/Log.h
         include/Window.h
-        include/Time.h
+        include/STime.h
         include/Log.h
         include/Mesh.h
         include/Shader.h
@@ -123,7 +123,7 @@ set (SOURCE_FILES
         src/Window.cpp
         src/main.cpp
         src/Log.cpp
-        src/Time.cpp
+        src/STime.cpp
         src/Mesh.cpp
         src/Shader.cpp
         src/Camera.cpp

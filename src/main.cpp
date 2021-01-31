@@ -3,7 +3,7 @@
 
 #include "OpenGLContext.h"
 #include "Window.h"
-#include "Time.h"
+#include "STime.h"
 #include "Mesh.h"
 #include "Shader.h"
 
