@@ -3,6 +3,8 @@ project(smartin3d)
 
 set(CMAKE_CXX_STANDARD 17)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 # Detect OS
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(MACOS TRUE)
@@ -64,7 +66,7 @@ if (WINDOWS)
     if (NOT GLFW_ROOT)
         find_package(GLFW QUIET)
         if(GLFW_FOUND)
-            get_filename_component(GLFW_ROOT ${GLFW_INCLUDE_DIRS} DIRECTORY)
+            get_filename_component(GLFW_ROOT ${GLFW_INCLUDE_DIR} DIRECTORY)
         else()
             if (32BIT)
                 set(GLFW_ROOT ${GLFW32_ROOT})
@@ -112,7 +114,7 @@ if (WINDOWS)
         find_library(GLFW_LIBRARY NAMES glfw glfw3 libglfw3 libglfw3dll PATHS "${GLFW_ROOT}/${GLFW_LIB_PATH}")
         set(GLFW_DLL_PATH "${GLFW_ROOT}/${GLFW_LIB_PATH}/glfw3.dll")
 
-        message("GLEW found at path: '${GLFW_INCLUDE_PATH}', '${GLFW_LIBRARY}', '${GLFW_DLL_PATH}'")
+        message("GLFW found at path: '${GLFW_INCLUDE_PATH}', '${GLFW_LIBRARY}', '${GLFW_DLL_PATH}'")
     endif()
 
 
@@ -157,7 +159,6 @@ set (HEADER_FILES
 
 set (SOURCE_FILES
         src/Window.cpp
-        src/main.cpp
         src/Log.cpp
         src/STime.cpp
         src/Mesh.cpp
@@ -166,8 +167,11 @@ set (SOURCE_FILES
         src/Transform.cpp
         src/Actor.cpp)
 
-add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
+add_library(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
 target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
+
+add_executable(smartin3ddemo main.cpp)
+target_link_libraries(smartin3ddemo smartin3d  ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
 if (WINDOWS)
     add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
@@ -175,5 +179,4 @@ if (WINDOWS)
     add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
 endif (WINDOWS)
 
-enable_testing()
 add_subdirectory(tests)
