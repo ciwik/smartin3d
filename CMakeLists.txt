@@ -131,7 +131,6 @@ set (SOURCE_FILES
         src/Actor.cpp)
 
 add_executable(smartin3d ${HEADER_FILES} ${SOURCE_FILES})
-
 target_link_libraries(smartin3d ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
 if (WINDOWS)
@@ -139,3 +138,6 @@ if (WINDOWS)
     add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
     add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
 endif (WINDOWS)
+
+enable_testing()
+add_subdirectory(tests)
