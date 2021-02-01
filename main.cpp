@@ -19,20 +19,14 @@ std::vector<graphics::Mesh*> meshes;
 void CreateScene();
 void RenderScene();
 
+graphics::Window* CreateWindow(int width, int height, const char* title);
+
 void Exit();
 
 int main() {
     utils::log::Init(std::cout);
 
-    utils::context::InitGLFW();
-
-    graphics::Window* window = new graphics::Window(1280, 720);
-    window->Instantiate("Test Window");
-
-    utils::context::InitGLEW();
-    window->Init();
-
-    utils::input::RegisterEventListener(window);
+    window = CreateWindow(1280, 720, "Test window");
 
     graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
     mainShader->Compile();
@@ -100,6 +94,20 @@ void CreateScene() {
 void RenderScene() {
     for (auto mesh : meshes)
         mesh->Render();
+}
+
+graphics::Window* CreateWindow(int width, int height, const char* title) {
+    utils::context::InitGLFW();
+
+    graphics::Window* window = new graphics::Window(width, height);
+    window->Instantiate(title);
+
+    utils::context::InitGLEW();
+    window->Init();
+
+    utils::input::RegisterEventListener(window);
+
+    return window;
 }
 
 void Exit() {
