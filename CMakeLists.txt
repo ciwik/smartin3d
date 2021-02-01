@@ -155,7 +155,8 @@ set (HEADER_FILES
         include/Shader.h
         include/FileUtils.h
         include/Actor.h
-        include/OpenGLContext.h)
+        include/OpenGLContext.h
+        include/Input.h)
 
 set (SOURCE_FILES
         src/Window.cpp
@@ -165,7 +166,8 @@ set (SOURCE_FILES
         src/Shader.cpp
         src/Camera.cpp
         src/Transform.cpp
-        src/Actor.cpp)
+        src/Actor.cpp
+        src/Input.cpp)
 
 set(PROJECT_VERSION "0.0.1")
 

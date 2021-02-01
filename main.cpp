@@ -9,6 +9,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Input.h"
 
 using namespace smartin;
 
@@ -31,6 +32,8 @@ int main() {
     utils::context::InitGLEW();
     window->Init();
 
+    utils::input::RegisterEventListener(window);
+
     graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
     mainShader->Compile();
     mainShader->Validate();
@@ -44,6 +47,15 @@ int main() {
     while (!window->IsAboutToClose()) {
         utils::time::Update(glfwGetTime());
 
+        utils::input::UpdateKeys();
+        if (utils::input::IsKeyReleased(KEY_ESCAPE))
+            window->Close();
+
+        if (utils::input::IsKeyPressed(KEY_A))
+            utils::log::I("Input", "Pressed key A");
+        if (utils::input::IsKeyReleased(KEY_A))
+            utils::log::I("Input", "Released key A");
+
         camera->Update();
         glm::mat4 projection = camera->GetProjectionMatrix();
         glm::mat4 view = camera->GetViewMatrix();
@@ -56,7 +68,7 @@ int main() {
 
         window->Render();
 
-        utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
+        //utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
     }
 
     Exit();

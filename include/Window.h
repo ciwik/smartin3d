@@ -19,9 +19,12 @@ namespace smartin::graphics {
         void Init();
         void Render();
 
-        GLuint GetWidth() { return width; }
-        GLuint GetHeight() { return height; }
+        GLuint GetWidth() const { return width; }
+        GLuint GetHeight() const { return height; }
 
+        GLFWwindow* GetInstance() { return instance; }
+
+        void Close();
         bool IsAboutToClose() const;
 
         ~Window();

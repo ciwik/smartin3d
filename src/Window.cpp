@@ -22,7 +22,6 @@ void smartin::graphics::Window::Instantiate(std::string title) {
     utils::log::I("OpenGL", "Window instantiated");
 }
 
-
 void smartin::graphics::Window::Init() {
     // Setup viewport size
     glViewport(0, 0, bufferWidth, bufferHeight);
@@ -36,6 +35,10 @@ void smartin::graphics::Window::Render() {
 
 bool smartin::graphics::Window::IsAboutToClose() const {
     return glfwWindowShouldClose(instance);
+}
+
+void smartin::graphics::Window::Close() {
+    glfwSetWindowShouldClose(instance, GL_TRUE);
 }
 
 void smartin::graphics::Window::Destroy() {
