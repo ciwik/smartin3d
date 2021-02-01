@@ -22,7 +22,7 @@ set (TEST_FILES
         transform_tests.cpp)
 
 add_executable(tests test_hints.h ${TEST_FILES})
-target_link_libraries(tests smartin3d Catch2::Catch2)
+target_link_libraries(tests smartin3dlib Catch2::Catch2)
 
 if (WINDOWS)
     add_custom_command(TARGET tests POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:tests>)

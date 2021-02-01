@@ -170,20 +170,24 @@ set (SOURCE_FILES
 set(PROJECT_VERSION "0.0.1")
 
 # Build engine library
-add_library(smartin3d STATIC ${HEADER_FILES} ${SOURCE_FILES})
+add_library(smartin3d SHARED ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smartin3d PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(smartin3d PUBLIC ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
-if (WINDOWS)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
-endif (WINDOWS)
+# Build static engine library (for linking)
+add_library(smartin3dlib STATIC ${HEADER_FILES} ${SOURCE_FILES})
+set_target_properties(smartin3dlib PROPERTIES VERSION ${PROJECT_VERSION})
+target_link_libraries(smartin3dlib PUBLIC ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
 
 # Enable tests
 add_subdirectory(tests)
 
 # Build a demo
 add_executable(smartin3ddemo main.cpp)
-target_link_libraries(smartin3ddemo PUBLIC smartin3d ${GLFW_LIBRARY})
-target_include_directories(smartin3ddemo PUBLIC include)
+target_link_libraries(smartin3ddemo smartin3dlib)
+
+if (WINDOWS)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
+endif (WINDOWS)
