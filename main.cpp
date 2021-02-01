@@ -1,3 +1,5 @@
+#pragma comment(lib, "legacy_stdio_definitions.lib")
+
 #include <iostream>
 #include <vector>
 
@@ -44,7 +46,7 @@ int main() {
 
         window->Render();
 
-        // utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
+        utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
     }
 
     Exit();
