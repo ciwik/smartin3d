@@ -19,6 +19,9 @@ namespace smartin::graphics {
         void Init();
         void Render();
 
+        GLuint GetWidth() { return width; }
+        GLuint GetHeight() { return height; }
+
         bool IsAboutToClose() const;
 
         ~Window();

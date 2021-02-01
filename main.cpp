@@ -8,6 +8,7 @@
 #include "STime.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "Camera.h"
 
 using namespace smartin;
 
@@ -34,12 +35,21 @@ int main() {
     mainShader->Compile();
     mainShader->Validate();
 
+    base::Camera* camera = new base::Camera();
+    camera->aspect = window->GetWidth() / (float) window->GetHeight();
+
     CreateScene();
 
     // Main loop
     while (!window->IsAboutToClose()) {
         utils::time::Update(glfwGetTime());
 
+        camera->Update();
+        glm::mat4 projection = camera->GetProjectionMatrix();
+        glm::mat4 view = camera->GetViewMatrix();
+
+        mainShader->SetMatrix("view", view);
+        mainShader->SetMatrix("projection", projection);
         mainShader->Apply();
 
         RenderScene();
