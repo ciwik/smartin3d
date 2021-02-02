@@ -65,8 +65,6 @@ int main() {
         //utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
     }
 
-    Exit();
-
     return 0;
 }
 
@@ -108,10 +106,4 @@ graphics::Window* CreateWindow(int width, int height, const char* title) {
     utils::input::RegisterEventListener(window);
 
     return window;
-}
-
-void Exit() {
-    delete window;
-    for (auto mesh : meshes)
-        delete mesh;
 }
