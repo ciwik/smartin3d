@@ -41,13 +41,13 @@ int main() {
     while (!window->IsAboutToClose()) {
         utils::time::Update(glfwGetTime());
 
-        utils::input::UpdateKeys();
-        if (utils::input::IsKeyReleased(KEY_ESCAPE))
+        utils::input::Update();
+        if (utils::input::IsKeyPressedUp(KEY_ESCAPE))
             window->Close();
 
-        if (utils::input::IsKeyPressed(KEY_A))
+        if (utils::input::IsKeyPressedDown(KEY_A))
             utils::log::I("Input", "Pressed key A");
-        if (utils::input::IsKeyReleased(KEY_A))
+        if (utils::input::IsKeyPressedUp(KEY_A))
             utils::log::I("Input", "Released key A");
 
         camera->Update();

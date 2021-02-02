@@ -1,6 +1,8 @@
 #ifndef SMARTIN3D_INPUT_H
 #define SMARTIN3D_INPUT_H
 
+#define KEYS_NUMBER 348
+
 #include <bitset>
 
 #include "Window.h"
@@ -14,18 +16,19 @@ namespace smartin::utils::input {
         void Update();
 
         bool IsKeyPressed(int key);
-        bool IsKeyReleased(int key);
+        bool IsKeyPressedUp(int key);
+        bool IsKeyPressedDown(int key);
 
     private:
-        std::bitset<348> keysMask;
-        std::bitset<348> prevKeysMask;
+        std::bitset<KEYS_NUMBER> keysMask;
+        std::bitset<KEYS_NUMBER> prevKeysMask;
     };
 
-    void UpdateMouse();
-    void UpdateKeys();
+    void Update();
 
-    bool IsKeyPressed(GLint keyCode);
-    bool IsKeyReleased(GLint keyCode);
+    bool IsKeyPressed(GLint key);
+    bool IsKeyPressedUp(GLint key);
+    bool IsKeyPressedDown(GLint key);
 
     void RegisterEventListener(graphics::Window* window);
 

@@ -1,24 +1,22 @@
 #include "Input.h"
 
-void smartin::utils::input::UpdateMouse() {
-
-}
-
-void smartin::utils::input::UpdateKeys() {
-    if (eventHandler != nullptr)
-        eventHandler->Update();
-}
-
 bool smartin::utils::input::IsKeyPressed(GLint keyCode) {
     if (eventHandler != nullptr)
-        eventHandler->IsKeyPressed(keyCode);
+        return eventHandler->IsKeyPressed(keyCode);
 
     return false;
 }
 
-bool smartin::utils::input::IsKeyReleased(GLint keyCode) {
+bool smartin::utils::input::IsKeyPressedUp(GLint keyCode) {
     if (eventHandler != nullptr)
-        eventHandler->IsKeyReleased(keyCode);
+        return eventHandler->IsKeyPressedUp(keyCode);
+
+    return false;
+}
+
+bool smartin::utils::input::IsKeyPressedDown(GLint keyCode) {
+    if (eventHandler != nullptr)
+        return eventHandler->IsKeyPressedDown(keyCode);
 
     return false;
 }
@@ -33,6 +31,14 @@ void smartin::utils::input::RegisterEventListener(graphics::Window* window) {
 
     // Setup EventHandler object as user of the GLFW window instance
     glfwSetWindowUserPointer(windowInstance, eventHandler);
+}
+
+void smartin::utils::input::Update() {
+    if (eventHandler != nullptr)
+        eventHandler->Update();
+
+    // Get and handle user input events
+    glfwPollEvents();
 }
 
 void smartin::utils::input::EventHandler::HandleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
@@ -58,6 +64,10 @@ bool smartin::utils::input::EventHandler::IsKeyPressed(int key) {
     return keysMask[key];
 }
 
-bool smartin::utils::input::EventHandler::IsKeyReleased(int key) {
+bool smartin::utils::input::EventHandler::IsKeyPressedDown(int key) {
+    return !prevKeysMask[key] && keysMask[key];
+}
+
+bool smartin::utils::input::EventHandler::IsKeyPressedUp(int key) {
     return prevKeysMask[key] && !keysMask[key];
 }
