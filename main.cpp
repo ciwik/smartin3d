@@ -5,7 +5,7 @@
 
 #include "OpenGLContext.h"
 #include "Window.h"
-#include "STime.h"
+#include "TimeUtils.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Camera.h"

@@ -1,4 +1,4 @@
-#include "STime.h"
+#include "TimeUtils.h"
 
 float deltaTime;
 float currentTime;

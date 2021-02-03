@@ -149,7 +149,7 @@ include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH
 set (HEADER_FILES
         include/Log.h
         include/Window.h
-        include/STime.h
+        include/TimeUtils.h
         include/Log.h
         include/Mesh.h
         include/Shader.h
@@ -161,7 +161,7 @@ set (HEADER_FILES
 set (SOURCE_FILES
         src/Window.cpp
         src/Log.cpp
-        src/STime.cpp
+        src/TimeUtils.cpp
         src/Mesh.cpp
         src/Shader.cpp
         src/Camera.cpp
