@@ -21,7 +21,7 @@ void RenderScene();
 
 graphics::Window* CreateWindow(int width, int height, const char* title);
 
-void Exit();
+void HandleInput();
 
 int main() {
     utils::log::Init(std::cout);
@@ -39,16 +39,9 @@ int main() {
 
     // Main loop
     while (!window->IsAboutToClose()) {
-        utils::time::Update(glfwGetTime());
+        utils::time::Update();
 
-        utils::input::Update();
-        if (utils::input::IsKeyPressedUp(KEY_ESCAPE))
-            window->Close();
-
-        if (utils::input::IsKeyPressedDown(KEY_A))
-            utils::log::I("Input", "Pressed key A");
-        if (utils::input::IsKeyPressedUp(KEY_A))
-            utils::log::I("Input", "Released key A");
+        HandleInput();
 
         camera->Update();
         glm::mat4 projection = camera->GetProjectionMatrix();
@@ -106,4 +99,15 @@ graphics::Window* CreateWindow(int width, int height, const char* title) {
     utils::input::RegisterEventListener(window);
 
     return window;
+}
+
+void HandleInput() {
+    utils::input::Update();
+    if (utils::input::IsKeyPressedUp(KEY_ESCAPE))
+        window->Close();
+
+    if (utils::input::IsKeyPressedDown(KEY_A))
+        utils::log::I("Input", "Pressed key A on frame " + std::to_string(utils::time::GetFrameCount()));
+    if (utils::input::IsKeyPressedUp(KEY_A))
+        utils::log::I("Input", "Released key A on frame " + std::to_string(utils::time::GetFrameCount()));
 }
