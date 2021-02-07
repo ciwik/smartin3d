@@ -144,7 +144,7 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} include)
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} include include/actors include/jobs)
 
 set (HEADER_FILES
         include/Log.h
@@ -156,7 +156,8 @@ set (HEADER_FILES
         include/FileUtils.h
         include/Actor.h
         include/OpenGLContext.h
-        include/Input.h)
+        include/Input.h
+        include/Job.h)
 
 set (SOURCE_FILES
         src/Window.cpp
@@ -164,7 +165,7 @@ set (SOURCE_FILES
         src/TimeUtils.cpp
         src/Mesh.cpp
         src/Shader.cpp
-        src/Camera.cpp
+        src/actors/Camera.cpp
         src/Transform.cpp
         src/Actor.cpp
         src/Input.cpp)

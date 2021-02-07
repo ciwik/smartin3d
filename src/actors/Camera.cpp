@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "actors/Camera.h"
 
 void smartin::base::Camera::Update() {
     Actor::Update();
