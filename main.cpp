@@ -13,52 +13,50 @@
 
 using namespace smartin;
 
+// Variables
 graphics::Window* window;
-
 std::vector<graphics::Mesh*> meshes;
+graphics::Shader* mainShader;
+base::Camera* mainCamera;
+
+// Awake methods
 void CreateScene();
 void RenderScene();
-
 graphics::Window* CreateWindow(int width, int height, const char* title);
+base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos = glm::vec3()) ;
+graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentCodePath);
 
+// Update methods
 void HandleInput();
+void UpdateShader(glm::mat4 view, glm::mat4 proj);
+void Render();
+
+// Destroy methods
+void Exit();
+
 
 int main() {
     utils::log::Init(std::cout);
 
-    window = CreateWindow(1280, 720, "Test window");
-
-    graphics::Shader* mainShader = graphics::ReadShaderFromFiles("shaders/default.vshader", "shaders/default.fshader");
-    mainShader->Compile();
-    mainShader->Validate();
-
-    base::Camera* camera = new base::Camera();
-    camera->aspect = window->GetWidth() / (float) window->GetHeight();
-
     utils::input::mouse::settings::invertYAxis = true;
+
+    window = CreateWindow(1280, 720, "Test window");
+    mainShader = CreateShader("shaders/default.vshader", "shaders/default.fshader");
+    mainCamera = CreateCamera(60.0f, window->GetWidth() / (float) window->GetHeight());
 
     CreateScene();
 
     // Main loop
     while (!window->IsAboutToClose()) {
         utils::time::Update();
-
         HandleInput();
 
-        camera->Update();
-        glm::mat4 projection = camera->GetProjectionMatrix();
-        glm::mat4 view = camera->GetViewMatrix();
-
-        mainShader->SetMatrix("view", view);
-        mainShader->SetMatrix("projection", projection);
-        mainShader->Apply();
-
-        RenderScene();
-
-        window->Render();
-
-        //utils::log::I("Time", "FPS = " + std::to_string(1.0f / utils::time::GetDeltaTime()));
+        mainCamera->Update();
+        UpdateShader(mainCamera->GetViewMatrix(), mainCamera->GetProjectionMatrix());
+        Render();
     }
+
+    Exit();
 
     return 0;
 }
@@ -113,6 +111,38 @@ void HandleInput() {
     if (utils::input::keyboard::IsKeyUp(KEY_A))
         utils::log::I("Input", "Released key A on frame " + std::to_string(utils::time::GetFrameCount()));
 
-    //glm::vec2 cursorPos = utils::input::mouse::GetCursorDelta();
-    //utils::log::I("Input", "Cursor at " + std::to_string(cursorPos.x) + ", " + std::to_string(cursorPos.y));
+    glm::vec2 cursorDelta = utils::input::mouse::GetCursorDelta();
+}
+
+
+base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos) {
+    base::Camera* camera = new base::Camera();
+    camera->aspect = aspect;
+    camera->fieldOfView = fov;
+    camera->GetTransform()->Move(pos);
+
+    return camera;
+}
+
+graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentCodePath) {
+    graphics::Shader* shader = graphics::ReadShaderFromFiles(vertexCodePath, fragmentCodePath);
+    shader->Compile();
+    shader->Validate();
+
+    return shader;
+}
+
+void UpdateShader(glm::mat4 view, glm::mat4 proj) {
+    mainShader->SetMatrix("view", view);
+    mainShader->SetMatrix("projection", proj);
+    mainShader->Apply();
+}
+
+void Render() {
+    RenderScene();
+    window->Render();
+}
+
+void Exit() {
+    // TODO
 }
