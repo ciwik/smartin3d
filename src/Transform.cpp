@@ -37,6 +37,10 @@ void smartin::base::Transform::Move(glm::vec3 direction) {
     position += direction;
 }
 
+void smartin::base::Transform::SetPosition(glm::vec3 _position) {
+    position = _position;
+}
+
 void smartin::base::Transform::Scale(glm::vec3 scale) {
     size *= scale;
 }

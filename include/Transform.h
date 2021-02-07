@@ -37,6 +37,7 @@ namespace smartin::base {
         void Update();
 
         void Move(glm::vec3 direction);
+        void SetPosition(glm::vec3 position);
 
         void Scale(glm::vec3 scale);
         void Scale(GLfloat scale);

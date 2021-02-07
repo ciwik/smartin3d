@@ -41,6 +41,14 @@ void RenderScene();
 void Exit();
 
 
+// TODO: Implement render pass
+// 0. Get view and proj matrices from camera
+// 1. Take shader from list
+// 2. Find all actors related to shader
+// 3. Validate and apply shader
+// 4. Put view and proj matrices to shader
+// 5. Put model matrix to shader for each actor
+// 6. Render actor's mesh
 int main() {
     utils::log::Init(std::cout);
 
@@ -93,6 +101,7 @@ void CreateScene() {
     mesh->Init(vertices, indices, 32, 12);
 
     base::Actor* actor = new base::Actor(mesh, mainShader);
+    actor->GetTransform()->SetPosition(glm::vec3(0.0f, 1.0f, 0.0f));
     actors.push_back(actor);
 }
 
