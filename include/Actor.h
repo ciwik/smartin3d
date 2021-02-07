@@ -10,9 +10,9 @@ namespace smartin::base {
     public:
         Actor(graphics::Mesh* mesh, graphics::Shader* shader, Transform* transform = new Transform());
 
-        bool IsActive() { return isActive; }
+        bool IsActive() const { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
-        Transform* GetTransform() { return transform; }
+        Transform* GetTransform() const { return transform; }
 
         virtual void Update();
 

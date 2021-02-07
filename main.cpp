@@ -64,7 +64,6 @@ int main() {
 
         Render();
 
-        auto tr = mainCamera->GetTransform();
         glm::vec3 pos = mainCamera->GetTransform()->GetPosition();
         utils::log::I("Input", "Camera position: " + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z));
     }
