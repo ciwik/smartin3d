@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+#include "Actor.h"
 #include "OpenGLContext.h"
 #include "Window.h"
 #include "TimeUtils.h"
@@ -15,13 +16,12 @@ using namespace smartin;
 
 // Variables
 graphics::Window* window;
-std::vector<graphics::Mesh*> meshes;
+std::vector<base::Actor*> actors;
 graphics::Shader* mainShader;
 base::Camera* mainCamera;
 
 // Awake methods
 void CreateScene();
-void RenderScene();
 graphics::Window* CreateWindow(int width, int height, const char* title);
 base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos = glm::vec3()) ;
 graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentCodePath);
@@ -29,7 +29,9 @@ graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentC
 // Update methods
 void HandleInput();
 void UpdateShader(glm::mat4 view, glm::mat4 proj);
+void UpdateScene();
 void Render();
+void RenderScene();
 
 // Destroy methods
 void Exit();
@@ -42,7 +44,7 @@ int main() {
 
     window = CreateWindow(1280, 720, "Test window");
     mainShader = CreateShader("shaders/default.vshader", "shaders/default.fshader");
-    mainCamera = CreateCamera(60.0f, window->GetWidth() / (float) window->GetHeight());
+    mainCamera = CreateCamera(60.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, -10.0f));
 
     CreateScene();
 
@@ -51,8 +53,9 @@ int main() {
         utils::time::Update();
         HandleInput();
 
-        mainCamera->Update();
+        UpdateScene();
         UpdateShader(mainCamera->GetViewMatrix(), mainCamera->GetProjectionMatrix());
+
         Render();
     }
 
@@ -79,12 +82,19 @@ void CreateScene() {
 
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 12);
-    meshes.push_back(mesh);
+
+    base::Actor* actor = new base::Actor(mesh, mainShader);
+    actors.push_back(actor);
+}
+
+void UpdateScene() {
+    for (auto actor : actors)
+        actor->Update();
 }
 
 void RenderScene() {
-    for (auto mesh : meshes)
-        mesh->Render();
+    for (auto actor : actors)
+        actor->Render();
 }
 
 graphics::Window* CreateWindow(int width, int height, const char* title) {
@@ -121,6 +131,7 @@ base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos) {
     camera->fieldOfView = fov;
     camera->GetTransform()->Move(pos);
 
+    actors.push_back(camera);
     return camera;
 }
 
@@ -135,7 +146,6 @@ graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentC
 void UpdateShader(glm::mat4 view, glm::mat4 proj) {
     mainShader->SetMatrix("view", view);
     mainShader->SetMatrix("projection", proj);
-    mainShader->Apply();
 }
 
 void Render() {

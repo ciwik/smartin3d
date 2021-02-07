@@ -1,12 +1,14 @@
 #ifndef SMARTIN3D_ACTOR_H
 #define SMARTIN3D_ACTOR_H
 
+#include "Mesh.h"
+#include "Shader.h"
 #include "Transform.h"
 
 namespace smartin::base {
     class Actor {
     public:
-        Actor(Transform* transform = new Transform());
+        Actor(graphics::Mesh* mesh, graphics::Shader* shader, Transform* transform = new Transform());
 
         bool IsActive() { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
@@ -14,10 +16,14 @@ namespace smartin::base {
 
         virtual void Update();
 
+        void Render();
+
         ~Actor();
 
     protected:
         Transform* transform;
+        graphics::Mesh* mesh;
+        graphics::Shader* shader;
 
     private:
         bool isActive;
