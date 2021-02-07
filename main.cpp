@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+#include "Job.h"
 #include "Actor.h"
 #include "OpenGLContext.h"
 #include "Window.h"
@@ -17,6 +18,7 @@ using namespace smartin;
 // Variables
 graphics::Window* window;
 std::vector<base::Actor*> actors;
+std::vector<base::Job*> jobs;
 graphics::Shader* mainShader;
 base::Camera* mainCamera;
 
@@ -25,9 +27,11 @@ void CreateScene();
 graphics::Window* CreateWindow(int width, int height, const char* title);
 base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos = glm::vec3()) ;
 graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentCodePath);
+void CreateJobs();
 
 // Update methods
 void HandleInput();
+void UpdateJobs();
 void UpdateShader(glm::mat4 view, glm::mat4 proj);
 void UpdateScene();
 void Render();
@@ -47,16 +51,22 @@ int main() {
     mainCamera = CreateCamera(60.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, -10.0f));
 
     CreateScene();
+    CreateJobs();
 
     // Main loop
     while (!window->IsAboutToClose()) {
         utils::time::Update();
         HandleInput();
+        UpdateJobs();
 
         UpdateScene();
         UpdateShader(mainCamera->GetViewMatrix(), mainCamera->GetProjectionMatrix());
 
         Render();
+
+        auto tr = mainCamera->GetTransform();
+        glm::vec3 pos = mainCamera->GetTransform()->GetPosition();
+        utils::log::I("Input", "Camera position: " + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z));
     }
 
     Exit();
@@ -126,10 +136,10 @@ void HandleInput() {
 
 
 base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos) {
-    base::Camera* camera = new base::Camera();
+    base::Transform* transform = new base::Transform(pos);
+    base::Camera* camera = new base::Camera(transform);
     camera->aspect = aspect;
     camera->fieldOfView = fov;
-    camera->GetTransform()->Move(pos);
 
     actors.push_back(camera);
     return camera;
@@ -155,4 +165,69 @@ void Render() {
 
 void Exit() {
     // TODO
+}
+
+// Jobs
+class CameraMovementJob : public base::Job {
+public:
+    CameraMovementJob(base::Camera* _camera, float _speed, float _turnSpeed) {
+        cameraTransform = _camera->GetTransform();
+        speed = _speed;
+        turnSpeed = _turnSpeed;
+    }
+
+    void Tick() override {
+        glm::vec3 forward = cameraTransform->GetForward();
+        glm::vec3 right = cameraTransform->GetRight();
+        glm::vec3 up = cameraTransform->GetUp();
+
+        // Keys
+        glm::vec3 direction = glm::vec3(0.0f, 0.0f, 0.0f);
+
+        if (utils::input::keyboard::IsKey(KEY_W))
+            direction += forward;
+        if (utils::input::keyboard::IsKey(KEY_S))
+            direction -= forward;
+
+        if (utils::input::keyboard::IsKey(KEY_A))
+            direction -= right;
+        if (utils::input::keyboard::IsKey(KEY_D))
+            direction += right;
+
+        if (direction != glm::vec3(0.0f, 0.0f, 0.0f)) {
+            direction = utils::time::GetDeltaTime() * speed * glm::normalize(direction);
+            cameraTransform->Move(direction);
+        }
+
+        // Mouse
+        glm::vec2 mouseDelta = utils::input::mouse::GetCursorDelta();
+        if (abs(mouseDelta.x) < 200.0f || abs(mouseDelta.y) < 150.0f) {
+            mouseDelta *= turnSpeed;
+
+            float yaw = mouseDelta.x;
+            float pitch = mouseDelta.y;
+            if (pitch > 89.0f)
+                pitch = 89.0f;
+            else if (pitch < -89.0f)
+                pitch = -89.0f;
+
+            cameraTransform->Rotate(glm::vec3(pitch, yaw, 0.0f));
+        }
+    }
+
+private:
+    base::Transform* cameraTransform;
+    float speed, turnSpeed;
+
+    float yaw, pitch;
+};
+
+void CreateJobs() {
+    base::Job* job = new CameraMovementJob(mainCamera, 5.0f, 0.5f);
+    jobs.push_back(job);
+}
+
+void UpdateJobs() {
+    for (auto job : jobs)
+        job->Tick();
 }

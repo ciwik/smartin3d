@@ -42,7 +42,9 @@ namespace smartin::base {
         void Scale(GLfloat scale);
 
         void Rotate(glm::quat additionalRotation);
+        void Rotate(glm::vec3 eulerAngles);
         void RotateAround(glm::vec3 axis, GLfloat angle);
+        void SetRotation(glm::vec3 eulerAngles);
 
         ~Transform();
 

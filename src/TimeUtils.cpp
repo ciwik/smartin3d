@@ -1,6 +1,6 @@
 #include "TimeUtils.h"
 
-float deltaTime;
+float deltaTime = 0.02f;
 float currentTime;
 float lastTime;
 int frameCount = 0;
