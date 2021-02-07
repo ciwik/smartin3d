@@ -35,6 +35,8 @@ int main() {
     base::Camera* camera = new base::Camera();
     camera->aspect = window->GetWidth() / (float) window->GetHeight();
 
+    utils::input::mouse::settings::invertYAxis = true;
+
     CreateScene();
 
     // Main loop
@@ -103,14 +105,14 @@ graphics::Window* CreateWindow(int width, int height, const char* title) {
 
 void HandleInput() {
     utils::input::Update();
-    if (utils::input::IsKeyPressedUp(KEY_ESCAPE))
+    if (utils::input::keyboard::IsKeyUp(KEY_ESCAPE))
         window->Close();
 
-    if (utils::input::IsKeyPressedDown(KEY_A))
+    if (utils::input::keyboard::IsKeyDown(KEY_A))
         utils::log::I("Input", "Pressed key A on frame " + std::to_string(utils::time::GetFrameCount()));
-    if (utils::input::IsKeyPressedUp(KEY_A))
+    if (utils::input::keyboard::IsKeyUp(KEY_A))
         utils::log::I("Input", "Released key A on frame " + std::to_string(utils::time::GetFrameCount()));
 
-    glm::vec2 cursorPos = utils::input::GetMouseDelta();
-    utils::log::I("Input", "Cursor at " + std::to_string(cursorPos.x) + ", " + std::to_string(cursorPos.y));
+    //glm::vec2 cursorPos = utils::input::mouse::GetCursorDelta();
+    //utils::log::I("Input", "Cursor at " + std::to_string(cursorPos.x) + ", " + std::to_string(cursorPos.y));
 }

@@ -1,99 +1,90 @@
 #include "Input.h"
 
-bool smartin::utils::input::IsKeyPressed(GLint keyCode) {
-    if (eventHandler != nullptr)
-        return eventHandler->IsKeyPressed(keyCode);
+// Common
+class EventHandler {};
+EventHandler* eventHandler;
 
-    return false;
-}
+void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode);
+void HandleMouse(GLFWwindow* glfwWindow, double x, double y);
 
-bool smartin::utils::input::IsKeyPressedUp(GLint keyCode) {
-    if (eventHandler != nullptr)
-        return eventHandler->IsKeyPressedUp(keyCode);
-
-    return false;
-}
-
-bool smartin::utils::input::IsKeyPressedDown(GLint keyCode) {
-    if (eventHandler != nullptr)
-        return eventHandler->IsKeyPressedDown(keyCode);
-
-    return false;
-}
-
-void smartin::utils::input::RegisterEventListener(graphics::Window* window) {
+void smartin::utils::input::RegisterEventListener(smartin::graphics::Window *window) {
     GLFWwindow* windowInstance = window->GetInstance();
 
     eventHandler = new EventHandler();
 
-    glfwSetKeyCallback(windowInstance, EventHandler::HandleKeys);
-    glfwSetCursorPosCallback(windowInstance, EventHandler::HandleMouse);
+    glfwSetKeyCallback(windowInstance, HandleKeys);
+    glfwSetCursorPosCallback(windowInstance, HandleMouse);
 
     // Setup EventHandler object as user of the GLFW window instance
     glfwSetWindowUserPointer(windowInstance, eventHandler);
 }
 
 void smartin::utils::input::Update() {
-    if (eventHandler != nullptr)
-        eventHandler->Update();
+    keyboard::Update();
+    mouse::Update();
+    gamepad::Update();
 
     // Get and handle user input events
     glfwPollEvents();
 }
 
-glm::vec2 smartin::utils::input::GetMouseDelta() {
-    if (eventHandler != nullptr)
-        return eventHandler->GetMouseDelta();
 
-    return glm::vec2(0.0f, 0.0f);
-}
+// Keyboard
+std::bitset<KEYS_NUMBER> keysMask;
+std::bitset<KEYS_NUMBER> prevKeysMask;
 
-void smartin::utils::input::EventHandler::HandleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
+void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
     EventHandler* handler = static_cast<EventHandler*>(glfwGetWindowUserPointer(window));
     if (handler == nullptr)
         return;
 
     if (action == GLFW_PRESS)
-        handler->keysMask.set(key);
+        keysMask.set(key);
     else if (action == GLFW_RELEASE)
-        handler->keysMask.reset(key);
+        keysMask.reset(key);
 }
 
-void smartin::utils::input::EventHandler::HandleMouse(GLFWwindow* glfwWindow, double x, double y) {
+void smartin::utils::input::keyboard::Update() {
+    prevKeysMask = keysMask;
+}
+
+bool smartin::utils::input::keyboard::IsKey(int key) { return keysMask[key]; }
+
+bool smartin::utils::input::keyboard::IsKeyUp(int key) { return prevKeysMask[key] && !keysMask[key]; }
+
+bool smartin::utils::input::keyboard::IsKeyDown(int key) { return !prevKeysMask[key] && keysMask[key]; }
+
+
+// Mouse
+glm::vec2 lastCursorPosition;
+glm::vec2 deltaCursorPosition;
+
+void HandleMouse(GLFWwindow* glfwWindow, double x, double y) {
     EventHandler* handler = static_cast<EventHandler*>(glfwGetWindowUserPointer(glfwWindow));
     if (handler == nullptr)
         return;
 
     glm::vec2 cursorPosition = glm::vec2(x, y);
 
-    if (utils::time::GetFrameCount() == 0) {
-        // First frame
-        handler->lastCursorPosition = cursorPosition;
+    // If it's first frame
+    if (smartin::utils::time::GetFrameCount() == 0) {
+        lastCursorPosition = cursorPosition;
     }
 
-    glm::vec2 dPosition = cursorPosition - handler->lastCursorPosition;
-    if (invertYAxis)
+    glm::vec2 dPosition = cursorPosition - lastCursorPosition;
+    if (smartin::utils::input::mouse::settings::invertYAxis)
         dPosition.y = -dPosition.y;
+    deltaCursorPosition = dPosition;
 
-    handler->lastCursorPosition = cursorPosition;
+    lastCursorPosition = cursorPosition;
 }
 
-void smartin::utils::input::EventHandler::Update() {
-    prevKeysMask = keysMask;
-}
+void smartin::utils::input::mouse::Update() { }
 
-bool smartin::utils::input::EventHandler::IsKeyPressed(int key) {
-    return keysMask[key];
-}
+glm::vec2 smartin::utils::input::mouse::GetCursorPosition() { return lastCursorPosition; }
 
-bool smartin::utils::input::EventHandler::IsKeyPressedDown(int key) {
-    return !prevKeysMask[key] && keysMask[key];
-}
+glm::vec2 smartin::utils::input::mouse::GetCursorDelta() { return deltaCursorPosition; }
 
-bool smartin::utils::input::EventHandler::IsKeyPressedUp(int key) {
-    return prevKeysMask[key] && !keysMask[key];
-}
 
-glm::vec2 smartin::utils::input::EventHandler::GetMouseDelta() {
-    return deltaCursorPosition;
-}
+// Gamepad
+void smartin::utils::input::gamepad::Update() { }

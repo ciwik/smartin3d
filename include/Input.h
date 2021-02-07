@@ -7,45 +7,38 @@
 
 #include <glm/vec2.hpp>
 
-#include "TimeUtils.h"
 #include "Window.h"
+#include "TimeUtils.h"
 
 namespace smartin::utils::input {
-    class EventHandler {
-    public:
-        static void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode);
-        static void HandleMouse(GLFWwindow* glfwWindow, double x, double y);
-
-        void Update();
-
-        bool IsKeyPressed(int key);
-        bool IsKeyPressedUp(int key);
-        bool IsKeyPressedDown(int key);
-
-        glm::vec2 GetMouseDelta();
-
-    private:
-        std::bitset<KEYS_NUMBER> keysMask;
-        std::bitset<KEYS_NUMBER> prevKeysMask;
-
-        glm::vec2 lastCursorPosition;
-        glm::vec2 deltaCursorPosition;
-    };
-
+    void RegisterEventListener(graphics::Window* window);
     void Update();
 
-    bool IsKeyPressed(GLint key);
-    bool IsKeyPressedUp(GLint key);
-    bool IsKeyPressedDown(GLint key);
+    namespace keyboard {
+        void Update();
 
-    glm::vec2 GetMouseDelta();
+        bool IsKey(int key);
+        bool IsKeyUp(int key);
+        bool IsKeyDown(int key);
+    }
 
-    void RegisterEventListener(graphics::Window* window);
+    namespace mouse {
+        void Update();
 
-    static EventHandler* eventHandler;
+        glm::vec2 GetCursorPosition();
+        glm::vec2 GetCursorDelta();
 
-    bool invertYAxis = true;
-    bool showCursor = false;
+        namespace settings {
+            static bool invertYAxis = false;
+            static bool showCursor = false;
+        }
+    }
+
+    namespace gamepad {
+        void Update();
+
+        // TODO
+    }
 }
 
 // Copied from glfw3.h
