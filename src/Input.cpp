@@ -41,6 +41,13 @@ void smartin::utils::input::Update() {
     glfwPollEvents();
 }
 
+glm::vec2 smartin::utils::input::GetMouseDelta() {
+    if (eventHandler != nullptr)
+        return eventHandler->GetMouseDelta();
+
+    return glm::vec2(0.0f, 0.0f);
+}
+
 void smartin::utils::input::EventHandler::HandleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
     EventHandler* handler = static_cast<EventHandler*>(glfwGetWindowUserPointer(window));
     if (handler == nullptr)
@@ -52,8 +59,23 @@ void smartin::utils::input::EventHandler::HandleKeys(GLFWwindow* window, int key
         handler->keysMask.reset(key);
 }
 
-void smartin::utils::input::EventHandler::HandleMouse(GLFWwindow *glfwWindow, double x, double y) {
+void smartin::utils::input::EventHandler::HandleMouse(GLFWwindow* glfwWindow, double x, double y) {
+    EventHandler* handler = static_cast<EventHandler*>(glfwGetWindowUserPointer(glfwWindow));
+    if (handler == nullptr)
+        return;
 
+    glm::vec2 cursorPosition = glm::vec2(x, y);
+
+    if (utils::time::GetFrameCount() == 0) {
+        // First frame
+        handler->lastCursorPosition = cursorPosition;
+    }
+
+    glm::vec2 dPosition = cursorPosition - handler->lastCursorPosition;
+    if (invertYAxis)
+        dPosition.y = -dPosition.y;
+
+    handler->lastCursorPosition = cursorPosition;
 }
 
 void smartin::utils::input::EventHandler::Update() {
@@ -70,4 +92,8 @@ bool smartin::utils::input::EventHandler::IsKeyPressedDown(int key) {
 
 bool smartin::utils::input::EventHandler::IsKeyPressedUp(int key) {
     return prevKeysMask[key] && !keysMask[key];
+}
+
+glm::vec2 smartin::utils::input::EventHandler::GetMouseDelta() {
+    return deltaCursorPosition;
 }

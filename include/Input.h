@@ -5,6 +5,9 @@
 
 #include <bitset>
 
+#include <glm/vec2.hpp>
+
+#include "TimeUtils.h"
 #include "Window.h"
 
 namespace smartin::utils::input {
@@ -19,9 +22,14 @@ namespace smartin::utils::input {
         bool IsKeyPressedUp(int key);
         bool IsKeyPressedDown(int key);
 
+        glm::vec2 GetMouseDelta();
+
     private:
         std::bitset<KEYS_NUMBER> keysMask;
         std::bitset<KEYS_NUMBER> prevKeysMask;
+
+        glm::vec2 lastCursorPosition;
+        glm::vec2 deltaCursorPosition;
     };
 
     void Update();
@@ -30,9 +38,14 @@ namespace smartin::utils::input {
     bool IsKeyPressedUp(GLint key);
     bool IsKeyPressedDown(GLint key);
 
+    glm::vec2 GetMouseDelta();
+
     void RegisterEventListener(graphics::Window* window);
 
     static EventHandler* eventHandler;
+
+    bool invertYAxis = true;
+    bool showCursor = false;
 }
 
 // Copied from glfw3.h

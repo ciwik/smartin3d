@@ -110,4 +110,7 @@ void HandleInput() {
         utils::log::I("Input", "Pressed key A on frame " + std::to_string(utils::time::GetFrameCount()));
     if (utils::input::IsKeyPressedUp(KEY_A))
         utils::log::I("Input", "Released key A on frame " + std::to_string(utils::time::GetFrameCount()));
+
+    glm::vec2 cursorPos = utils::input::GetMouseDelta();
+    utils::log::I("Input", "Cursor at " + std::to_string(cursorPos.x) + ", " + std::to_string(cursorPos.y));
 }
