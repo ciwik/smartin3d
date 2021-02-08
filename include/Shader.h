@@ -41,6 +41,7 @@ private:
     };
 
     Shader* ReadShaderFromFiles(const char *vertexCodePath, const char *fragmentCodePath);
+    void DisableShaders();
 }
 
 #endif //SMARTIN3D_SHADER_H

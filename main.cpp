@@ -56,24 +56,45 @@ int main() {
 
     window = CreateWindow(1280, 720, "Test window");
     mainShader = CreateShader("shaders/default.vshader", "shaders/default.fshader");
-    mainCamera = CreateCamera(60.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, -10.0f));
+    mainCamera = CreateCamera(60.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, 1.0f));
 
-    CreateScene();
-    CreateJobs();
+    unsigned int indices[] = {
+            0, 2, 1,
+            1, 2, 3,
+    };
+
+    GLfloat vertices[] = {
+            // X     Y     Z		 U	   V		 Xn	   Yn	 Zn
+            -10.0f, 0.0f, -10.0f,	 0.0f,  0.0f,	0.0f, -1.0f, 0.0f,
+            10.0f, 0.0f, -10.0f,	10.0f,  0.0f,	0.0f, -1.0f, 0.0f,
+            -10.0f, 0.0f,  10.0f,	 0.0f, 10.0f,	0.0f, -1.0f, 0.0f,
+            10.0f, 0.0f,  10.0f,	10.0f, 10.0f,	0.0f, -1.0f, 0.0f,
+    };
+    //calcAverageNormals(indices, 12, vertices, 32, 8, 5);
+
+    graphics::Mesh* mesh = new graphics::Mesh();
+    mesh->Init(vertices, indices, 32, 6);
+
+    base::Transform* transform = new base::Transform(glm::vec3(0.0f, 1.0f, -0.5f), glm::vec3(0.4f, 0.4f, 1.0f));
 
     // Main loop
     while (!window->IsAboutToClose()) {
         utils::time::Update();
         HandleInput();
-        UpdateJobs();
 
-        UpdateScene();
-        UpdateShader(mainCamera->GetViewMatrix(), mainCamera->GetProjectionMatrix());
+        window->PreRender();
 
-        Render();
+        mainShader->Validate();
+        mainShader->Apply();
 
-        glm::vec3 pos = mainCamera->GetTransform()->GetPosition();
-        utils::log::I("Input", "Camera position: " + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z));
+        mainShader->SetMatrix("model", transform->GetModelMatrix());
+        mainShader->SetMatrix("view", mainCamera->GetViewMatrix());
+        mainShader->SetMatrix("projection", mainCamera->GetProjectionMatrix());
+        mesh->Render();
+
+        graphics::DisableShaders();
+
+        window->Render();
     }
 
     Exit();
@@ -90,19 +111,19 @@ void CreateScene() {
     };
 
     GLfloat vertices[] = {
-            // X     Y     Z		 U	   V		 Xn	   Yn	 Zn
-            -1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-            0.0f, -1.0f,  1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
-            1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-            0.0f,  1.0f,  0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f,
+            // X     Y     Z
+            -1.0f, -1.0f, 0.0f,
+             0.0f, -1.0f, 1.0f,
+             1.0f, -1.0f, 0.0f,
+             0.0f,  1.0f, 0.0f
     };
 
     graphics::Mesh* mesh = new graphics::Mesh();
-    mesh->Init(vertices, indices, 32, 12);
+    mesh->Init(vertices, indices, 12, 12);
 
-    base::Actor* actor = new base::Actor(mesh, mainShader);
-    actor->GetTransform()->SetPosition(glm::vec3(0.0f, 1.0f, 0.0f));
-    actors.push_back(actor);
+//    base::Actor* actor = new base::Actor(mesh, mainShader);
+//    actor->GetTransform()->SetPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+//    actors.push_back(actor);
 }
 
 void UpdateScene() {

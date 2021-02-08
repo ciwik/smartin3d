@@ -8,7 +8,7 @@
 namespace smartin::base {
     class Actor {
     public:
-        Actor(graphics::Mesh* mesh, graphics::Shader* shader, Transform* transform = new Transform());
+        Actor(graphics::Mesh* mesh, Transform* transform = new Transform());
 
         bool IsActive() const { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
@@ -23,7 +23,6 @@ namespace smartin::base {
     protected:
         Transform* transform;
         graphics::Mesh* mesh;
-        graphics::Shader* shader;
 
     private:
         bool isActive;

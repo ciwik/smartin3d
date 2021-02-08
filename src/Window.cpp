@@ -29,6 +29,12 @@ void smartin::graphics::Window::Init() {
     utils::log::I("OpenGL", "Window initialized");
 }
 
+void smartin::graphics::Window::PreRender() {
+    // Clear the window
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void smartin::graphics::Window::Render() {
     glfwSwapBuffers(instance);
 }

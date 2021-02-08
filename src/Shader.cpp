@@ -85,14 +85,6 @@ void smartin::graphics::Shader::CompileProgram() {
         return;
 }
 
-smartin::graphics::Shader* smartin::graphics::ReadShaderFromFiles(const char *vertexCodePath, const char *fragmentCodePath) {
-    std::string vertexCode = utils::io::ReadFile(vertexCodePath);
-    std::string fragmentCode = utils::io::ReadFile(fragmentCodePath);
-
-    Shader* shader = new Shader(vertexCode.c_str(), fragmentCode.c_str());
-    return shader;
-}
-
 bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, std::string tag) {
     GLint result = 0;
     glGetShaderiv(id, checkType, &result);
@@ -117,4 +109,16 @@ bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, 
     }
 
     return true;
+}
+
+smartin::graphics::Shader* smartin::graphics::ReadShaderFromFiles(const char *vertexCodePath, const char *fragmentCodePath) {
+    std::string vertexCode = utils::io::ReadFile(vertexCodePath);
+    std::string fragmentCode = utils::io::ReadFile(fragmentCodePath);
+
+    Shader* shader = new Shader(vertexCode.c_str(), fragmentCode.c_str());
+    return shader;
+}
+
+void smartin::graphics::DisableShaders() {
+    glUseProgram(0);
 }

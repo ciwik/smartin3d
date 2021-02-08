@@ -1,8 +1,7 @@
 #include "Actor.h"
 
-smartin::base::Actor::Actor(smartin::graphics::Mesh* _mesh, graphics::Shader* _shader, smartin::base::Transform* _transform) {
+smartin::base::Actor::Actor(smartin::graphics::Mesh* _mesh, smartin::base::Transform* _transform) {
     mesh = _mesh;
-    shader = _shader;
     transform = _transform;
 }
 
@@ -15,14 +14,10 @@ smartin::base::Actor::~Actor() {
 }
 
 void smartin::base::Actor::Render() {
-    if (shader == nullptr || mesh == nullptr)
+    if (mesh == nullptr)
         return;
 
     glm::mat4 modelMatrix = transform->GetModelMatrix();
-    shader->SetMatrix("model", modelMatrix);
-
-    shader->Validate();
-    shader->Apply();
 
     mesh->Render();
 }

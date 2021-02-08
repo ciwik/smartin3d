@@ -17,6 +17,7 @@ namespace smartin::graphics {
 
         void Instantiate(std::string title);
         void Init();
+        void PreRender();
         void Render();
 
         GLuint GetWidth() const { return width; }
