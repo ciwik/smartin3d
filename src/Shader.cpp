@@ -1,9 +1,13 @@
 #include "Shader.h"
 
+std::vector<smartin::graphics::Shader*> shaders;
+
 smartin::graphics::Shader::Shader(std::string _vertexCode, std::string _fragmentCode) {
     vertexCode = _vertexCode;
     fragmentCode = _fragmentCode;
     shaderProgramId = 0;
+
+    shaders.push_back(this);
 }
 
 void smartin::graphics::Shader::Compile() {
@@ -121,4 +125,8 @@ smartin::graphics::Shader* smartin::graphics::ReadShaderFromFiles(const char *ve
 
 void smartin::graphics::DisableShaders() {
     glUseProgram(0);
+}
+
+std::vector<smartin::graphics::Shader*> smartin::graphics::GetFullShadersList() {
+    return shaders;
 }

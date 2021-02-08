@@ -157,7 +157,9 @@ set (HEADER_FILES
         include/Actor.h
         include/OpenGLContext.h
         include/Input.h
-        include/Job.h)
+        include/Job.h
+        include/Material.h
+        include/Render.h)
 
 set (SOURCE_FILES
         src/Window.cpp
@@ -168,7 +170,8 @@ set (SOURCE_FILES
         src/actors/Camera.cpp
         src/Transform.cpp
         src/Actor.cpp
-        src/Input.cpp)
+        src/Input.cpp
+        src/Material.cpp)
 
 set(PROJECT_VERSION "0.0.1")
 

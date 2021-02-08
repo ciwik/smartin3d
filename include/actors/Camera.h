@@ -9,7 +9,7 @@
 namespace smartin::base {
     class Camera : public Actor {
     public:
-        Camera(Transform* transform = new Transform()) : Actor(nullptr, transform) { }
+        Camera(Transform* transform = new Transform()) : Actor(nullptr, nullptr, transform) { }
 
         void Update() override;
 

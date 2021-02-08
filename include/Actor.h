@@ -2,13 +2,13 @@
 #define SMARTIN3D_ACTOR_H
 
 #include "Mesh.h"
-#include "Shader.h"
 #include "Transform.h"
+#include "Material.h"
 
 namespace smartin::base {
     class Actor {
     public:
-        Actor(graphics::Mesh* mesh, Transform* transform = new Transform());
+        Actor(graphics::Mesh* mesh, graphics::Material* material, Transform* transform = new Transform());
 
         bool IsActive() const { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
@@ -27,6 +27,8 @@ namespace smartin::base {
     private:
         bool isActive;
     };
+
+    std::vector<Actor*> GetActorsUsingMaterial(graphics::Material* material);
 }
 
 #endif //SMARTIN3D_ACTOR_H

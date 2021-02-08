@@ -12,6 +12,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Input.h"
+#include "Render.h"
 
 using namespace smartin;
 
@@ -75,7 +76,10 @@ int main() {
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 6);
 
+    graphics::Material* material = new graphics::Material(mainShader);
     base::Transform* transform = new base::Transform(glm::vec3(0.0f, 1.0f, -0.5f), glm::vec3(0.4f, 0.4f, 1.0f));
+
+    base::Actor* actor = new base::Actor(mesh, material, transform);
 
     // Main loop
     while (!window->IsAboutToClose()) {
@@ -84,15 +88,7 @@ int main() {
 
         window->PreRender();
 
-        mainShader->Validate();
-        mainShader->Apply();
-
-        mainShader->SetMatrix("model", transform->GetModelMatrix());
-        mainShader->SetMatrix("view", mainCamera->GetViewMatrix());
-        mainShader->SetMatrix("projection", mainCamera->GetProjectionMatrix());
-        mesh->Render();
-
-        graphics::DisableShaders();
+        graphics::RenderFor(mainCamera);
 
         window->Render();
     }
