@@ -1,22 +1,16 @@
 #include "Input.h"
 
-// Common
-class EventHandler {};
-EventHandler* eventHandler;
-
 void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode);
 void HandleMouse(GLFWwindow* glfwWindow, double x, double y);
 
-void smartin::utils::input::RegisterEventListener(smartin::graphics::Window *window) {
+void smartin::utils::input::RegisterEventListener(smartin::graphics::Window* window) {
     GLFWwindow* windowInstance = window->GetInstance();
-
-    eventHandler = new EventHandler();
 
     glfwSetKeyCallback(windowInstance, HandleKeys);
     glfwSetCursorPosCallback(windowInstance, HandleMouse);
 
     // Setup EventHandler object as user of the GLFW window instance
-    glfwSetWindowUserPointer(windowInstance, eventHandler);
+    glfwSetWindowUserPointer(windowInstance, window);
 }
 
 void smartin::utils::input::Update() {
@@ -34,8 +28,7 @@ std::bitset<KEYS_NUMBER> keysMask;
 std::bitset<KEYS_NUMBER> prevKeysMask;
 
 void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
-    EventHandler* handler = static_cast<EventHandler*>(glfwGetWindowUserPointer(window));
-    if (handler == nullptr)
+    if (glfwGetWindowUserPointer(window) == nullptr)
         return;
 
     if (action == GLFW_PRESS)
@@ -59,9 +52,8 @@ bool smartin::utils::input::keyboard::IsKeyDown(int key) { return !prevKeysMask[
 glm::vec2 lastCursorPosition;
 glm::vec2 deltaCursorPosition;
 
-void HandleMouse(GLFWwindow* glfwWindow, double x, double y) {
-    EventHandler* handler = static_cast<EventHandler*>(glfwGetWindowUserPointer(glfwWindow));
-    if (handler == nullptr)
+void HandleMouse(GLFWwindow* window, double x, double y) {
+    if (glfwGetWindowUserPointer(window) == nullptr)
         return;
 
     glm::vec2 cursorPosition = glm::vec2(x, y);
