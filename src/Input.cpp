@@ -59,7 +59,7 @@ void HandleMouse(GLFWwindow* window, double x, double y) {
     glm::vec2 cursorPosition = glm::vec2(x, y);
 
     // If it's first frame
-    if (smartin::utils::time::GetFrameCount() == 0) {
+    if (lastCursorPosition.x == 0.0f && lastCursorPosition.y == 0.0f) {
         lastCursorPosition = cursorPosition;
     }
 
@@ -71,7 +71,9 @@ void HandleMouse(GLFWwindow* window, double x, double y) {
     lastCursorPosition = cursorPosition;
 }
 
-void smartin::utils::input::mouse::Update() { }
+void smartin::utils::input::mouse::Update() {
+    deltaCursorPosition = glm::vec2(0.0f, 0.0f);
+}
 
 glm::vec2 smartin::utils::input::mouse::GetCursorPosition() { return lastCursorPosition; }
 

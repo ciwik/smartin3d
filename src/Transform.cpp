@@ -60,15 +60,12 @@ void smartin::base::Transform::RotateAround(glm::vec3 axis, GLfloat angle) {
 }
 
 glm::quat EulerAnglesToQuaternion(glm::vec3 eulerAngles) {
-    float pitch = glm::radians(eulerAngles.x) / 2.0f;
-    float yaw = glm::radians(eulerAngles.y) / 2.0f;
-    float roll = glm::radians(eulerAngles.z) / 2.0f;
+    float pitch = glm::radians(eulerAngles.x);
+    float yaw = glm::radians(eulerAngles.y);
+    float roll = glm::radians(eulerAngles.z);
 
-    glm::quat q = glm::quat();
-    q.x = sin(roll) * cos(pitch) * cos(yaw) - cos(roll) * sin(pitch) * sin(yaw);
-    q.y = cos(roll) * sin(pitch) * cos(yaw) + sin(roll) * cos(pitch) * sin(yaw);
-    q.z = cos(roll) * cos(pitch) * sin(yaw) - sin(roll) * sin(pitch) * cos(yaw);
-    q.w = cos(roll) * cos(pitch) * cos(yaw) + sin(roll) * sin(pitch) * sin(yaw);
+    glm::quat q = glm::quat(glm::vec3(pitch, yaw, roll));
+    q = glm::normalize(q);
 
     return q;
 }
