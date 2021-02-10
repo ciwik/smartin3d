@@ -159,7 +159,9 @@ set (HEADER_FILES
         include/Input.h
         include/Job.h
         include/Material.h
-        include/Render.h)
+        include/Render.h
+        include/Texture.h
+        include/External.h)
 
 set (SOURCE_FILES
         src/Window.cpp
@@ -171,7 +173,8 @@ set (SOURCE_FILES
         src/Transform.cpp
         src/Actor.cpp
         src/Input.cpp
-        src/Material.cpp)
+        src/Material.cpp
+        src/Texture.cpp)
 
 set(PROJECT_VERSION "0.0.1")
 
@@ -193,7 +196,8 @@ add_executable(smartin3ddemo main.cpp)
 target_link_libraries(smartin3ddemo smartin3dlib)
 
 if (WINDOWS)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
+    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
+    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/textures" $<TARGET_FILE_DIR:smartin3d>/textures)
 endif (WINDOWS)

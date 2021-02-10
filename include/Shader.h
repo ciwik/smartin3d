@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "FileUtils.h"
+#include "Texture.h"
 
 namespace smartin::graphics {
     class Shader {
@@ -20,10 +21,11 @@ namespace smartin::graphics {
         void Apply();
         void Destroy();
 
-        void SetFloat(const char *variable, GLfloat value);
-        void SetVector3(const char *variable, glm::vec3 value);
-        void SetVector4(const char *variable, glm::vec4 value);
-        void SetMatrix(const char *variable, glm::mat4 value);
+        void SetFloat(const char* variable, GLfloat value);
+        void SetVector3(const char* variable, glm::vec3 value);
+        void SetVector4(const char* variable, glm::vec4 value);
+        void SetMatrix(const char* variable, glm::mat4 value);
+        void SetTexture(const char* variable, Texture* value);
 
         ~Shader();
 

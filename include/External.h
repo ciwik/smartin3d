@@ -1,8 +1,8 @@
-//
-// Created by lgnv2 on 2/10/2021.
-//
-
 #ifndef SMARTIN3D_EXTERNAL_H
 #define SMARTIN3D_EXTERNAL_H
+
+#define STB_IMAGE_STATIC
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 #endif //SMARTIN3D_EXTERNAL_H

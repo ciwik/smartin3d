@@ -30,7 +30,7 @@ namespace smartin::graphics {
                 if (actors.empty())
                     continue;
 
-                // TODO: material.Apply();
+                material->Apply();
 
                 for (base::Actor* actor : actors) {
                     glm::mat4 model = actor->GetTransform()->GetModelMatrix();

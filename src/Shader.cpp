@@ -44,24 +44,29 @@ void smartin::graphics::Shader::Destroy() {
     fragmentCode.clear();
 }
 
-void smartin::graphics::Shader::SetFloat(const char *variable, GLfloat value) {
+void smartin::graphics::Shader::SetFloat(const char* variable, GLfloat value) {
     GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
     glUniform1f(uniformLocation, value);
 }
 
-void smartin::graphics::Shader::SetVector3(const char *variable, glm::vec3 value) {
+void smartin::graphics::Shader::SetVector3(const char* variable, glm::vec3 value) {
     GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
     glUniform3f(uniformLocation, value.x, value.y, value.z);
 }
 
-void smartin::graphics::Shader::SetVector4(const char *variable, glm::vec4 value) {
+void smartin::graphics::Shader::SetVector4(const char* variable, glm::vec4 value) {
     GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
     glUniform4f(uniformLocation, value.x, value.y, value.z, value.w);
 }
 
-void smartin::graphics::Shader::SetMatrix(const char *variable, glm::mat4 value) {
+void smartin::graphics::Shader::SetMatrix(const char* variable, glm::mat4 value) {
     GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void smartin::graphics::Shader::SetTexture(const char* variable, smartin::graphics::Texture* value) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
+    glUniform1i(uniformLocation, value->id);
 }
 
 smartin::graphics::Shader::~Shader() {

@@ -50,7 +50,7 @@ int main() {
     mainCamera = CreateCamera(45.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
 
     CreateScene();
-    //CreateJobs();
+    CreateJobs();
 
     // Main loop
     while (!window->IsAboutToClose()) {
@@ -62,7 +62,7 @@ int main() {
 
         // Update objects
         UpdateScene();
-        //UpdateJobs();
+        UpdateJobs();
 
         // Render
         graphics::RenderFor(mainCamera);
@@ -74,25 +74,74 @@ int main() {
     return 0;
 }
 
+void calcAverageNormals(unsigned int* indices, unsigned int indexNumber, GLfloat* vertices, unsigned int vertexNumber, unsigned int vLength, unsigned int normalOffset)
+{
+    for (size_t i = 0; i < indexNumber; i += 3) {
+        unsigned int i0 = indices[i] * vLength;
+        unsigned int i1 = indices[i + 1] * vLength;
+        unsigned int i2 = indices[i + 2] * vLength;
+
+        glm::vec3 v1(vertices[i1] - vertices[i0], vertices[i1 + 1] - vertices[i0 + 1], vertices[i1 + 2] - vertices[i0 + 2]);
+        glm::vec3 v2(vertices[i2] - vertices[i0], vertices[i2 + 1] - vertices[i0 + 1], vertices[i2 + 2] - vertices[i0 + 2]);
+        glm::vec3 normal = glm::cross(v1, v2);
+        normal = glm::normalize(normal);
+
+        i0 += normalOffset;
+        i1 += normalOffset;
+        i2 += normalOffset;
+
+        vertices[i0] += normal.x;
+        vertices[i0 + 1] += normal.y;
+        vertices[i0 + 2] += normal.z;
+
+        vertices[i1] += normal.x;
+        vertices[i1 + 1] += normal.y;
+        vertices[i1 + 2] += normal.z;
+
+        vertices[i2] += normal.x;
+        vertices[i2 + 1] += normal.y;
+        vertices[i2 + 2] += normal.z;
+    }
+
+    for (size_t i = 0; i < vertexNumber / vLength; i++) {
+        unsigned int nOffset = i * vLength + normalOffset;
+        glm::vec3 v(vertices[nOffset], vertices[nOffset + 1], vertices[nOffset + 2]);
+        v = glm::normalize(v);
+
+        vertices[nOffset] = v.x;
+        vertices[nOffset + 1] = v.y;
+        vertices[nOffset + 2] = v.z;
+    }
+}
+
 void CreateScene() {
     unsigned int indices[] = {
-            0, 2, 1,
-            1, 2, 3,
+            0, 3, 1,
+            1, 3, 2,
+            2, 3, 0,
+            0, 1, 2
     };
 
     GLfloat vertices[] = {
-            // X     Y     Z		 U	   V		 Xn	   Yn	 Zn
-            -10.0f, 0.0f, -10.0f,	 0.0f,  0.0f,	0.0f, -1.0f, 0.0f,
-            10.0f, 0.0f, -10.0f,	10.0f,  0.0f,	0.0f, -1.0f, 0.0f,
-            -10.0f, 0.0f,  10.0f,	 0.0f, 10.0f,	0.0f, -1.0f, 0.0f,
-            10.0f, 0.0f,  10.0f,	10.0f, 10.0f,	0.0f, -1.0f, 0.0f,
+            // X     Y     Z			 U	   V		 Xn	   Yn	 Zn
+            -1.0f, -1.0f, -0.6f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+            0.0f, -1.0f,  1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+            0.0f,  1.0f,  0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f,
     };
+    calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
     graphics::Mesh* mesh = new graphics::Mesh();
-    mesh->Init(vertices, indices, 32, 6);
+    mesh->Init(vertices, indices, 32, 12);
+
+    graphics::Texture* dirtTex = new graphics::Texture("textures/dirt.png", true);
+    dirtTex->Load();
 
     graphics::Material* material = new graphics::Material(mainShader);
-    base::Transform* transform = new base::Transform(glm::vec3(0.0f, 1.0f, -0.5f), glm::vec3(0.4f, 0.4f, 1.0f));
+    material->SetTexture(dirtTex);
+    material->SetColor(glm::vec3(0.0f, 1.0f, 0.0f));
+
+    base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
 
     base::Actor* actor = new base::Actor(mesh, material, transform);
     actors.push_back(actor);
