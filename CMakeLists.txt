@@ -144,7 +144,7 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} include include/actors include/jobs)
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} include include/actors include/jobs include/3rdparty)
 
 set (HEADER_FILES
         include/Log.h
