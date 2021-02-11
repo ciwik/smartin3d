@@ -53,7 +53,7 @@ void smartin::graphics::Mesh::Render() {
     glBindVertexArray(0);
 }
 
-void smartin::graphics::Mesh::Destroy() {
+smartin::graphics::Mesh::~Mesh() {
     if (ibo != 0)
         glDeleteBuffers(1, &ibo);
 
@@ -67,8 +67,4 @@ void smartin::graphics::Mesh::Destroy() {
     vbo = 0;
     ibo = 0;
     indexNumber = 0;
-}
-
-smartin::graphics::Mesh::~Mesh() {
-    Destroy();
 }

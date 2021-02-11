@@ -10,7 +10,6 @@ namespace smartin::graphics {
 
         void Init(GLfloat* vertices, unsigned int* indices, unsigned int vertexNumber, unsigned int indexNumber);
         void Render();
-        void Destroy();
 
         ~Mesh();
 

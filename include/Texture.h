@@ -15,7 +15,6 @@ namespace smartin::graphics {
 
         bool Load();
         void Apply();
-        void Clear();
 
         ~Texture();
 

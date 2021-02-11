@@ -34,16 +34,6 @@ void smartin::graphics::Shader::Apply() {
     glUseProgram(shaderProgramId);
 }
 
-void smartin::graphics::Shader::Destroy() {
-    if (shaderProgramId != 0) {
-        glDeleteProgram(shaderProgramId);
-        shaderProgramId = 0;
-    }
-
-    vertexCode.clear();
-    fragmentCode.clear();
-}
-
 void smartin::graphics::Shader::SetFloat(const char* variable, GLfloat value) {
     GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
     glUniform1f(uniformLocation, value);
@@ -70,7 +60,13 @@ void smartin::graphics::Shader::SetTexture(const char* variable, smartin::graphi
 }
 
 smartin::graphics::Shader::~Shader() {
-    Destroy();
+    if (shaderProgramId != 0) {
+        glDeleteProgram(shaderProgramId);
+        shaderProgramId = 0;
+    }
+
+    vertexCode.clear();
+    fragmentCode.clear();
 }
 
 void smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderType) {

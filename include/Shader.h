@@ -19,7 +19,6 @@ namespace smartin::graphics {
         void Compile();
         void Validate();
         void Apply();
-        void Destroy();
 
         void SetFloat(const char* variable, GLfloat value);
         void SetVector3(const char* variable, glm::vec3 value);

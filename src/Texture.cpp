@@ -39,15 +39,11 @@ void smartin::graphics::Texture::Apply() {
     glBindTexture(GL_TEXTURE_2D, id);
 }
 
-void smartin::graphics::Texture::Clear() {
+smartin::graphics::Texture::~Texture() {
     glDeleteTextures(1, &id);
     id = 0;
     width = 0;
     height = 0;
     depth = 0;
     filePath = nullptr;
-}
-
-smartin::graphics::Texture::~Texture() {
-    Clear();
 }
