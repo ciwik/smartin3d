@@ -123,7 +123,7 @@ if (WINDOWS)
     # Provides classes and functions designed and implemented with the same naming conventions and functionality than GLSL so that anyone who knows GLSL, can use GLM as well in C++.
     if (NOT GLM_ROOT)
         find_package(GLM QUIET)
-        if(GLM_FOUND)
+        if (GLM_FOUND)
             get_filename_component(GLM_ROOT ${GLM_INCLUDE_DIRS} DIRECTORY)
         endif()
     endif()
@@ -133,6 +133,26 @@ if (WINDOWS)
     else()
         set(GLM_INCLUDE_PATH ${GLM_ROOT})
         message("GLM found at path: '${GLM_INCLUDE_PATH}'")
+    endif()
+
+
+    # assimp - Open Asset Import Library
+    # A library to import and export various 3d-model-formats including scene-post-processing to generate missing render data.
+    if (NOT ASSIMP_ROOT)
+        find_package(assimp QUIET)
+        if (assimp_FOUND)
+            get_filename_component(ASSIMP_ROOT ${assimp_INCLUDE_DIRS} DIRECTORY)
+        endif()
+    endif()
+
+    if (NOT ASSIMP_ROOT)
+        message(FATAL_ERROR "Could not find ASSIMP. Please put the path to ASSIMP root folder into ASSIMP_ROOT environment variable")
+    else()
+        set(ASSIMP_INCLUDE_PATH "${ASSIMP_ROOT}/include")
+
+        set(ASSIMP_LIB_PATH "${ASSIMP_ROOT}/lib")
+        find_library(ASSIMP_LIBRARY PATH_SUFFIXES ".lib" NAMES assimp assimp-vc142 assimp-vc142-mt PATHS "${ASSIMP_LIB_PATH}")
+        string(REPLACE ".lib" ".dll" ASSIMP_DLL_PATH ${ASSIMP_LIBRARY})
     endif()
 endif (WINDOWS)
 
@@ -144,7 +164,7 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} include include/actors include/jobs include/3rdparty)
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include include/actors include/jobs include/3rdparty)
 
 set (HEADER_FILES
         include/Log.h
@@ -177,16 +197,17 @@ set (SOURCE_FILES
         src/Texture.cpp)
 
 set(PROJECT_VERSION "0.0.1")
+set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY} ${ASSIMP_LIBRARY})
 
 # Build engine library
 add_library(smartin3d SHARED ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smartin3d PROPERTIES VERSION ${PROJECT_VERSION})
-target_link_libraries(smartin3d PUBLIC ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
+target_link_libraries(smartin3d PUBLIC ${LIBS})
 
 # Build static engine library (for linking)
 add_library(smartin3dlib STATIC ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smartin3dlib PROPERTIES VERSION ${PROJECT_VERSION})
-target_link_libraries(smartin3dlib PUBLIC ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY})
+target_link_libraries(smartin3dlib PUBLIC ${LIBS})
 
 # Enable tests
 add_subdirectory(tests)
@@ -198,6 +219,7 @@ target_link_libraries(smartin3ddemo smartin3dlib)
 if (WINDOWS)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${ASSIMP_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/textures" $<TARGET_FILE_DIR:smartin3d>/textures)
 endif (WINDOWS)
