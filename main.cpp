@@ -41,15 +41,23 @@ void Exit();
 
 
 int main() {
+    // Log
     utils::log::Init(std::cout);
 
-    utils::input::mouse::settings::invertYAxis = true;
-
+    // Window
     window = CreateWindow(1280, 720, "Test window");
+
+    // Input
+    utils::input::mouse::settings::invertYAxis = true;
+    utils::input::mouse::settings::showCursor = false;
+    utils::input::Init(window);
+
+    // Scene
     mainShader = CreateShader("shaders/default.vshader", "shaders/default.fshader");
     mainCamera = CreateCamera(45.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
-
     CreateScene();
+
+    // Jobs
     CreateJobs();
 
     // Main loop
@@ -165,8 +173,6 @@ graphics::Window* CreateWindow(int width, int height, const char* title) {
 
     utils::context::InitGLEW();
     window->Init();
-
-    utils::input::RegisterEventListener(window);
 
     return window;
 }

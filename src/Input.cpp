@@ -3,11 +3,12 @@
 void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode);
 void HandleMouse(GLFWwindow* glfwWindow, double x, double y);
 
-void smartin::utils::input::RegisterEventListener(smartin::graphics::Window* window) {
+void smartin::utils::input::Init(smartin::graphics::Window* window) {
     GLFWwindow* windowInstance = window->GetInstance();
 
-    glfwSetKeyCallback(windowInstance, HandleKeys);
-    glfwSetCursorPosCallback(windowInstance, HandleMouse);
+    keyboard::Init(windowInstance);
+    mouse::Init(windowInstance);
+    gamepad::Init(windowInstance);
 
     // Setup EventHandler object as user of the GLFW window instance
     glfwSetWindowUserPointer(windowInstance, window);
@@ -35,6 +36,10 @@ void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
         keysMask.set(key);
     else if (action == GLFW_RELEASE)
         keysMask.reset(key);
+}
+
+void smartin::utils::input::keyboard::Init(GLFWwindow* window) {
+    glfwSetKeyCallback(window, HandleKeys);
 }
 
 void smartin::utils::input::keyboard::Update() {
@@ -71,6 +76,13 @@ void HandleMouse(GLFWwindow* window, double x, double y) {
     lastCursorPosition = cursorPosition;
 }
 
+void smartin::utils::input::mouse::Init(GLFWwindow* window) {
+    glfwSetCursorPosCallback(window, HandleMouse);
+
+    int cursorMode = smartin::utils::input::mouse::settings::showCursor ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED;
+    glfwSetInputMode(window, GLFW_CURSOR, cursorMode);
+}
+
 void smartin::utils::input::mouse::Update() {
     deltaCursorPosition = glm::vec2(0.0f, 0.0f);
 }
@@ -81,4 +93,6 @@ glm::vec2 smartin::utils::input::mouse::GetCursorDelta() { return deltaCursorPos
 
 
 // Gamepad
+void smartin::utils::input::gamepad::Init(GLFWwindow* window) { }
+
 void smartin::utils::input::gamepad::Update() { }

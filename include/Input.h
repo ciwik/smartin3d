@@ -11,10 +11,11 @@
 #include "TimeUtils.h"
 
 namespace smartin::utils::input {
-    void RegisterEventListener(graphics::Window* window);
+    void Init(graphics::Window* window);
     void Update();
 
     namespace keyboard {
+        void Init(GLFWwindow* window);
         void Update();
 
         bool IsKey(int key);
@@ -23,6 +24,8 @@ namespace smartin::utils::input {
     }
 
     namespace mouse {
+        void Init(GLFWwindow* window);
+        // 	glfwSetInputMode(windowInstance, GLFW_CURSOR, showCursor ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
         void Update();
 
         glm::vec2 GetCursorPosition();
@@ -35,6 +38,7 @@ namespace smartin::utils::input {
     }
 
     namespace gamepad {
+        void Init(GLFWwindow* window);
         void Update();
 
         // TODO
