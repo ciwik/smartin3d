@@ -164,39 +164,46 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include include/actors include/jobs include/3rdparty)
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include include/base/actors include/jobs include/3rdparty)
 
 set (HEADER_FILES
-        include/Log.h
-        include/Window.h
-        include/TimeUtils.h
-        include/Log.h
-        include/Mesh.h
-        include/Shader.h
-        include/FileUtils.h
-        include/Actor.h
-        include/OpenGLContext.h
-        include/Input.h
-        include/Job.h
-        include/Material.h
-        include/Render.h
-        include/Texture.h
-        include/External.h
-        include/Model3D.h)
+        include/base/Actor.h
+        include/base/Camera.h
+        include/base/Job.h
+        include/base/Transform.h
+
+        include/graphics/Material.h
+        include/graphics/Mesh.h
+        include/graphics/Model3D.h
+        include/graphics/Render.h
+        include/graphics/Shader.h
+        include/graphics/Texture.h
+        include/graphics/Window.h
+
+        include/utils/External.h
+        include/utils/FileUtils.h
+        include/utils/Input.h
+        include/utils/Log.h
+        include/utils/OpenGLContext.h
+        include/utils/TimeUtils.h
+)
 
 set (SOURCE_FILES
-        src/Window.cpp
-        src/Log.cpp
-        src/TimeUtils.cpp
-        src/Mesh.cpp
-        src/Shader.cpp
-        src/actors/Camera.cpp
-        src/Transform.cpp
-        src/Actor.cpp
-        src/Input.cpp
-        src/Material.cpp
-        src/Texture.cpp
-        src/Model3D.cpp)
+        src/base/Actor.cpp
+        src/base/Camera.cpp
+        src/base/Transform.cpp
+
+        src/graphics/Material.cpp
+        src/graphics/Mesh.cpp
+        src/graphics/Model3D.cpp
+        src/graphics/Shader.cpp
+        src/graphics/Texture.cpp
+        src/graphics/Window.cpp
+
+        src/utils/Input.cpp
+        src/utils/Log.cpp
+        src/utils/TimeUtils.cpp
+)
 
 set(PROJECT_VERSION "0.0.1")
 set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY} ${ASSIMP_LIBRARY})

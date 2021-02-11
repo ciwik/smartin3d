@@ -1,4 +1,4 @@
-#include "Input.h"
+#include "utils/Input.h"
 
 void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode);
 void HandleMouse(GLFWwindow* glfwWindow, double x, double y);

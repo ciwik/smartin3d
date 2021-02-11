@@ -3,7 +3,7 @@
 
 #include "test_hints.h"
 
-#include "Transform.h"
+#include "base/Transform.h"
 
 TEST_CASE("Transform default constructor", "[require]") {
     smartin::base::Transform* transform = new smartin::base::Transform();

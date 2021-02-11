@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include "External.h"
-#include "Log.h"
+#include "utils/External.h"
+#include "utils/Log.h"
 
 namespace smartin::graphics {
     class Texture {

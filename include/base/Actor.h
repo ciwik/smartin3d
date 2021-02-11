@@ -1,9 +1,9 @@
 #ifndef SMARTIN3D_ACTOR_H
 #define SMARTIN3D_ACTOR_H
 
-#include "Mesh.h"
+#include "graphics/Mesh.h"
 #include "Transform.h"
-#include "Material.h"
+#include "graphics/Material.h"
 
 namespace smartin::base {
     class Actor {

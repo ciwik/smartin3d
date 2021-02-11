@@ -3,16 +3,14 @@
 #include <iostream>
 #include <vector>
 
-#include "Job.h"
-#include "Actor.h"
-#include "OpenGLContext.h"
-#include "Window.h"
-#include "TimeUtils.h"
-#include "Mesh.h"
-#include "Shader.h"
-#include "Camera.h"
-#include "Input.h"
-#include "Render.h"
+#include "base/Job.h"
+#include "base/Actor.h"
+#include "utils/OpenGLContext.h"
+#include "graphics/Window.h"
+#include "utils/TimeUtils.h"
+#include "base/Camera.h"
+#include "utils/Input.h"
+#include "graphics/Render.h"
 
 using namespace smartin;
 

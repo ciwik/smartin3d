@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "graphics/Window.h"
 
 smartin::graphics::Window::Window(GLuint _width, GLuint _height) {
     width = _width;

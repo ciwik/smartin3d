@@ -7,7 +7,7 @@
 
 #include <glm/vec2.hpp>
 
-#include "Window.h"
+#include "graphics/Window.h"
 #include "TimeUtils.h"
 
 namespace smartin::utils::input {

@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "FileUtils.h"
+#include "utils/FileUtils.h"
 #include "Texture.h"
 
 namespace smartin::graphics {

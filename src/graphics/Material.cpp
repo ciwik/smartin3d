@@ -1,4 +1,4 @@
-#include "Material.h"
+#include "graphics/Material.h"
 
 std::map<smartin::graphics::Shader*, std::vector<smartin::graphics::Material*>> materialInstances;
 

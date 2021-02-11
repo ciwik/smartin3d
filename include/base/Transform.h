@@ -9,7 +9,6 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-
 namespace smartin::base {
     class Transform final {
         // TODO: friend class ...

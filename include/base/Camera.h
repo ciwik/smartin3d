@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Actor.h"
+#include "base/Actor.h"
 
 namespace smartin::base {
     class Camera : public Actor {

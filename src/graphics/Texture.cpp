@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "graphics/Texture.h"
 
 smartin::graphics::Texture::Texture(std::string _filePath, bool withAlpha) {
     filePath = _filePath;

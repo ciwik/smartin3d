@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "graphics/Shader.h"
 
 std::vector<smartin::graphics::Shader*> shaders;
 

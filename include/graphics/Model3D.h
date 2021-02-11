@@ -8,10 +8,10 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "Mesh.h"
+#include "graphics/Mesh.h"
 #include "Texture.h"
-#include "Material.h"
-#include "Log.h"
+#include "graphics/Material.h"
+#include "utils/Log.h"
 
 namespace smartin::graphics {
     class Model3D {

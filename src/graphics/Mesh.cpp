@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "graphics/Mesh.h"
 
 smartin::graphics::Mesh::Mesh() {
     vao = 0;

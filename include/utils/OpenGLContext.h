@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Log.h"
+#include "utils/Log.h"
 
 namespace smartin::utils::context {
     static bool InitGLFW() {

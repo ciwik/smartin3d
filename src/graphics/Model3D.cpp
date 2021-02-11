@@ -1,4 +1,4 @@
-#include "Model3D.h"
+#include "graphics/Model3D.h"
 
 smartin::graphics::Model3D::Model3D(std::string _filePath) {
     filePath = _filePath;

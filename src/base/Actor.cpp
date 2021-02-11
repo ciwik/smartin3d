@@ -1,4 +1,4 @@
-#include "Actor.h"
+#include "base/Actor.h"
 
 std::map<smartin::graphics::Material*, std::vector<smartin::base::Actor*>> actorsByUsedMaterial;
 

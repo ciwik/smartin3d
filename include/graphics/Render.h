@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "Actor.h"
-#include "Camera.h"
-#include "Material.h"
+#include "base/Actor.h"
+#include "base/Camera.h"
+#include "graphics/Material.h"
 #include "Shader.h"
 
 namespace smartin::graphics {
