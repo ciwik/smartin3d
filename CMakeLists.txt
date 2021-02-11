@@ -181,7 +181,8 @@ set (HEADER_FILES
         include/Material.h
         include/Render.h
         include/Texture.h
-        include/External.h)
+        include/External.h
+        include/Model3D.h)
 
 set (SOURCE_FILES
         src/Window.cpp
@@ -194,7 +195,8 @@ set (SOURCE_FILES
         src/Actor.cpp
         src/Input.cpp
         src/Material.cpp
-        src/Texture.cpp)
+        src/Texture.cpp
+        src/Model3D.cpp)
 
 set(PROJECT_VERSION "0.0.1")
 set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY} ${ASSIMP_LIBRARY})
