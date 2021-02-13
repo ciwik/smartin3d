@@ -16,7 +16,6 @@ using namespace smartin;
 
 // Variables
 graphics::Window* window;
-std::vector<base::Actor*> actors;
 std::vector<base::Job*> jobs;
 graphics::Shader* mainShader;
 base::Camera* mainCamera;
@@ -31,12 +30,9 @@ void CreateJobs();
 // Update methods
 void UpdateJobs();
 void UpdateScene();
-void Render();
-void RenderScene();
 
 // Destroy methods
 void Exit();
-
 
 int main() {
     // Log
@@ -149,18 +145,13 @@ void CreateScene() {
 
     base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
 
-    base::Actor* actor = new base::Actor(mesh, material, transform);
-    actors.push_back(actor);
+    base::Actor* actor = new base::Actor(transform);
+    actor->SetAppearence(mesh, material);
 }
 
 void UpdateScene() {
-    for (auto actor : actors)
+    for (auto actor : base::GetAllActors())
         actor->Update();
-}
-
-void RenderScene() {
-    for (auto actor : actors)
-        actor->Render();
 }
 
 graphics::Window* CreateWindow(int width, int height, const char* title) {
@@ -181,7 +172,6 @@ base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos, glm::vec3 rot
     camera->aspect = aspect;
     camera->fieldOfView = fov;
 
-    actors.push_back(camera);
     return camera;
 }
 
@@ -191,11 +181,6 @@ graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentC
     shader->Validate();
 
     return shader;
-}
-
-void Render() {
-    RenderScene();
-    window->Render();
 }
 
 void Exit() {

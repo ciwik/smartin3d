@@ -8,11 +8,18 @@
 namespace smartin::base {
     class Actor {
     public:
-        Actor(graphics::Mesh* mesh, graphics::Material* material, Transform* transform = new Transform());
+        Actor(Transform* transform = new Transform());
+
+        void SetAppearence(graphics::Mesh* mesh, graphics::Material* material);
 
         bool IsActive() const { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
+
+        bool IsRenderable() const;
+
         Transform* GetTransform() const { return transform; }
+        graphics::Mesh* GetMesh() const { return mesh; }
+        graphics::Material* GetMaterial() const { return material; }
 
         virtual void Update();
 
@@ -21,14 +28,15 @@ namespace smartin::base {
         ~Actor();
 
     protected:
-        Transform* transform;
-        graphics::Mesh* mesh;
+        Transform* transform = nullptr;
+        graphics::Mesh* mesh = nullptr;
+        graphics::Material* material = nullptr;
 
     private:
         bool isActive;
     };
 
-    std::vector<Actor*> GetActorsUsingMaterial(graphics::Material* material);
+    std::vector<Actor*> GetAllActors();
 }
 
 #endif //SMARTIN3D_ACTOR_H

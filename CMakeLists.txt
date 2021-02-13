@@ -196,6 +196,7 @@ set (SOURCE_FILES
         src/graphics/Material.cpp
         src/graphics/Mesh.cpp
         src/graphics/Model3D.cpp
+        src/graphics/Render.cpp
         src/graphics/Shader.cpp
         src/graphics/Texture.cpp
         src/graphics/Window.cpp

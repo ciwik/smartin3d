@@ -1,10 +1,7 @@
 #include "graphics/Material.h"
 
-std::map<smartin::graphics::Shader*, std::vector<smartin::graphics::Material*>> materialInstances;
-
 smartin::graphics::Material::Material(smartin::graphics::Shader* _shader) {
     shader = _shader;
-    materialInstances[shader].push_back(this);
 }
 
 void smartin::graphics::Material::SetTexture(smartin::graphics::Texture* _texture) {
@@ -28,8 +25,4 @@ void smartin::graphics::Material::Apply() {
 
 smartin::graphics::Material::~Material() {
     delete texture;
-}
-
-std::vector<smartin::graphics::Material*> smartin::graphics::GetMaterialsByShader(smartin::graphics::Shader* shader) {
-    return materialInstances[shader];
 }

@@ -12,6 +12,8 @@ namespace smartin::graphics {
     public:
         Material(Shader* shader);
 
+        Shader* GetShader() const { return shader; }
+
         void SetTexture(Texture* texture);
         void SetColor(glm::vec3 color);
 
@@ -25,8 +27,6 @@ namespace smartin::graphics {
 
         Shader* shader;
     };
-
-    std::vector<Material*> GetMaterialsByShader(Shader* shader);
 }
 
 #endif //SMARTIN3D_MATERIAL_H
