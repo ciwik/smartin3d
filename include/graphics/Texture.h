@@ -11,9 +11,9 @@
 namespace smartin::graphics {
     class Texture {
     public:
-        Texture(std::string filePath, bool withAlpha = false);
+        Texture(int width, int height, int depth, bool withAlpha);
 
-        bool Load();
+        bool Load(unsigned char* imageData);
         void Apply();
 
         ~Texture();

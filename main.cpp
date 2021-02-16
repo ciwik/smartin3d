@@ -8,6 +8,7 @@
 #include "utils/OpenGLContext.h"
 #include "graphics/Window.h"
 #include "utils/TimeUtils.h"
+#include "utils/AssetUtils.h"
 #include "base/Camera.h"
 #include "utils/Input.h"
 #include "graphics/Render.h"
@@ -47,7 +48,7 @@ int main() {
     utils::input::Init(window);
 
     // Scene
-    mainShader = CreateShader("shaders/default.vshader", "shaders/default.fshader");
+    mainShader = utils::GetOrCreateShader();
     mainCamera = CreateCamera(45.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
     CreateScene();
 
@@ -136,8 +137,7 @@ void CreateScene() {
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 12);
 
-    graphics::Texture* dirtTex = new graphics::Texture("textures/dirt.png", true);
-    dirtTex->Load();
+    graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt", true);
 
     graphics::Material* material = new graphics::Material(mainShader);
     material->SetTexture(dirtTex);
@@ -173,14 +173,6 @@ base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos, glm::vec3 rot
     camera->fieldOfView = fov;
 
     return camera;
-}
-
-graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentCodePath) {
-    graphics::Shader* shader = graphics::ReadShaderFromFiles(vertexCodePath, fragmentCodePath);
-    shader->Compile();
-    shader->Validate();
-
-    return shader;
 }
 
 void Exit() {

@@ -174,12 +174,12 @@ set (HEADER_FILES
 
         include/graphics/Material.h
         include/graphics/Mesh.h
-        include/graphics/Model3D.h
         include/graphics/Render.h
         include/graphics/Shader.h
         include/graphics/Texture.h
         include/graphics/Window.h
 
+        include/utils/AssetUtils.h
         include/utils/External.h
         include/utils/FileUtils.h
         include/utils/Input.h
@@ -195,12 +195,12 @@ set (SOURCE_FILES
 
         src/graphics/Material.cpp
         src/graphics/Mesh.cpp
-        src/graphics/Model3D.cpp
         src/graphics/Render.cpp
         src/graphics/Shader.cpp
         src/graphics/Texture.cpp
         src/graphics/Window.cpp
 
+        src/utils/AssetUtils.cpp
         src/utils/Input.cpp
         src/utils/Log.cpp
         src/utils/TimeUtils.cpp

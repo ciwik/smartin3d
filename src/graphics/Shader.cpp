@@ -6,24 +6,29 @@ smartin::graphics::Shader::Shader(std::string _vertexCode, std::string _fragment
     shaderProgramId = 0;
 }
 
-void smartin::graphics::Shader::Compile() {
+bool smartin::graphics::Shader::Compile() {
     shaderProgramId = glCreateProgram();
     if (!shaderProgramId) {
         utils::log::E("Shader", "Error creating shader program");
-        return;
+        return false;
     }
 
-    AddShader(vertexCode, GL_VERTEX_SHADER);
-    AddShader(fragmentCode, GL_FRAGMENT_SHADER);
+    if (!AddShader(vertexCode, GL_VERTEX_SHADER))
+        return false;
+    if (!AddShader(fragmentCode, GL_FRAGMENT_SHADER))
+        return false;
 
-    CompileProgram();
+    if (!CompileProgram())
+        return false;
 
     vertexCode.clear();
     fragmentCode.clear();
+
+    return true;
 }
 
-void smartin::graphics::Shader::Validate() {
-    CheckProgramStatus(shaderProgramId, GL_VALIDATE_STATUS, "validate");
+bool smartin::graphics::Shader::Validate() {
+    return CheckProgramStatus(shaderProgramId, GL_VALIDATE_STATUS, "validate");
 }
 
 void smartin::graphics::Shader::Apply() {
@@ -65,7 +70,7 @@ smartin::graphics::Shader::~Shader() {
     fragmentCode.clear();
 }
 
-void smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderType) {
+bool smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderType) {
     GLuint shaderId = glCreateShader(shaderType);
     const GLchar* code[1]; code[0] = shaderCode.c_str();
     GLint codeLength[1] = { (int)shaderCode.size() };
@@ -74,16 +79,16 @@ void smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderT
     glLinkProgram(shaderId);
 
     if (!CheckShaderStatus(shaderId, GL_COMPILE_STATUS, "compile"))
-        return;
+        return false;
 
     glAttachShader(shaderProgramId, shaderId);
+    return true;
 }
 
-void smartin::graphics::Shader::CompileProgram() {
+bool smartin::graphics::Shader::CompileProgram() {
     glLinkProgram(shaderProgramId);
 
-    if (!CheckProgramStatus(shaderProgramId, GL_LINK_STATUS, "link"))
-        return;
+    return CheckProgramStatus(shaderProgramId, GL_LINK_STATUS, "link");
 }
 
 bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, std::string tag) {
@@ -110,14 +115,6 @@ bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, 
     }
 
     return true;
-}
-
-smartin::graphics::Shader* smartin::graphics::ReadShaderFromFiles(const char *vertexCodePath, const char *fragmentCodePath) {
-    std::string vertexCode = utils::io::ReadFile(vertexCodePath);
-    std::string fragmentCode = utils::io::ReadFile(fragmentCodePath);
-
-    Shader* shader = new Shader(vertexCode.c_str(), fragmentCode.c_str());
-    return shader;
 }
 
 void smartin::graphics::DisableShaders() {

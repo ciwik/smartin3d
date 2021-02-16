@@ -16,8 +16,8 @@ namespace smartin::graphics {
     public:
         Shader(std::string vertexCode, std::string fragmentCode);
 
-        void Compile();
-        void Validate();
+        bool Compile();
+        bool Validate();
         void Apply();
 
         void SetFloat(const char* variable, GLfloat value);
@@ -29,8 +29,8 @@ namespace smartin::graphics {
         ~Shader();
 
 private:
-        void AddShader(std::string shaderCode, GLenum shaderType);
-        void CompileProgram();
+        bool AddShader(std::string shaderCode, GLenum shaderType);
+        bool CompileProgram();
 
         bool CheckShaderStatus(GLuint shaderId, GLenum checkType, std::string tag);
         bool CheckProgramStatus(GLuint programId, GLenum checkType, std::string tag);
@@ -41,7 +41,6 @@ private:
         GLuint shaderProgramId;
     };
 
-    Shader* ReadShaderFromFiles(const char *vertexCodePath, const char *fragmentCodePath);
     void DisableShaders();
 }
 

@@ -7,12 +7,12 @@
 #include "Log.h"
 
 namespace smartin::utils::io {
-    static std::string ReadFile(const char *filePath) {
+    static std::string ReadFile(std::string filePath) {
         std::string result;
         std::ifstream fileStream(filePath, std::ios::in);
 
         if (!fileStream.is_open()) {
-            utils::log::E("File", "Failed to read file by path: "); // TODO
+            utils::log::E("File", "Failed to read file by path: " + filePath);
             return "";
         }
 
