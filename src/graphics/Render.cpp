@@ -9,7 +9,16 @@ void smartin::graphics::RenderFor(base::Camera* camera) {
         if (!actor->IsRenderable() || !IsActorVisible(actor))
             continue;
 
-        actor->Render(projection, view);
+        glm::mat4 model = actor->GetTransform()->GetModelMatrix();
+
+        Shader* shader = actor->GetMaterial()->GetShader();
+        shader->Validate();
+        shader->Apply();
+        shader->SetMatrix("projection", projection);
+        shader->SetMatrix("view", view);
+        shader->SetMatrix("model", model);
+
+        actor->Render();
     }
 
     DisableShaders();

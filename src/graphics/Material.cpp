@@ -13,18 +13,7 @@ void smartin::graphics::Material::SetColor(glm::vec3 _color) {
     hasColor = true;
 }
 
-smartin::graphics::Material::~Material() {
-    delete texture;
-}
-
-void smartin::graphics::Material::Apply(glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-    shader->Validate();
-    shader->Apply();
-
-    shader->SetMatrix("projection", projection);
-    shader->SetMatrix("view", view);
-    shader->SetMatrix("model", model);
-
+void smartin::graphics::Material::Apply() {
     if (hasColor)
         shader->SetVector3("mainColor", color);
 
@@ -32,4 +21,8 @@ void smartin::graphics::Material::Apply(glm::mat4 projection, glm::mat4 view, gl
         texture->Apply();
         shader->SetTexture("mainTex", texture);
     }
+}
+
+smartin::graphics::Material::~Material() {
+    delete texture;
 }

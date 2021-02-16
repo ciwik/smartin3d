@@ -10,27 +10,26 @@ smartin::base::Actor::~Actor() {
     delete transform;
 }
 
+void smartin::base::Actor::Render() {
+    if (material == nullptr || mesh == nullptr)
+        return;
+
+    material->Apply();
+    mesh->Render();
+}
+
 smartin::base::Actor::Actor(smartin::base::Transform* _transform) {
     transform = _transform;
     actors.push_back(this);
 }
 
+void smartin::base::Actor::SetAppearence(smartin::graphics::Mesh* _mesh, smartin::graphics::Material* _material) {
+    mesh = _mesh;
+    material = _material;
+}
+
 bool smartin::base::Actor::IsRenderable() const {
-    return !materials.empty();
-}
-
-void smartin::base::Actor::SetAppearence(std::map<graphics::Mesh*, graphics::Material*> _materials) {
-    materials = _materials;
-}
-
-void smartin::base::Actor::Render(glm::mat4 projection, glm::mat4 view) {
-    if (!IsRenderable())
-        return;
-
-    for (std::pair<graphics::Mesh*, graphics::Material*> p : materials) {
-        p.second->Apply(projection, view, transform->GetModelMatrix());
-        p.first->Render();
-    }
+    return mesh != nullptr && material != nullptr;
 }
 
 std::vector<smartin::base::Actor*> smartin::base::GetAllActors() {

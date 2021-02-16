@@ -11,7 +11,6 @@
 #include "base/Camera.h"
 #include "utils/Input.h"
 #include "graphics/Render.h"
-#include "utils/AssetLoader.h"
 
 using namespace smartin;
 
@@ -118,9 +117,36 @@ void calcAverageNormals(unsigned int* indices, unsigned int indexNumber, GLfloat
 }
 
 void CreateScene() {
+    unsigned int indices[] = {
+            0, 3, 1,
+            1, 3, 2,
+            2, 3, 0,
+            0, 1, 2
+    };
+
+    GLfloat vertices[] = {
+            // X     Y     Z			 U	   V		 Xn	   Yn	 Zn
+            -1.0f, -1.0f, -0.6f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+            0.0f, -1.0f,  1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+            0.0f,  1.0f,  0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f,
+    };
+    calcAverageNormals(indices, 12, vertices, 32, 8, 5);
+
+    graphics::Mesh* mesh = new graphics::Mesh();
+    mesh->Init(vertices, indices, 32, 12);
+
+    graphics::Texture* dirtTex = new graphics::Texture("textures/dirt.png", true);
+    dirtTex->Load();
+
+    graphics::Material* material = new graphics::Material(mainShader);
+    material->SetTexture(dirtTex);
+    material->SetColor(glm::vec3(0.0f, 1.0f, 0.0f));
+
     base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
+
     base::Actor* actor = new base::Actor(transform);
-    utils::loader::LoadAppearenceForActor(actor, "x-wing.obj", "default");
+    actor->SetAppearence(mesh, material);
 }
 
 void UpdateScene() {

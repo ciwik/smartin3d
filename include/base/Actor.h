@@ -10,7 +10,7 @@ namespace smartin::base {
     public:
         Actor(Transform* transform = new Transform());
 
-        void SetAppearence(std::map<graphics::Mesh*, graphics::Material*> materials);
+        void SetAppearence(graphics::Mesh* mesh, graphics::Material* material);
 
         bool IsActive() const { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
@@ -18,16 +18,19 @@ namespace smartin::base {
         bool IsRenderable() const;
 
         Transform* GetTransform() const { return transform; }
+        graphics::Mesh* GetMesh() const { return mesh; }
+        graphics::Material* GetMaterial() const { return material; }
 
         virtual void Update();
 
-        void Render(glm::mat4 projection, glm::mat4 view);
+        void Render();
 
         ~Actor();
 
     protected:
-        std::map<graphics::Mesh*, graphics::Material*> materials;
         Transform* transform = nullptr;
+        graphics::Mesh* mesh = nullptr;
+        graphics::Material* material = nullptr;
 
     private:
         bool isActive;

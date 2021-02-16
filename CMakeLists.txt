@@ -174,12 +174,12 @@ set (HEADER_FILES
 
         include/graphics/Material.h
         include/graphics/Mesh.h
+        include/graphics/Model3D.h
         include/graphics/Render.h
         include/graphics/Shader.h
         include/graphics/Texture.h
         include/graphics/Window.h
 
-        include/utils/AssetLoader.h
         include/utils/External.h
         include/utils/FileUtils.h
         include/utils/Input.h
@@ -195,12 +195,12 @@ set (SOURCE_FILES
 
         src/graphics/Material.cpp
         src/graphics/Mesh.cpp
+        src/graphics/Model3D.cpp
         src/graphics/Render.cpp
         src/graphics/Shader.cpp
         src/graphics/Texture.cpp
         src/graphics/Window.cpp
 
-        src/utils/AssetLoader.cpp
         src/utils/Input.cpp
         src/utils/Log.cpp
         src/utils/TimeUtils.cpp
@@ -232,5 +232,4 @@ if (WINDOWS)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${ASSIMP_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:smartin3d>/shaders)
     add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/textures" $<TARGET_FILE_DIR:smartin3d>/textures)
-    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/models" $<TARGET_FILE_DIR:smartin3d>/models)
 endif (WINDOWS)

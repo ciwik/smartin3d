@@ -17,7 +17,7 @@ namespace smartin::graphics {
         void SetTexture(Texture* texture);
         void SetColor(glm::vec3 color);
 
-        void Apply(glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+        void Apply();
 
         ~Material();
 
