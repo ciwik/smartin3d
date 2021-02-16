@@ -231,7 +231,7 @@ public:
         glm::vec2 mouseDelta = utils::input::mouse::GetCursorDelta();
         mouseDelta *= turnSpeed;
 
-        float yaw = mouseDelta.x;
+        float yaw = -mouseDelta.x;
         float pitch = mouseDelta.y;
         if (pitch > 89.0f)
             pitch = 89.0f;
