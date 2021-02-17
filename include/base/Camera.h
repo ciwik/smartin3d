@@ -16,10 +16,10 @@ namespace smartin::base {
         glm::mat4 GetViewMatrix();
         glm::mat4 GetProjectionMatrix();
 
-        GLfloat fieldOfView = 45.0f;
-        GLfloat nearPlane = 0.1f;
-        GLfloat farPlane = 100.0f;
-        GLfloat aspect = 1.77777779f; // 16:9
+        float fieldOfView = 45.0f;
+        float nearPlane = 0.1f;
+        float farPlane = 100.0f;
+        float aspect = 1.77777779f; // 16:9
 
         ~Camera();
     };

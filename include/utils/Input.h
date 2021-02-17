@@ -25,7 +25,6 @@ namespace smartin::utils::input {
 
     namespace mouse {
         void Init(GLFWwindow* window);
-        // 	glfwSetInputMode(windowInstance, GLFW_CURSOR, showCursor ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
         void Update();
 
         glm::vec2 GetCursorPosition();

@@ -41,6 +41,9 @@ smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
         }
     }
 
+    if (result == nullptr)
+        utils::log::E("AssetUtils", "Failed to find shader: " + name);
+
     return result;
 }
 
@@ -68,7 +71,7 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name,
     }
 
     if (result == nullptr)
-        utils::log::E("AssetUtils", "Failed to find asset: " + name);
+        utils::log::E("AssetUtils", "Failed to find texture: " + name);
 
     return result;
 }
@@ -109,5 +112,5 @@ std::string GetNameByPath(std::string const &path) {
         }
     }
 
-    return path.substr(0, dotPosition);
+    return path.substr(0, dotPosition + 1);
 }
