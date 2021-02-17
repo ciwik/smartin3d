@@ -15,11 +15,20 @@
 namespace smartin::utils {
     const std::string DEFAULT_SHADER_NAME = "default";
     const std::string EMPTY = "";
+    const std::string DEFAULT_CAMERA_NAME = "camera";
 
-    base::Actor* CreateActor(std::string modelFilePath = EMPTY,
+    base::Actor* FindActor(std::string name);
+
+    base::Actor* CreateActor(std::string name,
                              glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
                              glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
                              glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+
+    base::Actor* CreateActorWithModel3D(std::string name,
+                                        std::string modelFilePath = EMPTY,
+                                        glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                        glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
+                                        glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
     base::Camera* CreateCamera(float fov, float aspect,
                                glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),

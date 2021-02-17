@@ -52,11 +52,44 @@ namespace holders {
 
 
 // Actors
+std::map<std::string, smartin::base::Actor*> actors;
+
+smartin::base::Actor* smartin::utils::FindActor(std::string name) {
+    return actors[name];
+}
+
+smartin::base::Actor* smartin::utils::CreateActor(std::string name, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
+    if (actors[name] != nullptr) {
+        smartin::utils::log::E("AssetUtils", "Actor with the same name already exists: " + name);
+        return nullptr;
+    }
+
+    base::Transform* transform = new base::Transform(position, size, eulerAngles);
+    smartin::base::Actor* actor = new smartin::base::Actor(transform);
+    actors[name] = actor;
+
+    return actor;
+}
+
+smartin::base::Actor* smartin::utils::CreateActorWithModel3D(std::string name, std::string modelFilePath, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
+    smartin::base::Actor* actor = CreateActor(name, position, size, eulerAngles);
+    if (actor != nullptr) {
+        // TODO: Load hierarchy
+        smartin::graphics::Mesh* mesh = new smartin::graphics::Mesh();
+        smartin::graphics::Material* material = GetOrCreateMaterial("empty");
+        actor->SetAppearence(mesh, material);
+    }
+
+    return actor;
+}
+
 smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm::vec3 position, glm::vec3 eulerAngles) {
     base::Transform* transform = new base::Transform(position, glm::vec3(0.0f, 0.0f, 0.0f), eulerAngles);
     base::Camera* camera = new base::Camera(transform);
     camera->fieldOfView = fov;
     camera->aspect = aspect;
+
+    actors[DEFAULT_CAMERA_NAME] = camera;
 
     return camera;
 }
