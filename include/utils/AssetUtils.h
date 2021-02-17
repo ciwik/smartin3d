@@ -25,7 +25,7 @@ namespace smartin::utils {
                                glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
     graphics::Shader* GetOrCreateShader(std::string name = DEFAULT_SHADER_NAME);
-    graphics::Texture* GetOrCreateTexture(std::string name, bool withAlpha = false);
+    graphics::Texture* GetOrCreateTexture(std::string name);
     graphics::Material* GetOrCreateMaterial(std::string textureName, std::string shaderName);
 }
 

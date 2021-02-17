@@ -137,7 +137,7 @@ void CreateScene() {
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 12);
 
-    graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt", true);
+    graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt");
 
     graphics::Material* material = new graphics::Material(mainShader);
     material->SetTexture(dirtTex);

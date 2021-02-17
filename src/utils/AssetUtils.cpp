@@ -8,7 +8,7 @@ const std::string VERTEX_SHADER_EXTENSION = "vshader";
 const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
 
 namespace loaders {
-    smartin::graphics::Texture* LoadTexture(std::string filePath, bool withAlpha);
+    smartin::graphics::Texture* LoadTexture(std::string filePath);
     smartin::graphics::Shader* LoadShader(std::string vertexCodePath, std::string fragmentCodePath);
 }
 
@@ -47,20 +47,20 @@ smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
     return result;
 }
 
-smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name, bool withAlpha) {
+smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name) {
     smartin::graphics::Texture* result = nullptr;
 
     std::string _name = GetNameByPath(name);
-    if (_name == name) {
-        result = holders::GetTexture(name);
-    } else {
+    result = holders::GetTexture(_name);
+    if (result == nullptr) {
         std::string path = TEXTURE_DIR + "/" + name;
-        result = loaders::LoadTexture(path, withAlpha);
+
+        result = loaders::LoadTexture(path);
         if (result == nullptr) {
             // Try to add all possible extensions
             for (std::string ext : SUPPORTED_TEXTURE_FORMATS) {
                 std::string _path = path + "." + ext;
-                result = loaders::LoadTexture(_path, withAlpha);
+                result = loaders::LoadTexture(_path);
                 if (result != nullptr)
                     break;
             }
@@ -81,13 +81,13 @@ smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string tex
 }
 
 // Loaders
-smartin::graphics::Texture* loaders::LoadTexture(std::string filePath, bool withAlpha) {
+smartin::graphics::Texture* loaders::LoadTexture(std::string filePath) {
     smartin::graphics::Texture* texture = nullptr;
 
     int width, height, depth;
     unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &depth, 0);
     if (data != nullptr) {
-        texture = new smartin::graphics::Texture(width, height, depth, withAlpha);
+        texture = new smartin::graphics::Texture(width, height, depth);
         texture->Load(data);
         stbi_image_free(data);
     }

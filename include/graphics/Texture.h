@@ -11,7 +11,7 @@
 namespace smartin::graphics {
     class Texture {
     public:
-        Texture(int width, int height, int depth, bool withAlpha);
+        Texture(int width, int height, int depth);
 
         bool Load(unsigned char* imageData);
         void Apply();
