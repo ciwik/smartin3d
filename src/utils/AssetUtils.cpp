@@ -50,6 +50,19 @@ namespace holders {
     }
 }
 
+
+// Actors
+smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm::vec3 position, glm::vec3 eulerAngles) {
+    base::Transform* transform = new base::Transform(position, glm::vec3(0.0f, 0.0f, 0.0f), eulerAngles);
+    base::Camera* camera = new base::Camera(transform);
+    camera->fieldOfView = fov;
+    camera->aspect = aspect;
+
+    return camera;
+}
+
+
+// Assets
 std::string GetNameByPath(std::string const &path);
 
 smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {

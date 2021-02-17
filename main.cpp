@@ -4,12 +4,10 @@
 #include <vector>
 
 #include "base/Job.h"
-#include "base/Actor.h"
 #include "utils/OpenGLContext.h"
 #include "graphics/Window.h"
 #include "utils/TimeUtils.h"
 #include "utils/AssetUtils.h"
-#include "base/Camera.h"
 #include "utils/Input.h"
 #include "graphics/Render.h"
 
@@ -24,7 +22,6 @@ base::Camera* mainCamera;
 // Awake methods
 void CreateScene();
 graphics::Window* CreateWindow(int width, int height, const char* title);
-base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos = glm::vec3(), glm::vec3 rot = glm::vec3()) ;
 void CreateJobs();
 
 // Update methods
@@ -48,7 +45,7 @@ int main() {
 
     // Scene
     mainShader = utils::GetOrCreateShader();
-    mainCamera = CreateCamera(45.0f, window->GetWidth() / (float) window->GetHeight(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
+    mainCamera = utils::CreateCamera(45.0f, window->GetAspectRatio(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
     CreateScene();
 
     // Jobs
@@ -125,13 +122,16 @@ void CreateScene() {
     };
 
     GLfloat vertices[] = {
-            // X     Y     Z			 U	   V		 Xn	   Yn	 Zn
-            -1.0f, -1.0f, -0.6f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+            // X     Y     Z		 U	   V		 Xn	   Yn	 Zn
+            -1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
             0.0f, -1.0f,  1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
             1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
             0.0f,  1.0f,  0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f,
     };
     calcAverageNormals(indices, 12, vertices, 32, 8, 5);
+
+    base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
+    base::Actor* actor = new base::Actor(transform);
 
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 12);
@@ -139,9 +139,6 @@ void CreateScene() {
     graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt");
     graphics::Material* material = utils::GetOrCreateMaterial("dirt");
 
-    base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
-
-    base::Actor* actor = new base::Actor(transform);
     actor->SetAppearence(mesh, material);
 }
 
@@ -160,15 +157,6 @@ graphics::Window* CreateWindow(int width, int height, const char* title) {
     window->Init();
 
     return window;
-}
-
-base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos, glm::vec3 rot) {
-    base::Transform* transform = new base::Transform(pos, glm::vec3(0.0f, 0.0f, 0.0f), rot);
-    base::Camera* camera = new base::Camera(transform);
-    camera->aspect = aspect;
-    camera->fieldOfView = fov;
-
-    return camera;
 }
 
 void Exit() {
