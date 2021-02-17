@@ -14,8 +14,9 @@
 
 namespace smartin::utils {
     const std::string DEFAULT_SHADER_NAME = "default";
+    const std::string EMPTY = "";
 
-    base::Actor* CreateActor(std::string modelFilePath = nullptr,
+    base::Actor* CreateActor(std::string modelFilePath = EMPTY,
                              glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
                              glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
                              glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
@@ -26,7 +27,10 @@ namespace smartin::utils {
 
     graphics::Shader* GetOrCreateShader(std::string name = DEFAULT_SHADER_NAME);
     graphics::Texture* GetOrCreateTexture(std::string name);
-    graphics::Material* GetOrCreateMaterial(std::string textureName, std::string shaderName);
+    graphics::Material* GetOrCreateMaterial(std::string name,
+                                            std::string textureName = EMPTY,
+                                            glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f),
+                                            std::string shaderName = DEFAULT_SHADER_NAME);
 }
 
 #endif //SMARTIN3D_ASSETUTILS_H

@@ -25,7 +25,6 @@ base::Camera* mainCamera;
 void CreateScene();
 graphics::Window* CreateWindow(int width, int height, const char* title);
 base::Camera* CreateCamera(float fov, float aspect, glm::vec3 pos = glm::vec3(), glm::vec3 rot = glm::vec3()) ;
-graphics::Shader* CreateShader(const char *vertexCodePath, const char *fragmentCodePath);
 void CreateJobs();
 
 // Update methods
@@ -138,10 +137,7 @@ void CreateScene() {
     mesh->Init(vertices, indices, 32, 12);
 
     graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt");
-
-    graphics::Material* material = new graphics::Material(mainShader);
-    material->SetTexture(dirtTex);
-    material->SetColor(glm::vec3(0.0f, 1.0f, 0.0f));
+    graphics::Material* material = utils::GetOrCreateMaterial("dirt");
 
     base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
 

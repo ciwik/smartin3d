@@ -15,9 +15,39 @@ namespace loaders {
 namespace holders {
     std::map<std::string, smartin::graphics::Texture*> textures;
     smartin::graphics::Texture* GetTexture(std::string name) { return textures[name]; }
+    bool AddTexture(std::string name, smartin::graphics::Texture* texture) {
+        if (textures[name] != texture && textures[name] != nullptr) {
+            smartin::utils::log::E("AssetUtils", "Texture already exists: " + name);
+            return false;
+        }
+
+        textures[name] = texture;
+        return true;
+    }
 
     std::map<std::string, smartin::graphics::Shader*> shaders;
     smartin::graphics::Shader* GetShader(std::string name) { return shaders[name]; }
+    bool AddShader(std::string name, smartin::graphics::Shader* shader) {
+        if (shaders[name] != shader && shaders[name] != nullptr) {
+            smartin::utils::log::E("AssetUtils", "Shader already exists: " + name);
+            return false;
+        }
+
+        shaders[name] = shader;
+        return true;
+    }
+
+    std::map<std::string, smartin::graphics::Material*> materials;
+    smartin::graphics::Material* GetMaterial(std::string name) { return materials[name]; }
+    bool AddMaterial(std::string name, smartin::graphics::Material* material) {
+        if (materials[name] != material && materials[name] != nullptr) {
+            smartin::utils::log::E("AssetUtils", "Material already exists: " + name);
+            return false;
+        }
+
+        materials[name] = material;
+        return true;
+    }
 }
 
 std::string GetNameByPath(std::string const &path);
@@ -33,7 +63,7 @@ smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
         result = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
         if (result != nullptr) {
             if (result->Compile() && result->Validate()) {
-                holders::shaders[name] = result;
+                holders::AddShader(name, result);
             } else {
                 delete result;
                 result = nullptr;
@@ -66,7 +96,7 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name)
             }
 
             if (result != nullptr)
-                holders::textures[_name] = result;
+                holders::AddTexture(_name, result);
         }
     }
 
@@ -76,9 +106,32 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name)
     return result;
 }
 
-smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string textureName, std::string shaderName) {
-    return nullptr;
+smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string name, std::string textureName, glm::vec3 color, std::string shaderName) {
+    smartin::graphics::Material* result = nullptr;
+
+    result = holders::GetMaterial(name);
+    if (result == nullptr) {
+        smartin::graphics::Shader* shader = GetOrCreateShader(shaderName);
+        if (shader != nullptr) {
+            result = new smartin::graphics::Material(shader);
+
+            if (textureName.empty()) textureName = name;
+            smartin::graphics::Texture* texture = GetOrCreateTexture(textureName);
+            if (texture != nullptr)
+                result->SetTexture(texture);
+
+            result->SetColor(color);
+
+            holders::AddMaterial(name, result);
+        }
+    }
+
+    if (result == nullptr)
+        utils::log::E("AssetUtils", "Failed to find material: " + name);
+
+    return result;
 }
+
 
 // Loaders
 smartin::graphics::Texture* loaders::LoadTexture(std::string filePath) {
