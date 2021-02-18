@@ -7,9 +7,13 @@ const std::string SHADER_DIR = "shaders";
 const std::string VERTEX_SHADER_EXTENSION = "vshader";
 const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
 
+const std::string MODEL_DIR = "models";
+
 namespace loaders {
     smartin::graphics::Texture* LoadTexture(std::string filePath);
     smartin::graphics::Shader* LoadShader(std::string vertexCodePath, std::string fragmentCodePath);
+
+    smartin::graphics::Appearance* LoadAppearance(std::string modelFilePath, smartin::graphics::Shader* shader);
 }
 
 namespace holders {
@@ -83,13 +87,11 @@ smartin::base::Actor* smartin::utils::CreateActor(std::string name, glm::vec3 po
     return actor;
 }
 
-smartin::base::Actor* smartin::utils::CreateActorWithModel3D(std::string name, std::string modelFilePath, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
+smartin::base::Actor* smartin::utils::CreateActorWithAppearance(std::string name, std::string modelFileName, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
     smartin::base::Actor* actor = CreateActor(name, position, size, eulerAngles);
     if (actor != nullptr) {
-        // TODO: Load hierarchy
-        smartin::graphics::Mesh* mesh = new smartin::graphics::Mesh();
-        smartin::graphics::Material* material = GetOrCreateMaterial("empty");
-        graphics::Appearance* appearance = new graphics::Appearance(mesh, material);
+        std::string modelFilePath = MODEL_DIR + "/" + modelFileName;
+        graphics::Appearance* appearance = loaders::LoadAppearance(modelFilePath, GetOrCreateShader(DEFAULT_SHADER_NAME)); // TODO
         actor->SetAppearance(appearance);
     }
 
@@ -266,6 +268,105 @@ smartin::graphics::Shader* loaders::LoadShader(std::string vertexCodePath, std::
 
     smartin::graphics::Shader* shader = new smartin::graphics::Shader(vertexCode.c_str(), fragmentCode.c_str());
     return shader;
+}
+
+static int materialCounter = 0;
+
+smartin::graphics::Material* LoadMaterial(unsigned int materialId, const aiScene* scene, smartin::graphics::Shader* shader) {
+    aiMaterial* material = scene->mMaterials[materialId];
+    if (material == nullptr)
+        return nullptr;
+
+    std::string textureName = "";
+    smartin::graphics::Texture* texture = nullptr;
+    if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
+        aiString path;
+        if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
+            int idx = std::string(path.data).rfind("\\");
+            std::string fileName = std::string(path.data).substr(idx + 1);
+
+            std::string texPath = std::string("Textures/") + fileName;
+            texture = loaders::LoadTexture(texPath);
+
+            textureName = GetNameByPath(fileName) + std::to_string(materialId) + std::to_string(materialCounter);
+            holders::AddTexture(textureName, texture);
+        }
+    }
+
+    smartin::graphics::Material* result = nullptr;
+
+    if (texture != nullptr) {
+        std::string materialName = textureName + std::to_string(materialCounter);
+        result = new smartin::graphics::Material(shader);
+        result->SetTexture(texture);
+        holders::AddMaterial(materialName, result);
+        materialCounter++;
+    }
+
+    return result;
+}
+
+
+smartin::graphics::Appearance* LoadAppearanceFromFile(aiMesh* mesh, const aiScene* scene, smartin::graphics::Shader* shader) {
+    std::vector<GLfloat> vertices;
+    std::vector<unsigned int> indices;
+
+    // Vertices
+    for (size_t i = 0; i < mesh->mNumVertices; i++) {
+        // XYZ
+        vertices.insert(vertices.end(), { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z });
+
+        // UV
+        if (mesh->mTextureCoords[0])
+            vertices.insert(vertices.end(), { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y });
+        else
+            vertices.insert(vertices.end(), { 0.0f, 0.0f });
+
+        // Normals
+        vertices.insert(vertices.end(), { -mesh->mNormals[i].x, -mesh->mNormals[i].y, -mesh->mNormals[i].z });
+    }
+
+    // Faces
+    for (size_t i = 0; i < mesh->mNumFaces; i++) {
+        aiFace face = mesh->mFaces[i];
+        for (size_t j = 0; j < face.mNumIndices; j++)
+            indices.push_back(face.mIndices[j]);
+    }
+
+    smartin::graphics::Mesh* newMesh = new smartin::graphics::Mesh();
+    newMesh->Init(&vertices[0], &indices[0], vertices.size(), indices.size());
+
+    smartin::graphics::Material* material = LoadMaterial(mesh->mMaterialIndex, scene, shader);
+
+    return new smartin::graphics::Appearance(newMesh, material);
+}
+
+void LoadNode(smartin::graphics::Appearance* root, aiNode *node, const aiScene *scene, smartin::graphics::Shader* shader) {
+    for (size_t i = 0; i < node->mNumMeshes; i++) {
+        smartin::graphics::Appearance* appearance = LoadAppearanceFromFile(scene->mMeshes[node->mMeshes[i]], scene, shader);
+        root->children.push_back(appearance);
+    }
+
+    smartin::graphics::Appearance* newRoot = root;
+    if (!root->children.empty())
+        newRoot = root->children[0];
+
+    for (size_t i = 0; i < node->mNumChildren; i++)
+        LoadNode(newRoot, node->mChildren[i], scene, shader);
+}
+
+smartin::graphics::Appearance* loaders::LoadAppearance(std::string modelFilePath, smartin::graphics::Shader* shader) {
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(modelFilePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
+    if (scene == nullptr) {
+        smartin::utils::log::E("AssetUtils", "Failed to load model by path: " + modelFilePath + ":\n" + importer.GetErrorString());
+        return nullptr;
+    }
+
+    smartin::graphics::Appearance* root = new smartin::graphics::Appearance(nullptr, nullptr);
+    LoadNode(root, scene->mRootNode, scene, shader);
+
+    return root;
 }
 
 std::string GetNameByPath(std::string const &path) {

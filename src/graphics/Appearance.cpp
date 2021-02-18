@@ -9,8 +9,10 @@ void smartin::graphics::Appearance::Render() {
     for (smartin::graphics::Appearance* child : children)
         child->Render();
 
-    material->Apply();
-    mesh->Render();
+    if (material != nullptr)
+        material->Apply();
+    if (mesh != nullptr)
+        mesh->Render();
 }
 
 smartin::graphics::Appearance::~Appearance() { }

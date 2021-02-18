@@ -11,7 +11,7 @@ void smartin::graphics::RenderFor(base::Camera* camera) {
 
         glm::mat4 model = actor->GetTransform()->GetModelMatrix();
 
-        Shader* shader = actor->GetMaterial()->GetShader();
+        Shader* shader = utils::GetOrCreateShader("default");   // TODO
         shader->Validate();
         shader->Apply();
         shader->SetMatrix("projection", projection);

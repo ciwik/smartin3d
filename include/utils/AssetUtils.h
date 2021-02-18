@@ -5,6 +5,10 @@
 #include <string>
 #include <vector>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "base/Actor.h"
 #include "base/Camera.h"
 #include "graphics/Appearance.h"
@@ -26,11 +30,11 @@ namespace smartin::utils {
                              glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
                              glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    base::Actor* CreateActorWithModel3D(std::string name,
-                                        std::string modelFilePath = EMPTY,
-                                        glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                                        glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
-                                        glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+    base::Actor* CreateActorWithAppearance(std::string name,
+                                           std::string modelFileName = EMPTY,
+                                           glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                           glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
+                                           glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
     base::Camera* CreateCamera(float fov, float aspect,
                                glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
