@@ -77,7 +77,8 @@ smartin::base::Actor* smartin::utils::CreateActorWithModel3D(std::string name, s
         // TODO: Load hierarchy
         smartin::graphics::Mesh* mesh = new smartin::graphics::Mesh();
         smartin::graphics::Material* material = GetOrCreateMaterial("empty");
-        actor->SetAppearence(mesh, material);
+        graphics::Appearance* appearance = new graphics::Appearance(mesh, material);
+        actor->SetAppearance(appearance);
     }
 
     return actor;

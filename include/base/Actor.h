@@ -1,16 +1,15 @@
 #ifndef SMARTIN3D_ACTOR_H
 #define SMARTIN3D_ACTOR_H
 
-#include "graphics/Mesh.h"
+#include "graphics/Appearance.h"
 #include "Transform.h"
-#include "graphics/Material.h"
 
 namespace smartin::base {
     class Actor {
     public:
         Actor(Transform* transform = new Transform());
 
-        void SetAppearence(graphics::Mesh* mesh, graphics::Material* material);
+        void SetAppearance(graphics::Appearance* appearance);
 
         bool IsActive() const { return isActive; }
         void SetActive(bool mode) { isActive = mode; }
@@ -18,8 +17,8 @@ namespace smartin::base {
         bool IsRenderable() const;
 
         Transform* GetTransform() const { return transform; }
-        graphics::Mesh* GetMesh() const { return mesh; }
-        graphics::Material* GetMaterial() const { return material; }
+        graphics::Mesh* GetMesh() const { return appearance->mesh; }
+        graphics::Material* GetMaterial() const { return appearance->material; }
 
         virtual void Update();
 
@@ -29,8 +28,7 @@ namespace smartin::base {
 
     protected:
         Transform* transform = nullptr;
-        graphics::Mesh* mesh = nullptr;
-        graphics::Material* material = nullptr;
+        graphics::Appearance* appearance = nullptr;
 
     private:
         bool isActive;

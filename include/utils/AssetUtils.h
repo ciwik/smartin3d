@@ -7,6 +7,7 @@
 
 #include "base/Actor.h"
 #include "base/Camera.h"
+#include "graphics/Appearance.h"
 #include "graphics/Material.h"
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"

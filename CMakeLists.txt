@@ -172,6 +172,7 @@ set (HEADER_FILES
         include/base/Job.h
         include/base/Transform.h
 
+        include/graphics/Appearance.h
         include/graphics/Material.h
         include/graphics/Mesh.h
         include/graphics/Render.h
@@ -193,6 +194,7 @@ set (SOURCE_FILES
         src/base/Camera.cpp
         src/base/Transform.cpp
 
+        src/graphics/Appearance.cpp
         src/graphics/Material.cpp
         src/graphics/Mesh.cpp
         src/graphics/Render.cpp

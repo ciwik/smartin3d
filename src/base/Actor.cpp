@@ -11,11 +11,10 @@ smartin::base::Actor::~Actor() {
 }
 
 void smartin::base::Actor::Render() {
-    if (material == nullptr || mesh == nullptr)
+    if (!IsRenderable())
         return;
 
-    material->Apply();
-    mesh->Render();
+    appearance->Render();
 }
 
 smartin::base::Actor::Actor(smartin::base::Transform* _transform) {
@@ -23,13 +22,12 @@ smartin::base::Actor::Actor(smartin::base::Transform* _transform) {
     actors.push_back(this);
 }
 
-void smartin::base::Actor::SetAppearence(smartin::graphics::Mesh* _mesh, smartin::graphics::Material* _material) {
-    mesh = _mesh;
-    material = _material;
+void smartin::base::Actor::SetAppearance(smartin::graphics::Appearance* _appearance) {
+    appearance = _appearance;
 }
 
 bool smartin::base::Actor::IsRenderable() const {
-    return mesh != nullptr && material != nullptr;
+    return appearance != nullptr;
 }
 
 std::vector<smartin::base::Actor*> smartin::base::GetAllActors() {

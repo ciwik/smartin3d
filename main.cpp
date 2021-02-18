@@ -139,7 +139,7 @@ void CreateScene() {
     graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt");
     graphics::Material* material = utils::GetOrCreateMaterial("dirt");
 
-    actor->SetAppearence(mesh, material);
+    actor->SetAppearance(new graphics::Appearance(mesh, material));
 }
 
 void UpdateScene() {
