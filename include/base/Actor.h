@@ -33,8 +33,6 @@ namespace smartin::base {
     private:
         bool isActive;
     };
-
-    std::vector<Actor*> GetAllActors();
 }
 
 #endif //SMARTIN3D_ACTOR_H

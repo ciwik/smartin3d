@@ -48,25 +48,37 @@ namespace holders {
         materials[name] = material;
         return true;
     }
+
+    std::vector<smartin::base::Actor*> allActors;
+    std::map<std::string, smartin::base::Actor*> actors;
+    smartin::base::Actor* GetActor(std::string name) { return actors[name]; }
+    bool AddActor(std::string name, smartin::base::Actor* actor) {
+        if (actors[name] != actor && actors[name] != nullptr) {
+            smartin::utils::log::E("AssetUtils", "Actor already exists: " + name);
+            return false;
+        }
+
+        allActors.push_back(actor);
+        actors[name] = actor;
+        return true;
+    }
 }
 
 
 // Actors
-std::map<std::string, smartin::base::Actor*> actors;
-
 smartin::base::Actor* smartin::utils::FindActor(std::string name) {
-    return actors[name];
+    return holders::GetActor(name);
 }
 
 smartin::base::Actor* smartin::utils::CreateActor(std::string name, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
-    if (actors[name] != nullptr) {
+    if (holders::GetActor(name) != nullptr) {
         smartin::utils::log::E("AssetUtils", "Actor with the same name already exists: " + name);
         return nullptr;
     }
 
     base::Transform* transform = new base::Transform(position, size, eulerAngles);
     smartin::base::Actor* actor = new smartin::base::Actor(transform);
-    actors[name] = actor;
+    holders::AddActor(name, actor);
 
     return actor;
 }
@@ -84,13 +96,17 @@ smartin::base::Actor* smartin::utils::CreateActorWithModel3D(std::string name, s
     return actor;
 }
 
+std::vector<smartin::base::Actor*> smartin::utils::GetAllActors() {
+    return holders::allActors;
+}
+
 smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm::vec3 position, glm::vec3 eulerAngles) {
     base::Transform* transform = new base::Transform(position, glm::vec3(0.0f, 0.0f, 0.0f), eulerAngles);
     base::Camera* camera = new base::Camera(transform);
     camera->fieldOfView = fov;
     camera->aspect = aspect;
 
-    actors[DEFAULT_CAMERA_NAME] = camera;
+    holders::AddActor(DEFAULT_CAMERA_NAME, camera);
 
     return camera;
 }
@@ -177,6 +193,55 @@ smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string nam
         utils::log::E("AssetUtils", "Failed to find material: " + name);
 
     return result;
+}
+
+void smartin::utils::DestroyActor(std::string name) {
+    smartin::base::Actor* actor = holders::GetActor(name);
+    if (actor == nullptr) {
+        utils::log::E("AssetUtils", "Failed to find actor: " + name);
+        return;
+    }
+
+    holders::actors[name] = nullptr;
+    for (int i = 0; i < holders::allActors.size(); i++) {
+        if (holders::allActors[i] == actor) {
+            holders::allActors[i] = nullptr;
+        }
+    }
+    delete actor;
+}
+
+void smartin::utils::DestroyShader(std::string name) {
+    smartin::graphics::Shader* shader = holders::GetShader(name);
+    if (shader == nullptr) {
+        utils::log::E("AssetUtils", "Failed to find shader: " + name);
+        return;
+    }
+
+    holders::shaders[name] = nullptr;
+    delete shader;
+}
+
+void smartin::utils::DestroyTexture(std::string name) {
+    smartin::graphics::Texture* texture = holders::GetTexture(name);
+    if (texture == nullptr) {
+        utils::log::E("AssetUtils", "Failed to find texture: " + name);
+        return;
+    }
+
+    holders::textures[name] = nullptr;
+    delete texture;
+}
+
+void smartin::utils::DestroyMaterial(std::string name) {
+    smartin::graphics::Material* material = holders::GetMaterial(name);
+    if (material == nullptr) {
+        utils::log::E("AssetUtils", "Failed to find material: " + name);
+        return;
+    }
+
+    holders::materials[name] = nullptr;
+    delete material;
 }
 
 

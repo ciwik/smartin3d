@@ -4,7 +4,7 @@ void smartin::graphics::RenderFor(base::Camera* camera) {
     glm::mat4 projection = camera->GetProjectionMatrix();
     glm::mat4 view = camera->GetViewMatrix();
 
-    std::vector<base::Actor*> actors = base::GetAllActors();
+    std::vector<base::Actor*> actors = utils::GetAllActors();
     for (base::Actor* actor : actors) {
         if (!actor->IsRenderable() || !IsActorVisible(actor))
             continue;

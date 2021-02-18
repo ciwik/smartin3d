@@ -5,7 +5,8 @@
 
 #include "base/Actor.h"
 #include "base/Camera.h"
-#include "graphics/Material.h"
+#include "Material.h"
+#include "utils/AssetUtils.h"
 #include "Shader.h"
 
 namespace smartin::graphics {

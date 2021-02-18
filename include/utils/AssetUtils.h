@@ -19,6 +19,7 @@ namespace smartin::utils {
     const std::string DEFAULT_CAMERA_NAME = "camera";
 
     base::Actor* FindActor(std::string name);
+    std::vector<base::Actor*> GetAllActors();
 
     base::Actor* CreateActor(std::string name,
                              glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
@@ -35,12 +36,19 @@ namespace smartin::utils {
                                glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
                                glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
+    void DestroyActor(std::string name);
+
     graphics::Shader* GetOrCreateShader(std::string name = DEFAULT_SHADER_NAME);
+    void DestroyShader(std::string name);
+
     graphics::Texture* GetOrCreateTexture(std::string name);
+    void DestroyTexture(std::string name);
+
     graphics::Material* GetOrCreateMaterial(std::string name,
                                             std::string textureName = EMPTY,
                                             glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f),
                                             std::string shaderName = DEFAULT_SHADER_NAME);
+    void DestroyMaterial(std::string name);
 }
 
 #endif //SMARTIN3D_ASSETUTILS_H

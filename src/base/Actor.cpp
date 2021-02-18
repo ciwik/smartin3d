@@ -1,7 +1,5 @@
 #include "base/Actor.h"
 
-std::vector<smartin::base::Actor*> actors;
-
 void smartin::base::Actor::Update() {
     transform->Update();
 }
@@ -19,7 +17,6 @@ void smartin::base::Actor::Render() {
 
 smartin::base::Actor::Actor(smartin::base::Transform* _transform) {
     transform = _transform;
-    actors.push_back(this);
 }
 
 void smartin::base::Actor::SetAppearance(smartin::graphics::Appearance* _appearance) {
@@ -28,8 +25,4 @@ void smartin::base::Actor::SetAppearance(smartin::graphics::Appearance* _appeara
 
 bool smartin::base::Actor::IsRenderable() const {
     return appearance != nullptr;
-}
-
-std::vector<smartin::base::Actor*> smartin::base::GetAllActors() {
-    return actors;
 }

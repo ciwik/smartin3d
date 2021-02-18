@@ -130,8 +130,7 @@ void CreateScene() {
     };
     calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
-    base::Transform* transform = new base::Transform(glm::vec3(0.0f, 0.0f, -5.5f));
-    base::Actor* actor = new base::Actor(transform);
+    base::Actor* actor = utils::CreateActor("Test", glm::vec3(0.0f, 0.0f, -5.5f));
 
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 12);
@@ -143,7 +142,7 @@ void CreateScene() {
 }
 
 void UpdateScene() {
-    for (auto actor : base::GetAllActors())
+    for (auto actor : utils::GetAllActors())
         actor->Update();
 }
 
