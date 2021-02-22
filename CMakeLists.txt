@@ -180,6 +180,7 @@ set (HEADER_FILES
         include/graphics/Texture.h
         include/graphics/Window.h
 
+        include/utils/AssetPool.h
         include/utils/AssetUtils.h
         include/utils/External.h
         include/utils/FileUtils.h

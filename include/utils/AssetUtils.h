@@ -16,6 +16,7 @@
 #include "graphics/Shader.h"
 #include "graphics/Texture.h"
 #include "utils/External.h"
+#include "utils/AssetPool.h"
 
 namespace smartin::utils {
     const std::string DEFAULT_SHADER_NAME = "default";
