@@ -4,13 +4,14 @@
 #include <map>
 #include <vector>
 
-#include "Shader.h"
-#include "Texture.h"
+#include "graphics/Settings.h"
+#include "graphics/Shader.h"
+#include "graphics/Texture.h"
 
 namespace smartin::graphics {
     class Material {
     public:
-        Material(Shader* shader);
+        Material(Shader* shader, unsigned int textureUnit = -1);
 
         inline Shader* GetShader() const { return shader; }
 
@@ -24,6 +25,7 @@ namespace smartin::graphics {
     private:
         Texture* texture = nullptr;
         glm::vec3 color; bool hasColor;
+        unsigned int textureUnit;
 
         Shader* shader;
     };

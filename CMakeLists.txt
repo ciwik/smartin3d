@@ -217,7 +217,7 @@ set(PROJECT_VERSION "0.0.1")
 set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY} ${ASSIMP_LIBRARY})
 
 # Build engine library
-add_library(smartin3d SHARED ${HEADER_FILES} ${SOURCE_FILES})
+add_library(smartin3d SHARED ${HEADER_FILES} ${SOURCE_FILES} include/graphics/Settings.h)
 set_target_properties(smartin3d PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(smartin3d PUBLIC ${LIBS})
 

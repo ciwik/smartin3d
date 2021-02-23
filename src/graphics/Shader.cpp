@@ -55,11 +55,6 @@ void smartin::graphics::Shader::SetMatrix(const char* variable, glm::mat4 value)
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void smartin::graphics::Shader::SetTexture(const char* variable, smartin::graphics::Texture* value) {
-    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
-    glUniform1i(uniformLocation, value->id);
-}
-
 smartin::graphics::Shader::~Shader() {
     if (shaderProgramId != 0) {
         glDeleteProgram(shaderProgramId);
@@ -115,6 +110,11 @@ bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, 
     }
 
     return true;
+}
+
+void smartin::graphics::Shader::SetActiveTextureUnit(const char* variable, GLuint textureUnit) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
+    glUniform1i(uniformLocation, textureUnit);
 }
 
 void smartin::graphics::DisableShaders() {

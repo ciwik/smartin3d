@@ -1,6 +1,5 @@
 #include "graphics/Texture.h"
 
-
 smartin::graphics::Texture::Texture(int _width, int _height, int _depth) {
     id = 0;
 
@@ -28,8 +27,8 @@ bool smartin::graphics::Texture::Load(unsigned char* imageData) {
     return true;
 }
 
-void smartin::graphics::Texture::Apply() {
-    glActiveTexture(GL_TEXTURE2);
+void smartin::graphics::Texture::Apply(GLuint textureUnit) {
+    glActiveTexture(GL_TEXTURE0 + textureUnit);
     glBindTexture(GL_TEXTURE_2D, id);
 }
 

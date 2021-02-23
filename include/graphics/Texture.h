@@ -14,7 +14,7 @@ namespace smartin::graphics {
         Texture(int width, int height, int depth);
 
         bool Load(unsigned char* imageData);
-        void Apply();
+        void Apply(GLuint textureUnit);
 
         ~Texture();
 

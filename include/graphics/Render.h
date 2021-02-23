@@ -5,9 +5,10 @@
 
 #include "base/Actor.h"
 #include "base/Camera.h"
-#include "Material.h"
+#include "graphics/Material.h"
+#include "graphics/Shader.h"
+#include "graphics/Settings.h"
 #include "utils/AssetUtils.h"
-#include "Shader.h"
 
 namespace smartin::graphics {
     bool IsActorVisible(base::Actor* actor);

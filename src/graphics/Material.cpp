@@ -1,7 +1,11 @@
 #include "graphics/Material.h"
 
-smartin::graphics::Material::Material(smartin::graphics::Shader* _shader) {
+smartin::graphics::Material::Material(smartin::graphics::Shader* _shader, unsigned int _textureUnit) {
     shader = _shader;
+
+    if (_textureUnit == -1)
+        _textureUnit = settings::MainTextureUnit;
+    textureUnit = _textureUnit;
 }
 
 void smartin::graphics::Material::SetTexture(smartin::graphics::Texture* _texture) {
@@ -17,10 +21,8 @@ void smartin::graphics::Material::Apply() {
     if (hasColor)
         shader->SetVector3("mainColor", color);
 
-    if (texture != nullptr) {
-        texture->Apply();
-        shader->SetTexture("mainTex", texture);
-    }
+    if (texture != nullptr)
+        texture->Apply(textureUnit);
 }
 
 smartin::graphics::Material::~Material() { }

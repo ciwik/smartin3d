@@ -24,7 +24,7 @@ namespace smartin::graphics {
         void SetVector3(const char* variable, glm::vec3 value);
         void SetVector4(const char* variable, glm::vec4 value);
         void SetMatrix(const char* variable, glm::mat4 value);
-        void SetTexture(const char* variable, Texture* value);
+        void SetActiveTextureUnit(const char* variable, GLuint textureUnit);
 
         ~Shader();
 
