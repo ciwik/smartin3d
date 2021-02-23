@@ -16,27 +16,21 @@ namespace loaders {
     smartin::graphics::Appearance* LoadAppearance(std::string modelFilePath, smartin::graphics::Shader* shader);
 }
 
-namespace holders {
-    smartin::utils::AssetPool<smartin::graphics::Texture>* textures;
-    smartin::utils::AssetPool<smartin::graphics::Material>* materials;
-    smartin::utils::AssetPool<smartin::graphics::Shader>* shaders;
-    smartin::utils::AssetPool<smartin::base::Actor>* actors;
-}
 
 // Actors
 smartin::base::Actor* smartin::utils::FindActor(std::string name) {
-    return holders::actors->Get(name);
+    return holders::actors.Get(name);
 }
 
 smartin::base::Actor* smartin::utils::CreateActor(std::string name, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
-    if (holders::actors->Get(name) != nullptr) {
+    if (holders::actors.Get(name) != nullptr) {
         smartin::utils::log::E("AssetUtils", "Actor with the same name already exists: " + name);
         return nullptr;
     }
 
     base::Transform* transform = new base::Transform(position, size, eulerAngles);
     smartin::base::Actor* actor = new smartin::base::Actor(transform);
-    holders::actors->Add(name, actor);
+    holders::actors.Add(name, actor);
 
     return actor;
 }
@@ -53,7 +47,7 @@ smartin::base::Actor* smartin::utils::CreateActorWithAppearance(std::string name
 }
 
 std::vector<smartin::base::Actor*> smartin::utils::GetAllActors() {
-    return holders::actors->GetAll();
+    return holders::actors.GetAll();
 }
 
 smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm::vec3 position, glm::vec3 eulerAngles) {
@@ -62,7 +56,7 @@ smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm
     camera->fieldOfView = fov;
     camera->aspect = aspect;
 
-    holders::actors->Add(DEFAULT_CAMERA_NAME, camera);
+    holders::actors.Add(DEFAULT_CAMERA_NAME, camera);
 
     return camera;
 }
@@ -74,7 +68,7 @@ std::string GetNameByPath(std::string const &path);
 smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
     smartin::graphics::Shader* result = nullptr;
 
-    result = holders::shaders->Get(name);
+    result = holders::shaders.Get(name);
     if (result == nullptr) {
         std::string vertexShaderPath = SHADER_DIR + "/" + name + "." + VERTEX_SHADER_EXTENSION;
         std::string fragmentShaderPath = SHADER_DIR + "/" + name + "." + FRAGMENT_SHADER_EXTENSION;
@@ -82,7 +76,7 @@ smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
         result = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
         if (result != nullptr) {
             if (result->Compile() && result->Validate()) {
-                holders::shaders->Add(name, result);
+                holders::shaders.Add(name, result);
             } else {
                 delete result;
                 result = nullptr;
@@ -100,7 +94,7 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name)
     smartin::graphics::Texture* result = nullptr;
 
     std::string _name = GetNameByPath(name);
-    result = holders::textures->Get(_name);
+    result = holders::textures.Get(_name);
     if (result == nullptr) {
         std::string path = TEXTURE_DIR + "/" + name;
 
@@ -115,7 +109,7 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name)
             }
 
             if (result != nullptr)
-                holders::textures->Add(_name, result);
+                holders::textures.Add(_name, result);
         }
     }
 
@@ -128,7 +122,7 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name)
 smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string name, std::string textureName, glm::vec3 color, std::string shaderName) {
     smartin::graphics::Material* result = nullptr;
 
-    result = holders::materials->Get(name);
+    result = holders::materials.Get(name);
     if (result == nullptr) {
         smartin::graphics::Shader* shader = GetOrCreateShader(shaderName);
         if (shader != nullptr) {
@@ -141,7 +135,7 @@ smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string nam
 
             result->SetColor(color);
 
-            holders::materials->Add(name, result);
+            holders::materials.Add(name, result);
         }
     }
 
@@ -152,19 +146,19 @@ smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string nam
 }
 
 void smartin::utils::DestroyActor(std::string name) {
-    holders::actors->Remove(name);
+    holders::actors.Remove(name);
 }
 
 void smartin::utils::DestroyShader(std::string name) {
-    holders::shaders->Remove(name);
+    holders::shaders.Remove(name);
 }
 
 void smartin::utils::DestroyTexture(std::string name) {
-    holders::textures->Remove(name);
+    holders::textures.Remove(name);
 }
 
 void smartin::utils::DestroyMaterial(std::string name) {
-    holders::materials->Remove(name);
+    holders::materials.Remove(name);
 }
 
 
@@ -208,7 +202,7 @@ smartin::graphics::Material* LoadMaterial(unsigned int materialId, const aiScene
             texture = loaders::LoadTexture(filePath);
 
             textureName = GetNameByPath(filePath) + std::to_string(materialId) + std::to_string(materialCounter);
-            holders::textures->Add(textureName, texture);
+            smartin::utils::holders::textures.Add(textureName, texture);
         }
     }
 
@@ -218,7 +212,7 @@ smartin::graphics::Material* LoadMaterial(unsigned int materialId, const aiScene
         std::string materialName = textureName + std::to_string(materialCounter);
         result = new smartin::graphics::Material(shader);
         result->SetTexture(texture);
-        holders::materials->Add(materialName, result);
+        smartin::utils::holders::materials.Add(materialName, result);
         materialCounter++;
     }
 

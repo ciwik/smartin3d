@@ -11,7 +11,7 @@ namespace smartin::utils {
     template<class T>
     class AssetPool {
     public:
-        AssetPool();
+        AssetPool() {}
 
         T* Get(const std::string& name) { return items[name]; }
 

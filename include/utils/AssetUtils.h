@@ -54,6 +54,13 @@ namespace smartin::utils {
                                             glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f),
                                             std::string shaderName = DEFAULT_SHADER_NAME);
     void DestroyMaterial(std::string name);
+
+    namespace holders {
+        static AssetPool<graphics::Texture> textures;
+        static AssetPool<graphics::Material> materials;
+        static AssetPool<graphics::Shader> shaders;
+        static AssetPool<base::Actor> actors;
+    }
 }
 
 #endif //SMARTIN3D_ASSETUTILS_H
