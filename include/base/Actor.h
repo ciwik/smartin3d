@@ -11,14 +11,14 @@ namespace smartin::base {
 
         void SetAppearance(graphics::Appearance* appearance);
 
-        bool IsActive() const { return isActive; }
-        void SetActive(bool mode) { isActive = mode; }
+        inline bool IsActive() const { return isActive; }
+        inline void SetActive(bool mode) { isActive = mode; }
 
         bool IsRenderable() const;
 
-        Transform* GetTransform() const { return transform; }
-        graphics::Mesh* GetMesh() const { return appearance->mesh; }
-        graphics::Material* GetMaterial() const { return appearance->material; }
+        inline Transform* GetTransform() const { return transform; }
+        inline graphics::Mesh* GetMesh() const { return appearance->mesh; }
+        inline graphics::Material* GetMaterial() const { return appearance->material; }
 
         virtual void Update();
 

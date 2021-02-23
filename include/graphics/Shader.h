@@ -14,7 +14,7 @@
 namespace smartin::graphics {
     class Shader {
     public:
-        Shader(std::string vertexCode, std::string fragmentCode);
+        Shader(const std::string& vertexCode, const std::string& fragmentCode);
 
         bool Compile();
         bool Validate();
@@ -29,11 +29,11 @@ namespace smartin::graphics {
         ~Shader();
 
 private:
-        bool AddShader(std::string shaderCode, GLenum shaderType);
+        bool AddShader(const std::string& shaderCode, GLenum shaderType);
         bool CompileProgram();
 
-        bool CheckShaderStatus(GLuint shaderId, GLenum checkType, std::string tag);
-        bool CheckProgramStatus(GLuint programId, GLenum checkType, std::string tag);
+        bool CheckShaderStatus(GLuint shaderId, GLenum checkType, const std::string& tag);
+        bool CheckProgramStatus(GLuint programId, GLenum checkType, const std::string& tag);
 
         std::string vertexCode;
         std::string fragmentCode;

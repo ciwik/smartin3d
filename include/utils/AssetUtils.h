@@ -23,37 +23,37 @@ namespace smartin::utils {
     const std::string EMPTY = "";
     const std::string DEFAULT_CAMERA_NAME = "camera";
 
-    base::Actor* FindActor(std::string name);
+    base::Actor* FindActor(const std::string& name);
     std::vector<base::Actor*> GetAllActors();
 
-    base::Actor* CreateActor(std::string name,
-                             glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                             glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
-                             glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+    base::Actor* CreateActor(const std::string& name,
+                             const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                             const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
+                             const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    base::Actor* CreateActorWithAppearance(std::string name,
-                                           std::string modelFileName = EMPTY,
-                                           glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                                           glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
-                                           glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+    base::Actor* CreateActorWithAppearance(const std::string& name,
+                                           const std::string& modelFileName = EMPTY,
+                                           const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                           const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
+                                           const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
     base::Camera* CreateCamera(float fov, float aspect,
                                glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
                                glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    void DestroyActor(std::string name);
+    void DestroyActor(const std::string& name);
 
-    graphics::Shader* GetOrCreateShader(std::string name = DEFAULT_SHADER_NAME);
-    void DestroyShader(std::string name);
+    graphics::Shader* GetOrCreateShader(const std::string& name = DEFAULT_SHADER_NAME);
+    void DestroyShader(const std::string& name);
 
-    graphics::Texture* GetOrCreateTexture(std::string name);
-    void DestroyTexture(std::string name);
+    graphics::Texture* GetOrCreateTexture(const std::string& name);
+    void DestroyTexture(const std::string& name);
 
-    graphics::Material* GetOrCreateMaterial(std::string name,
-                                            std::string textureName = EMPTY,
-                                            glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f),
-                                            std::string shaderName = DEFAULT_SHADER_NAME);
-    void DestroyMaterial(std::string name);
+    graphics::Material* GetOrCreateMaterial(const std::string& name,
+                                            const std::string& textureName = EMPTY,
+                                            const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
+                                            const std::string& shaderName = DEFAULT_SHADER_NAME);
+    void DestroyMaterial(const std::string& name);
 
     namespace holders {
         static AssetPool<graphics::Texture> textures;

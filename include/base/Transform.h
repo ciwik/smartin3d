@@ -14,37 +14,37 @@ namespace smartin::base {
         // TODO: friend class ...
 
     public:
-        Transform(glm::vec3 position,
-                  glm::vec3 size,
-                  glm::vec3 eulerAngles);
+        Transform(const glm::vec3& position,
+                  const glm::vec3& size,
+                  const glm::vec3& eulerAngles);
 
-        Transform(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                  glm::vec3 size = glm::vec3(1.0f, 1.0f, 1.0f),
-                  glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f));
+        Transform(const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                  const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
+                  const glm::quat& rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f));
 
-        glm::vec3 GetPosition() const { return position; }
-        glm::vec3 GetSize() const { return size; }
-        glm::quat GetRotation() const { return rotation; }
+        inline glm::vec3 GetPosition() const { return position; }
+        inline glm::vec3 GetSize() const { return size; }
+        inline glm::quat GetRotation() const { return rotation; }
         glm::vec3 GetEulerAngles() const;
 
-        glm::mat4 GetModelMatrix() const { return modelMatrix; }
+        inline glm::mat4 GetModelMatrix() const { return modelMatrix; }
 
-        glm::vec3 GetRight() const { return glm::normalize(rotation * RIGHT); }
-        glm::vec3 GetUp() const { return glm::normalize(rotation * UP); }
-        glm::vec3 GetForward() const { return glm::normalize(rotation * FORWARD); }
+        inline glm::vec3 GetRight() const { return glm::normalize(rotation * RIGHT); }
+        inline glm::vec3 GetUp() const { return glm::normalize(rotation * UP); }
+        inline glm::vec3 GetForward() const { return glm::normalize(rotation * FORWARD); }
 
         void Update();
 
-        void Move(glm::vec3 direction);
-        void SetPosition(glm::vec3 position);
+        void Move(const glm::vec3& direction);
+        void SetPosition(const glm::vec3& position);
 
-        void Scale(glm::vec3 scale);
+        void Scale(const glm::vec3& scale);
         void Scale(GLfloat scale);
 
-        void Rotate(glm::quat additionalRotation);
-        void Rotate(glm::vec3 eulerAngles);
-        void RotateAround(glm::vec3 axis, GLfloat angle);
-        void SetRotation(glm::vec3 eulerAngles);
+        void Rotate(const glm::quat& additionalRotation);
+        void Rotate(const glm::vec3& eulerAngles);
+        void RotateAround(const glm::vec3& axis, GLfloat angle);
+        void SetRotation(const glm::vec3& eulerAngles);
 
         ~Transform();
 

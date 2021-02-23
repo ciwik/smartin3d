@@ -18,11 +18,11 @@ namespace loaders {
 
 
 // Actors
-smartin::base::Actor* smartin::utils::FindActor(std::string name) {
+smartin::base::Actor* smartin::utils::FindActor(const std::string& name) {
     return holders::actors.Get(name);
 }
 
-smartin::base::Actor* smartin::utils::CreateActor(std::string name, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
+smartin::base::Actor* smartin::utils::CreateActor(const std::string& name, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     if (holders::actors.Get(name) != nullptr) {
         smartin::utils::log::E("AssetUtils", "Actor with the same name already exists: " + name);
         return nullptr;
@@ -35,7 +35,7 @@ smartin::base::Actor* smartin::utils::CreateActor(std::string name, glm::vec3 po
     return actor;
 }
 
-smartin::base::Actor* smartin::utils::CreateActorWithAppearance(std::string name, std::string modelFileName, glm::vec3 position, glm::vec3 size, glm::vec3 eulerAngles) {
+smartin::base::Actor* smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     smartin::base::Actor* actor = CreateActor(name, position, size, eulerAngles);
     if (actor != nullptr) {
         std::string modelFilePath = MODEL_DIR + "/" + modelFileName;
@@ -63,9 +63,9 @@ smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm
 
 
 // Assets
-std::string GetNameByPath(std::string const &path);
+std::string GetNameByPath(const std::string& path);
 
-smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
+smartin::graphics::Shader* smartin::utils::GetOrCreateShader(const std::string& name) {
     smartin::graphics::Shader* result = nullptr;
 
     result = holders::shaders.Get(name);
@@ -90,7 +90,7 @@ smartin::graphics::Shader* smartin::utils::GetOrCreateShader(std::string name) {
     return result;
 }
 
-smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name) {
+smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(const std::string& name) {
     smartin::graphics::Texture* result = nullptr;
 
     std::string _name = GetNameByPath(name);
@@ -119,7 +119,7 @@ smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(std::string name)
     return result;
 }
 
-smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string name, std::string textureName, glm::vec3 color, std::string shaderName) {
+smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(const std::string& name, const std::string& _textureName, const glm::vec3& color, const std::string& shaderName) {
     smartin::graphics::Material* result = nullptr;
 
     result = holders::materials.Get(name);
@@ -128,7 +128,7 @@ smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string nam
         if (shader != nullptr) {
             result = new smartin::graphics::Material(shader);
 
-            if (textureName.empty()) textureName = name;
+            std::string textureName = _textureName.empty() ? name : _textureName;
             smartin::graphics::Texture* texture = GetOrCreateTexture(textureName);
             if (texture != nullptr)
                 result->SetTexture(texture);
@@ -145,19 +145,19 @@ smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(std::string nam
     return result;
 }
 
-void smartin::utils::DestroyActor(std::string name) {
+void smartin::utils::DestroyActor(const std::string& name) {
     holders::actors.Remove(name);
 }
 
-void smartin::utils::DestroyShader(std::string name) {
+void smartin::utils::DestroyShader(const std::string& name) {
     holders::shaders.Remove(name);
 }
 
-void smartin::utils::DestroyTexture(std::string name) {
+void smartin::utils::DestroyTexture(const std::string& name) {
     holders::textures.Remove(name);
 }
 
-void smartin::utils::DestroyMaterial(std::string name) {
+void smartin::utils::DestroyMaterial(const std::string& name) {
     holders::materials.Remove(name);
 }
 

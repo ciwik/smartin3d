@@ -5,7 +5,7 @@ smartin::graphics::Window::Window(GLuint _width, GLuint _height) {
     height = _height;
 }
 
-void smartin::graphics::Window::Instantiate(std::string title) {
+void smartin::graphics::Window::Instantiate(const std::string& title) {
     instance = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (instance == nullptr) {
         utils::log::E("OpenGL", "GLFW failed to create window");

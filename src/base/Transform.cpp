@@ -1,6 +1,6 @@
 #include "base/Transform.h"
 
-smartin::base::Transform::Transform(glm::vec3 _position, glm::vec3 _size, glm::vec3 _eulerAngles) {
+smartin::base::Transform::Transform(const glm::vec3& _position, const glm::vec3& _size, const glm::vec3& _eulerAngles) {
     position = _position;
     size = _size;
     rotation = glm::quat(_eulerAngles);
@@ -8,7 +8,7 @@ smartin::base::Transform::Transform(glm::vec3 _position, glm::vec3 _size, glm::v
     Update();
 }
 
-smartin::base::Transform::Transform(glm::vec3 _position, glm::vec3 _size, glm::quat _rotation) {
+smartin::base::Transform::Transform(const glm::vec3& _position, const glm::vec3& _size, const glm::quat& _rotation) {
     position = _position;
     size = _size;
     rotation = _rotation;
@@ -33,15 +33,15 @@ glm::vec3 smartin::base::Transform::GetEulerAngles() const {
     return glm::vec3(glm::degrees(roll), glm::degrees(pitch), glm::degrees(yaw));
 }
 
-void smartin::base::Transform::Move(glm::vec3 direction) {
+void smartin::base::Transform::Move(const glm::vec3& direction) {
     position += direction;
 }
 
-void smartin::base::Transform::SetPosition(glm::vec3 _position) {
+void smartin::base::Transform::SetPosition(const glm::vec3& _position) {
     position = _position;
 }
 
-void smartin::base::Transform::Scale(glm::vec3 scale) {
+void smartin::base::Transform::Scale(const glm::vec3& scale) {
     size *= scale;
 }
 
@@ -49,17 +49,17 @@ void smartin::base::Transform::Scale(GLfloat scale) {
     size *= scale;
 }
 
-void smartin::base::Transform::Rotate(glm::quat additionalRotation) {
+void smartin::base::Transform::Rotate(const glm::quat& additionalRotation) {
     rotation *= additionalRotation;
 }
 
-void smartin::base::Transform::RotateAround(glm::vec3 axis, GLfloat angle) {
+void smartin::base::Transform::RotateAround(const glm::vec3& axis, GLfloat angle) {
     float a = glm::radians(angle) / 2;
     glm::quat q = glm::quat(cos(a), axis.x * sin(a), axis.y * sin(a), axis.z * sin(a));
     rotation *= q;
 }
 
-glm::quat EulerAnglesToQuaternion(glm::vec3 eulerAngles) {
+glm::quat EulerAnglesToQuaternion(const glm::vec3& eulerAngles) {
     float pitch = glm::radians(eulerAngles.x);
     float yaw = glm::radians(eulerAngles.y);
     float roll = glm::radians(eulerAngles.z);
@@ -70,12 +70,12 @@ glm::quat EulerAnglesToQuaternion(glm::vec3 eulerAngles) {
     return q;
 }
 
-void smartin::base::Transform::Rotate(glm::vec3 eulerAngles) {
+void smartin::base::Transform::Rotate(const glm::vec3& eulerAngles) {
     glm::quat q = EulerAnglesToQuaternion(eulerAngles);
     Rotate(q);
 }
 
-void smartin::base::Transform::SetRotation(glm::vec3 eulerAngles) {
+void smartin::base::Transform::SetRotation(const glm::vec3& eulerAngles) {
     glm::quat q = EulerAnglesToQuaternion(eulerAngles);
     rotation = q;
 }

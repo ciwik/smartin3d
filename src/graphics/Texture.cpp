@@ -40,5 +40,4 @@ smartin::graphics::Texture::~Texture() {
     width = 0;
     height = 0;
     depth = 0;
-    filePath = nullptr;
 }

@@ -12,10 +12,10 @@ namespace smartin::graphics {
     public:
         Material(Shader* shader);
 
-        Shader* GetShader() const { return shader; }
+        inline Shader* GetShader() const { return shader; }
 
         void SetTexture(Texture* texture);
-        void SetColor(glm::vec3 color);
+        void SetColor(const glm::vec3& color);
 
         void Apply();
 

@@ -1,6 +1,6 @@
 #include "graphics/Shader.h"
 
-smartin::graphics::Shader::Shader(std::string _vertexCode, std::string _fragmentCode) {
+smartin::graphics::Shader::Shader(const std::string& _vertexCode, const std::string& _fragmentCode) {
     vertexCode = _vertexCode;
     fragmentCode = _fragmentCode;
     shaderProgramId = 0;
@@ -70,7 +70,7 @@ smartin::graphics::Shader::~Shader() {
     fragmentCode.clear();
 }
 
-bool smartin::graphics::Shader::AddShader(std::string shaderCode, GLenum shaderType) {
+bool smartin::graphics::Shader::AddShader(const std::string& shaderCode, GLenum shaderType) {
     GLuint shaderId = glCreateShader(shaderType);
     const GLchar* code[1]; code[0] = shaderCode.c_str();
     GLint codeLength[1] = { (int)shaderCode.size() };
@@ -91,7 +91,7 @@ bool smartin::graphics::Shader::CompileProgram() {
     return CheckProgramStatus(shaderProgramId, GL_LINK_STATUS, "link");
 }
 
-bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, std::string tag) {
+bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, const std::string& tag) {
     GLint result = 0;
     glGetShaderiv(id, checkType, &result);
     if (result != GL_TRUE) {
@@ -104,7 +104,7 @@ bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, s
     return true;
 }
 
-bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, std::string tag) {
+bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, const std::string& tag) {
     GLint result = 0;
     glGetProgramiv(id, checkType, &result);
     if (result != GL_TRUE) {

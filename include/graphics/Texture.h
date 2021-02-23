@@ -22,8 +22,6 @@ namespace smartin::graphics {
     private:
         GLenum type;
         int width, height, depth;
-
-        std::string filePath;
     };
 }
 

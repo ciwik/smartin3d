@@ -15,16 +15,16 @@ namespace smartin::graphics {
     public:
         Window(GLuint width, GLuint height);
 
-        void Instantiate(std::string title);
+        void Instantiate(const std::string& title);
         void Init();
         void PreRender();
         void Render();
 
-        GLuint GetWidth() const { return width; }
-        GLuint GetHeight() const { return height; }
-        float GetAspectRatio() const { return width / (float)height; }
+        inline GLuint GetWidth() const { return width; }
+        inline GLuint GetHeight() const { return height; }
+        inline float GetAspectRatio() const { return width / (float)height; }
 
-        GLFWwindow* GetInstance() const { return instance; }
+        inline GLFWwindow* GetInstance() const { return instance; }
 
         void Close();
         bool IsAboutToClose() const;

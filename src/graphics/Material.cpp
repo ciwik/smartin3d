@@ -8,7 +8,7 @@ void smartin::graphics::Material::SetTexture(smartin::graphics::Texture* _textur
     texture = _texture;
 }
 
-void smartin::graphics::Material::SetColor(glm::vec3 _color) {
+void smartin::graphics::Material::SetColor(const glm::vec3& _color) {
     color = _color;
     hasColor = true;
 }
