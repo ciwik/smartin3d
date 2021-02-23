@@ -180,6 +180,7 @@ set (HEADER_FILES
         include/graphics/Texture.h
         include/graphics/Window.h
 
+        include/utils/AssetLoader.h
         include/utils/AssetPool.h
         include/utils/AssetUtils.h
         include/utils/External.h
@@ -203,6 +204,7 @@ set (SOURCE_FILES
         src/graphics/Texture.cpp
         src/graphics/Window.cpp
 
+        src/utils/AssetLoader.cpp
         src/utils/AssetUtils.cpp
         src/utils/Input.cpp
         src/utils/Log.cpp

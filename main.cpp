@@ -44,7 +44,7 @@ int main() {
     utils::input::Init(window);
 
     // Scene
-    mainShader = utils::GetOrCreateShader();
+    mainShader = utils::CreateShader();
     mainCamera = utils::CreateCamera(45.0f, window->GetAspectRatio(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
     CreateScene();
 
@@ -130,13 +130,13 @@ void CreateScene() {
     };
     calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
-    base::Actor* actor = utils::CreateActor("Test", glm::vec3(0.0f, 0.0f, -5.5f));
+    base::Actor* actor = utils::CreateActor("test", glm::vec3(0.0f, 0.0f, -5.5f));
 
     graphics::Mesh* mesh = new graphics::Mesh();
     mesh->Init(vertices, indices, 32, 12);
 
-    graphics::Texture* dirtTex = utils::GetOrCreateTexture("dirt");
-    graphics::Material* material = utils::GetOrCreateMaterial("dirt");
+    graphics::Texture* dirtTex = utils::CreateTexture("dirt", "dirt.png");
+    graphics::Material* material = utils::CreateMaterial("dirt");
 
     actor->SetAppearance(new graphics::Appearance(mesh, material));
 

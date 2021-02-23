@@ -1,33 +1,11 @@
 #include "utils/AssetUtils.h"
 
-const std::string TEXTURE_DIR = "textures";
-const std::array<std::string, 3> SUPPORTED_TEXTURE_FORMATS = { "tga", "png", "jpg" };
-
-const std::string SHADER_DIR = "shaders";
-const std::string VERTEX_SHADER_EXTENSION = "vshader";
-const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
-
-const std::string MODEL_DIR = "models";
-
-namespace loaders {
-    smartin::graphics::Texture* LoadTexture(std::string filePath);
-    smartin::graphics::Shader* LoadShader(std::string vertexCodePath, std::string fragmentCodePath);
-
-    smartin::graphics::Appearance* LoadAppearance(std::string modelFilePath, smartin::graphics::Shader* shader);
-}
-
-
 // Actors
 smartin::base::Actor* smartin::utils::FindActor(const std::string& name) {
     return holders::actors.Get(name);
 }
 
 smartin::base::Actor* smartin::utils::CreateActor(const std::string& name, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
-    if (holders::actors.Get(name) != nullptr) {
-        smartin::utils::log::E("AssetUtils", "Actor with the same name already exists: " + name);
-        return nullptr;
-    }
-
     base::Transform* transform = new base::Transform(position, size, eulerAngles);
     smartin::base::Actor* actor = new smartin::base::Actor(transform);
     holders::actors.Add(name, actor);
@@ -38,8 +16,8 @@ smartin::base::Actor* smartin::utils::CreateActor(const std::string& name, const
 smartin::base::Actor* smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     smartin::base::Actor* actor = CreateActor(name, position, size, eulerAngles);
     if (actor != nullptr) {
-        std::string modelFilePath = MODEL_DIR + "/" + modelFileName;
-        graphics::Appearance* appearance = loaders::LoadAppearance(modelFilePath, GetOrCreateShader(DEFAULT_SHADER_NAME)); // TODO
+        std::string modelFilePath = smartin::utils::loaders::MODEL_DIR + "/" + modelFileName;
+        graphics::Appearance* appearance = loaders::LoadAppearance(modelFilePath, GetShader(DEFAULT_SHADER_NAME)); // TODO
         actor->SetAppearance(appearance);
     }
 
@@ -61,245 +39,79 @@ smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm
     return camera;
 }
 
-
-// Assets
-std::string GetNameByPath(const std::string& path);
-
-smartin::graphics::Shader* smartin::utils::GetOrCreateShader(const std::string& name) {
-    smartin::graphics::Shader* result = nullptr;
-
-    result = holders::shaders.Get(name);
-    if (result == nullptr) {
-        std::string vertexShaderPath = SHADER_DIR + "/" + name + "." + VERTEX_SHADER_EXTENSION;
-        std::string fragmentShaderPath = SHADER_DIR + "/" + name + "." + FRAGMENT_SHADER_EXTENSION;
-
-        result = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
-        if (result != nullptr) {
-            if (result->Compile() && result->Validate()) {
-                holders::shaders.Add(name, result);
-            } else {
-                delete result;
-                result = nullptr;
-            }
-        }
-    }
-
-    if (result == nullptr)
-        utils::log::E("AssetUtils", "Failed to find shader: " + name);
-
-    return result;
-}
-
-smartin::graphics::Texture* smartin::utils::GetOrCreateTexture(const std::string& name) {
-    smartin::graphics::Texture* result = nullptr;
-
-    std::string _name = GetNameByPath(name);
-    result = holders::textures.Get(_name);
-    if (result == nullptr) {
-        std::string path = TEXTURE_DIR + "/" + name;
-
-        result = loaders::LoadTexture(path);
-        if (result == nullptr) {
-            // Try to add all possible extensions
-            for (std::string ext : SUPPORTED_TEXTURE_FORMATS) {
-                std::string _path = path + "." + ext;
-                result = loaders::LoadTexture(_path);
-                if (result != nullptr)
-                    break;
-            }
-
-            if (result != nullptr)
-                holders::textures.Add(_name, result);
-        }
-    }
-
-    if (result == nullptr)
-        utils::log::E("AssetUtils", "Failed to find texture: " + name);
-
-    return result;
-}
-
-smartin::graphics::Material* smartin::utils::GetOrCreateMaterial(const std::string& name, const std::string& _textureName, const glm::vec3& color, const std::string& shaderName) {
-    smartin::graphics::Material* result = nullptr;
-
-    result = holders::materials.Get(name);
-    if (result == nullptr) {
-        smartin::graphics::Shader* shader = GetOrCreateShader(shaderName);
-        if (shader != nullptr) {
-            result = new smartin::graphics::Material(shader);
-
-            std::string textureName = _textureName.empty() ? name : _textureName;
-            smartin::graphics::Texture* texture = GetOrCreateTexture(textureName);
-            if (texture != nullptr)
-                result->SetTexture(texture);
-
-            result->SetColor(color);
-
-            holders::materials.Add(name, result);
-        }
-    }
-
-    if (result == nullptr)
-        utils::log::E("AssetUtils", "Failed to find material: " + name);
-
-    return result;
-}
-
 void smartin::utils::DestroyActor(const std::string& name) {
     holders::actors.Remove(name);
+}
+
+// Assets
+smartin::graphics::Shader* smartin::utils::GetShader(const std::string& name) {
+    return holders::shaders.Get(name);
+}
+
+smartin::graphics::Shader* smartin::utils::CreateShader(const std::string& name) {
+    graphics::Shader* shader = nullptr;
+
+    std::string vertexShaderPath = smartin::utils::loaders::SHADER_DIR + "/" + name + "." + smartin::utils::loaders::VERTEX_SHADER_EXTENSION;
+    std::string fragmentShaderPath = smartin::utils::loaders::SHADER_DIR + "/" + name + "." + smartin::utils::loaders::FRAGMENT_SHADER_EXTENSION;
+    shader = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
+
+    if (shader != nullptr && shader->Compile() && shader->Validate()) {
+        holders::shaders.Add(name, shader);
+    } else {
+        delete shader;
+        shader = nullptr;
+    }
+
+    return shader;
 }
 
 void smartin::utils::DestroyShader(const std::string& name) {
     holders::shaders.Remove(name);
 }
 
-void smartin::utils::DestroyTexture(const std::string& name) {
-    holders::textures.Remove(name);
+smartin::graphics::Texture* smartin::utils::GetTexture(const std::string& name) {
+    return holders::textures.Get(name);
 }
 
-void smartin::utils::DestroyMaterial(const std::string& name) {
-    holders::materials.Remove(name);
-}
+smartin::graphics::Texture* smartin::utils::CreateTexture(const std::string& name, const std::string& fileName) {
+    graphics::Texture* texture = nullptr;
 
+    std::string texturePath = loaders::TEXTURE_DIR + "/" + fileName;
+    texture = loaders::LoadTexture(texturePath);
 
-// Loaders
-smartin::graphics::Texture* loaders::LoadTexture(std::string filePath) {
-    smartin::graphics::Texture* texture = nullptr;
-
-    int width, height, depth;
-    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &depth, 0);
-    if (data != nullptr) {
-        texture = new smartin::graphics::Texture(width, height, depth);
-        texture->Load(data);
-        stbi_image_free(data);
-    }
+    if (texture != nullptr)
+        holders::textures.Add(name, texture);
 
     return texture;
 }
 
-smartin::graphics::Shader* loaders::LoadShader(std::string vertexCodePath, std::string fragmentCodePath) {
-    std::string vertexCode = smartin::utils::io::ReadFile(vertexCodePath);
-    std::string fragmentCode = smartin::utils::io::ReadFile(fragmentCodePath);
-
-    smartin::graphics::Shader* shader = new smartin::graphics::Shader(vertexCode.c_str(), fragmentCode.c_str());
-    return shader;
+void smartin::utils::DestroyTexture(const std::string& name) {
+    holders::textures.Remove(name);
 }
 
-static int materialCounter = 0;
-
-smartin::graphics::Material* LoadMaterial(unsigned int materialId, const aiScene* scene, smartin::graphics::Shader* shader) {
-    aiMaterial* material = scene->mMaterials[materialId];
-    if (material == nullptr)
-        return nullptr;
-
-    std::string textureName = "";
-    smartin::graphics::Texture* texture = nullptr;
-    if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
-        aiString path;
-        if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
-            int idx = std::string(path.data).rfind("\\");
-            std::string filePath = TEXTURE_DIR + "/" + std::string(path.data).substr(idx + 1);
-            texture = loaders::LoadTexture(filePath);
-
-            textureName = GetNameByPath(filePath) + std::to_string(materialId) + std::to_string(materialCounter);
-            smartin::utils::holders::textures.Add(textureName, texture);
-        }
-    }
-
-    smartin::graphics::Material* result = nullptr;
-
-    if (texture != nullptr) {
-        std::string materialName = textureName + std::to_string(materialCounter);
-        result = new smartin::graphics::Material(shader);
-        result->SetTexture(texture);
-        smartin::utils::holders::materials.Add(materialName, result);
-        materialCounter++;
-    }
-
-    return result;
+smartin::graphics::Material* smartin::utils::GetMaterial(const std::string& name) {
+    return holders::materials.Get(name);
 }
 
+smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& name, const std::string& textureName, const glm::vec3& color, const std::string& shaderName) {
+    graphics::Material* material = nullptr;
 
-smartin::graphics::Appearance* LoadAppearanceFromFile(aiMesh* mesh, const aiScene* scene, smartin::graphics::Shader* shader, std::vector<smartin::graphics::Material*> const &materials) {
-    smartin::graphics::Material* material = nullptr;
-    if (materials.size() > mesh->mMaterialIndex)
-        material = materials[mesh->mMaterialIndex];
+    graphics::Shader* shader = GetShader(shaderName);
+    if (shader != nullptr) {
+        material = new graphics::Material(shader);
+        material->SetColor(color);
 
-    if (material == nullptr)
-        return nullptr;
-
-    std::vector<GLfloat> vertices;
-    std::vector<unsigned int> indices;
-
-    // Vertices
-    for (size_t i = 0; i < mesh->mNumVertices; i++) {
-        // XYZ
-        vertices.insert(vertices.end(), { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z });
-
-        // UV
-        if (mesh->mTextureCoords[0])
-            vertices.insert(vertices.end(), { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y });
-        else
-            vertices.insert(vertices.end(), { 0.0f, 0.0f });
-
-        // Normals
-        vertices.insert(vertices.end(), { -mesh->mNormals[i].x, -mesh->mNormals[i].y, -mesh->mNormals[i].z });
+        graphics::Texture* texture = GetTexture(textureName);
+        if (texture != nullptr)
+            material->SetTexture(texture);
     }
 
-    // Faces
-    for (size_t i = 0; i < mesh->mNumFaces; i++) {
-        aiFace face = mesh->mFaces[i];
-        for (size_t j = 0; j < face.mNumIndices; j++)
-            indices.push_back(face.mIndices[j]);
-    }
+    if (material != nullptr)
+        holders::materials.Add(name, material);
 
-    smartin::graphics::Mesh* newMesh = new smartin::graphics::Mesh();
-    newMesh->Init(&vertices[0], &indices[0], vertices.size(), indices.size());
-
-    return new smartin::graphics::Appearance(newMesh, material);
+    return material;
 }
 
-void LoadNode(smartin::graphics::Appearance* root, aiNode *node, const aiScene *scene, smartin::graphics::Shader* shader, std::vector<smartin::graphics::Material*> const &materials) {
-    for (size_t i = 0; i < node->mNumMeshes; i++) {
-        smartin::graphics::Appearance* appearance = LoadAppearanceFromFile(scene->mMeshes[node->mMeshes[i]], scene, shader, materials);
-        if (appearance != nullptr)
-            root->children.push_back(appearance);
-    }
-
-    smartin::graphics::Appearance* newRoot = root;
-    if (!root->children.empty())
-        newRoot = root->children[0];
-
-    for (size_t i = 0; i < node->mNumChildren; i++)
-        LoadNode(newRoot, node->mChildren[i], scene, shader, materials);
-}
-
-smartin::graphics::Appearance* loaders::LoadAppearance(std::string modelFilePath, smartin::graphics::Shader* shader) {
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(modelFilePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
-    if (scene == nullptr) {
-        smartin::utils::log::E("AssetUtils", "Failed to load model by path: " + modelFilePath + ":\n" + importer.GetErrorString());
-        return nullptr;
-    }
-
-    std::vector<smartin::graphics::Material*> materials(scene->mNumMaterials);
-    for (int i = 0; i < scene->mNumMaterials; i++)
-        materials[i] = LoadMaterial(i, scene, shader);
-
-    smartin::graphics::Appearance* root = new smartin::graphics::Appearance(nullptr, nullptr);
-    LoadNode(root, scene->mRootNode, scene, shader, materials);
-
-    return root;
-}
-
-std::string GetNameByPath(std::string const &path) {
-    int dotPosition = path.length() - 1;
-    for (int i = path.length() - 1; i >= 0; i--) {
-        if (path[i] == '.') {
-            dotPosition = i;
-            break;
-        }
-    }
-
-    return path.substr(0, dotPosition + 1);
+void smartin::utils::DestroyMaterial(const std::string& name) {
+    holders::materials.Remove(name);
 }

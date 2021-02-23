@@ -5,17 +5,9 @@
 #include <string>
 #include <vector>
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 #include "base/Actor.h"
 #include "base/Camera.h"
-#include "graphics/Appearance.h"
-#include "graphics/Material.h"
-#include "graphics/Shader.h"
-#include "graphics/Texture.h"
-#include "utils/External.h"
+#include "utils/AssetLoader.h"
 #include "utils/AssetPool.h"
 
 namespace smartin::utils {
@@ -43,16 +35,19 @@ namespace smartin::utils {
 
     void DestroyActor(const std::string& name);
 
-    graphics::Shader* GetOrCreateShader(const std::string& name = DEFAULT_SHADER_NAME);
+    graphics::Shader* GetShader(const std::string& name = DEFAULT_SHADER_NAME);
+    graphics::Shader* CreateShader(const std::string& name = DEFAULT_SHADER_NAME);
     void DestroyShader(const std::string& name);
 
-    graphics::Texture* GetOrCreateTexture(const std::string& name);
+    graphics::Texture* GetTexture(const std::string& name);
+    graphics::Texture* CreateTexture(const std::string& name, const std::string& fileName);
     void DestroyTexture(const std::string& name);
 
-    graphics::Material* GetOrCreateMaterial(const std::string& name,
-                                            const std::string& textureName = EMPTY,
-                                            const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
-                                            const std::string& shaderName = DEFAULT_SHADER_NAME);
+    graphics::Material* GetMaterial(const std::string& name);
+    graphics::Material* CreateMaterial(const std::string& name,
+                                       const std::string& textureName = EMPTY,
+                                       const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
+                                       const std::string& shaderName = DEFAULT_SHADER_NAME);
     void DestroyMaterial(const std::string& name);
 
     namespace holders {
