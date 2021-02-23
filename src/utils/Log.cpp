@@ -2,7 +2,7 @@
 
 class Logger {
 public:
-    Logger(const std::ostream& stream) : out(stream.rdbuf()) { }
+    Logger(std::ostream& stream) : out(stream.rdbuf()) { }
 
     void Write(const std::string& tag, const std::string& message) {
         out << "[" << tag << "]: " << message << "\n";
@@ -17,7 +17,7 @@ private:
 
 Logger* logger;
 
-void smartin::utils::log::Init(const std::ostream& stream) {
+void smartin::utils::log::Init(std::ostream& stream) {
     if (logger != nullptr)
         delete logger;
 
