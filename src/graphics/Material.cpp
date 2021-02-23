@@ -14,8 +14,6 @@ void smartin::graphics::Material::SetColor(const glm::vec3& _color) {
 }
 
 void smartin::graphics::Material::Apply() {
-    shader->Apply();
-
     if (hasColor)
         shader->SetVector3("mainColor", color);
 
@@ -25,6 +23,4 @@ void smartin::graphics::Material::Apply() {
     }
 }
 
-smartin::graphics::Material::~Material() {
-    delete texture;
-}
+smartin::graphics::Material::~Material() { }

@@ -6,13 +6,8 @@ smartin::graphics::Appearance::Appearance(smartin::graphics::Mesh* _mesh, smarti
 }
 
 void smartin::graphics::Appearance::Render() {
-    for (smartin::graphics::Appearance* child : children)
-        child->Render();
-
-    if (material != nullptr)
-        material->Apply();
-    if (mesh != nullptr)
-        mesh->Render();
+    material->Apply();
+    mesh->Render();
 }
 
 smartin::graphics::Appearance::~Appearance() { }

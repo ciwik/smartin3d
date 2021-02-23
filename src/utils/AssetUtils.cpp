@@ -15,11 +15,8 @@ smartin::base::Actor* smartin::utils::CreateActor(const std::string& name, const
 
 smartin::base::Actor* smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     smartin::base::Actor* actor = CreateActor(name, position, size, eulerAngles);
-    if (actor != nullptr) {
-        std::string modelFilePath = smartin::utils::loaders::MODEL_DIR + "/" + modelFileName;
-        graphics::Appearance* appearance = loaders::LoadAppearance(modelFilePath, GetShader(DEFAULT_SHADER_NAME)); // TODO
-        actor->SetAppearance(appearance);
-    }
+    if (actor != nullptr)
+        loaders::LoadAppearanceForActor(actor, modelFileName, GetShader(DEFAULT_SHADER_NAME));  // TODO
 
     return actor;
 }
@@ -51,8 +48,8 @@ smartin::graphics::Shader* smartin::utils::GetShader(const std::string& name) {
 smartin::graphics::Shader* smartin::utils::CreateShader(const std::string& name) {
     graphics::Shader* shader = nullptr;
 
-    std::string vertexShaderPath = smartin::utils::loaders::SHADER_DIR + "/" + name + "." + smartin::utils::loaders::VERTEX_SHADER_EXTENSION;
-    std::string fragmentShaderPath = smartin::utils::loaders::SHADER_DIR + "/" + name + "." + smartin::utils::loaders::FRAGMENT_SHADER_EXTENSION;
+    std::string vertexShaderPath = name + "." + VERTEX_SHADER_EXTENSION;
+    std::string fragmentShaderPath = name + "." + FRAGMENT_SHADER_EXTENSION;
     shader = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
 
     if (shader != nullptr && shader->Compile() && shader->Validate()) {
@@ -74,10 +71,7 @@ smartin::graphics::Texture* smartin::utils::GetTexture(const std::string& name) 
 }
 
 smartin::graphics::Texture* smartin::utils::CreateTexture(const std::string& name, const std::string& fileName) {
-    graphics::Texture* texture = nullptr;
-
-    std::string texturePath = loaders::TEXTURE_DIR + "/" + fileName;
-    texture = loaders::LoadTexture(texturePath);
+    graphics::Texture* texture = loaders::LoadTexture(fileName);
 
     if (texture != nullptr)
         holders::textures.Add(name, texture);
@@ -104,6 +98,23 @@ smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& n
         graphics::Texture* texture = GetTexture(textureName);
         if (texture != nullptr)
             material->SetTexture(texture);
+    }
+
+    if (material != nullptr)
+        holders::materials.Add(name, material);
+
+    return material;
+}
+
+smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& name, smartin::graphics::Texture* texture) {
+    graphics::Material* material = nullptr;
+
+    if (texture != nullptr) {
+        graphics::Shader* shader = GetShader();
+        if (shader != nullptr) {
+            material = new graphics::Material(shader);
+            material->SetTexture(texture);
+        }
     }
 
     if (material != nullptr)

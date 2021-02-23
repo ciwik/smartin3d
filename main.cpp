@@ -138,7 +138,7 @@ void CreateScene() {
     graphics::Texture* dirtTex = utils::CreateTexture("dirt", "dirt.png");
     graphics::Material* material = utils::CreateMaterial("dirt");
 
-    actor->SetAppearance(new graphics::Appearance(mesh, material));
+    actor->AddAppearance(new graphics::Appearance(mesh, material));
 
     base::Actor* xwing = utils::CreateActorWithAppearance("xwing", "x-wing.obj", glm::vec3(-7.0f, 0.0f, 10.0f), glm::vec3(0.006f, 0.006f, 0.006f));
 }

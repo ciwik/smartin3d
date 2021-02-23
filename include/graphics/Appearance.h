@@ -17,7 +17,6 @@ namespace smartin::graphics {
 
         Mesh* mesh = nullptr;
         Material* material = nullptr;
-        std::vector<Appearance*> children;
     };
 }
 

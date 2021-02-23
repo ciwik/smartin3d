@@ -12,17 +12,19 @@ void smartin::base::Actor::Render() {
     if (!IsRenderable())
         return;
 
-    appearance->Render();
+    for (graphics::Appearance* appearance : appearances)
+        appearance->Render();
 }
 
 smartin::base::Actor::Actor(smartin::base::Transform* _transform) {
     transform = _transform;
 }
 
-void smartin::base::Actor::SetAppearance(smartin::graphics::Appearance* _appearance) {
-    appearance = _appearance;
+void smartin::base::Actor::AddAppearance(smartin::graphics::Appearance* appearance) {
+    if (appearance->material != nullptr && appearance->mesh != nullptr)
+        appearances.push_back(appearance);
 }
 
 bool smartin::base::Actor::IsRenderable() const {
-    return appearance != nullptr;
+    return !appearances.empty();
 }

@@ -12,7 +12,6 @@ smartin::graphics::Texture::Texture(int _width, int _height, int _depth) {
 }
 
 bool smartin::graphics::Texture::Load(unsigned char* imageData) {
-
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);
 
@@ -30,7 +29,7 @@ bool smartin::graphics::Texture::Load(unsigned char* imageData) {
 }
 
 void smartin::graphics::Texture::Apply() {
-    glActiveTexture(GL_TEXTURE1);
+    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, id);
 }
 

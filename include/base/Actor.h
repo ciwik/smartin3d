@@ -9,26 +9,20 @@ namespace smartin::base {
     public:
         Actor(Transform* transform = new Transform());
 
-        void SetAppearance(graphics::Appearance* appearance);
-
         inline bool IsActive() const { return isActive; }
         inline void SetActive(bool mode) { isActive = mode; }
-
-        bool IsRenderable() const;
-
         inline Transform* GetTransform() const { return transform; }
-        inline graphics::Mesh* GetMesh() const { return appearance->mesh; }
-        inline graphics::Material* GetMaterial() const { return appearance->material; }
-
         virtual void Update();
 
+        void AddAppearance(graphics::Appearance* appearance);
+        bool IsRenderable() const;
         void Render();
 
         ~Actor();
 
     protected:
         Transform* transform = nullptr;
-        graphics::Appearance* appearance = nullptr;
+        std::vector<graphics::Appearance*> appearances;
 
     private:
         bool isActive;

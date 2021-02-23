@@ -7,7 +7,9 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "base/Actor.h"
 #include "utils/External.h"
+#include "utils/ModelLoader.h"
 #include "graphics/Appearance.h"
 
 namespace smartin::utils::loaders {
@@ -16,13 +18,9 @@ namespace smartin::utils::loaders {
     const std::string SHADER_DIR = "shaders";
     const std::string MODEL_DIR = "models";
 
-    const std::string VERTEX_SHADER_EXTENSION = "vshader";
-    const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
-
-    graphics::Texture* LoadTexture(const std::string& filePath);
-    graphics::Shader* LoadShader(const std::string& vertexCodePath, const std::string& fragmentCodePath);
-    graphics::Appearance* LoadAppearance(const std::string& modelFilePath, graphics::Shader* shader);
+    graphics::Texture* LoadTexture(const std::string& fileName);
+    graphics::Shader* LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName);
+    void LoadAppearanceForActor(base::Actor* actor, const std::string& modelFileName, graphics::Shader* shader);
 }
-
 
 #endif //SMARTIN3D_ASSETLOADER_H

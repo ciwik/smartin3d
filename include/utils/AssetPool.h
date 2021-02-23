@@ -13,20 +13,22 @@ namespace smartin::utils {
     public:
         AssetPool() {}
 
-        T* Get(const std::string& name) { return items[name]; }
-
-        std::vector<T*> GetAll() const {
-            std::vector<T*> itemsArrayCopy = itemsArray;
-            return itemsArrayCopy;
+        T* Get(const std::string& name) {
+            if (items.find(name) != items.end())
+                return items[name];
+            return nullptr;
         }
 
+        std::vector<T*> GetAll() const { return itemsArray; }
+
         bool Add(const std::string& name, T* item) {
-            if (items.find(name) != items.end() && items[name] != item) {
+            if (items.find(name) != items.end()) {
                 smartin::utils::log::E("AssetPool", "Asset already exists: " + name);
                 return false;
             }
 
             items[name] = item;
+            itemsArray.push_back(item);
             return true;
         }
 
@@ -53,7 +55,7 @@ namespace smartin::utils {
         }
 
     private:
-        std::map<const std::string, T*> items;
+        std::map<std::string, T*> items;
         std::vector<T*> itemsArray;
     };
 }

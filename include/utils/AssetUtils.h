@@ -15,6 +15,9 @@ namespace smartin::utils {
     const std::string EMPTY = "";
     const std::string DEFAULT_CAMERA_NAME = "camera";
 
+    const std::string VERTEX_SHADER_EXTENSION = "vshader";
+    const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
+
     base::Actor* FindActor(const std::string& name);
     std::vector<base::Actor*> GetAllActors();
 
@@ -44,6 +47,8 @@ namespace smartin::utils {
     void DestroyTexture(const std::string& name);
 
     graphics::Material* GetMaterial(const std::string& name);
+    graphics::Material* CreateMaterial(const std::string& name,
+                                       graphics::Texture* texture);
     graphics::Material* CreateMaterial(const std::string& name,
                                        const std::string& textureName = EMPTY,
                                        const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),

@@ -187,6 +187,7 @@ set (HEADER_FILES
         include/utils/FileUtils.h
         include/utils/Input.h
         include/utils/Log.h
+        include/utils/ModelLoader.h
         include/utils/OpenGLContext.h
         include/utils/TimeUtils.h
 )
@@ -208,6 +209,7 @@ set (SOURCE_FILES
         src/utils/AssetUtils.cpp
         src/utils/Input.cpp
         src/utils/Log.cpp
+        src/utils/ModelLoader.cpp
         src/utils/TimeUtils.cpp
 )
 

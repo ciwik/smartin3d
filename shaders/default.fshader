@@ -10,6 +10,5 @@ uniform vec3 mainColor;
 
 void main()
 {
-	color = texture(mainTex, uv);
-	//color = vec4(mainColor, 1.0);
+	color = vec4(mainColor, 1.0) + texture(mainTex, uv);
 }
