@@ -13,7 +13,6 @@
 #include "graphics/Appearance.h"
 
 namespace smartin::utils::loaders {
-    const std::array<std::string, 3> SUPPORTED_TEXTURE_FORMATS = { "tga", "png", "jpg" };
     const std::string TEXTURE_DIR = "textures";
     const std::string SHADER_DIR = "shaders";
     const std::string MODEL_DIR = "models";

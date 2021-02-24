@@ -33,8 +33,8 @@ namespace smartin::utils {
                                            const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
     base::Camera* CreateCamera(float fov, float aspect,
-                               glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                               glm::vec3 eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+                               const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                               const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
     void DestroyActor(const std::string& name);
 

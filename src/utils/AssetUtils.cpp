@@ -25,7 +25,7 @@ std::vector<smartin::base::Actor*> smartin::utils::GetAllActors() {
     return holders::actors.GetAll();
 }
 
-smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, glm::vec3 position, glm::vec3 eulerAngles) {
+smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, const glm::vec3& position, const glm::vec3& eulerAngles) {
     base::Transform* transform = new base::Transform(position, glm::vec3(0.0f, 0.0f, 0.0f), eulerAngles);
     base::Camera* camera = new base::Camera(transform);
     camera->fieldOfView = fov;
