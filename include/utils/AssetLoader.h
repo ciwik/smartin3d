@@ -13,9 +13,10 @@
 #include "graphics/Appearance.h"
 
 namespace smartin::utils::loaders {
-    const std::string TEXTURE_DIR = "textures";
-    const std::string SHADER_DIR = "shaders";
-    const std::string MODEL_DIR = "models";
+    const std::string ASSETS_ROOT_DIR = "assets/";
+    const std::string TEXTURES_DIR = "textures/";
+    const std::string SHADERS_DIR = "shaders/";
+    const std::string MODELS_DIR = "models/";
 
     graphics::Texture* LoadTexture(const std::string& fileName);
     graphics::Shader* LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName);
