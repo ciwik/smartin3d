@@ -7,7 +7,7 @@ smartin::graphics::Mesh::Mesh() {
     indexNumber = 0;
 }
 
-void smartin::graphics::Mesh::Init(GLfloat *vertices, unsigned int *indices, unsigned int vertexNumber, unsigned int _indexNumber) {
+void smartin::graphics::Mesh::Init(const GLfloat* vertices, const unsigned int* indices, unsigned int vertexNumber, unsigned int _indexNumber) {
     indexNumber = _indexNumber;
     size_t indexSize = sizeof(indices[0]);
     size_t vertexSize = sizeof(vertices[0]);

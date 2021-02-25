@@ -7,11 +7,14 @@
 
 #include "base/Actor.h"
 #include "base/Camera.h"
+#include "graphics/Skybox.h"
 #include "utils/AssetLoader.h"
 #include "utils/AssetPool.h"
 
 namespace smartin::utils {
     const std::string DEFAULT_SHADER_NAME = "default";
+    const std::string DEFAULT_SKY_SHADER_NAME = "skybox";
+
     const std::string EMPTY = "";
     const std::string DEFAULT_CAMERA_NAME = "camera";
 
@@ -46,6 +49,10 @@ namespace smartin::utils {
     graphics::Texture* CreateTexture(const std::string& name, const std::string& fileName);
     void DestroyTexture(const std::string& name);
 
+    graphics::Skybox* GetSkybox();
+    graphics::Skybox* CreateSkybox(const std::array<std::string, 6>& faceTexturePaths);
+    void DestroySkybox();
+
     graphics::Material* GetMaterial(const std::string& name);
     graphics::Material* CreateMaterial(const std::string& name,
                                        graphics::Texture* texture);
@@ -60,6 +67,7 @@ namespace smartin::utils {
         static AssetPool<graphics::Material> materials;
         static AssetPool<graphics::Shader> shaders;
         static AssetPool<base::Actor> actors;
+        static graphics::Skybox* skybox;
     }
 }
 

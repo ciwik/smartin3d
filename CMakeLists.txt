@@ -178,6 +178,7 @@ set (HEADER_FILES
         include/graphics/Render.h
         include/graphics/Settings.h
         include/graphics/Shader.h
+        include/graphics/Skybox.h
         include/graphics/Texture.h
         include/graphics/Window.h
 
@@ -203,6 +204,7 @@ set (SOURCE_FILES
         src/graphics/Mesh.cpp
         src/graphics/Render.cpp
         src/graphics/Shader.cpp
+        src/graphics/Skybox.cpp
         src/graphics/Texture.cpp
         src/graphics/Window.cpp
 

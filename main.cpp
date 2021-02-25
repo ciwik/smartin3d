@@ -17,6 +17,7 @@ using namespace smartin;
 graphics::Window* window;
 std::vector<base::Job*> jobs;
 graphics::Shader* mainShader;
+graphics::Skybox* skybox;
 base::Camera* mainCamera;
 
 // Awake methods
@@ -47,6 +48,15 @@ int main() {
     mainShader = utils::CreateShader();
     mainCamera = utils::CreateCamera(45.0f, window->GetAspectRatio(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
     CreateScene();
+
+    skybox = utils::CreateSkybox({
+        "cupertin-lake_rt.tga",
+        "cupertin-lake_lf.tga",
+        "cupertin-lake_up.tga",
+        "cupertin-lake_dn.tga",
+        "cupertin-lake_bk.tga",
+        "cupertin-lake_ft.tga"
+    });
 
     // Jobs
     CreateJobs();

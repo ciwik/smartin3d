@@ -18,8 +18,8 @@ namespace smartin::graphics {
 
         ~Texture();
 
-        GLuint id;
     private:
+        GLuint id;
         GLenum type;
         int width, height, depth;
     };

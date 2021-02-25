@@ -8,7 +8,7 @@ namespace smartin::graphics {
     public:
         Mesh();
 
-        void Init(GLfloat* vertices, unsigned int* indices, unsigned int vertexNumber, unsigned int indexNumber);
+        void Init(const GLfloat* vertices, const unsigned int* indices, unsigned int vertexNumber, unsigned int indexNumber);
         void Render();
 
         ~Mesh();

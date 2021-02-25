@@ -126,3 +126,21 @@ smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& n
 void smartin::utils::DestroyMaterial(const std::string& name) {
     holders::materials.Remove(name);
 }
+
+smartin::graphics::Skybox* smartin::utils::GetSkybox() {
+    return holders::skybox;
+}
+
+smartin::graphics::Skybox* smartin::utils::CreateSkybox(const std::array<std::string, 6>& faceTexturePaths) {
+    graphics::Shader* shader = utils::GetShader(DEFAULT_SKY_SHADER_NAME);
+    if (shader == nullptr)
+        shader = utils::CreateShader(DEFAULT_SKY_SHADER_NAME);
+
+    holders::skybox = loaders::LoadSkybox(faceTexturePaths, shader);
+    return holders::skybox;
+}
+
+void smartin::utils::DestroySkybox() {
+    delete holders::skybox;
+    DestroyShader(DEFAULT_SKY_SHADER_NAME);
+}

@@ -19,6 +19,29 @@ smartin::graphics::Texture* smartin::utils::loaders::LoadTexture(const std::stri
     return texture;
 }
 
+smartin::graphics::Skybox* smartin::utils::loaders::LoadSkybox(const std::array<std::string, 6>& faceTexturePaths, graphics::Shader* shader) {
+    smartin::graphics::Skybox* skybox = nullptr;
+    std::array<unsigned char*, 6> imagesData;
+
+    int width, height, bitDepth;
+    for (size_t i = 0; i < faceTexturePaths.size(); i++) {
+        std::string filePath = BuildPath(SKYBOXES_DIR, faceTexturePaths[i]);
+        imagesData[i] = stbi_load(filePath.c_str(), &width, &height, &bitDepth, 0);
+        if (imagesData[i] == nullptr) {
+            utils::log::E("AssetLoader", "Couldn't find file at path: " + filePath);
+            return nullptr;
+        }
+    }
+
+    skybox = new graphics::Skybox(width, height);
+    skybox->Load(imagesData, shader);
+
+    for (size_t i = 0; i < imagesData.size(); i++)
+        stbi_image_free(imagesData[i]);
+
+    return skybox;
+}
+
 smartin::graphics::Shader* smartin::utils::loaders::LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName) {
     std::string vertexCodePath = BuildPath(SHADERS_DIR, vertexCodeName);
     std::string fragmentCodePath = BuildPath(SHADERS_DIR, fragmentCodeName);
