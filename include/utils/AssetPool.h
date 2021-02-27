@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include <vector>
+#include <list>
 
 #include "utils/Log.h"
 
@@ -19,7 +19,14 @@ namespace smartin::utils {
             return nullptr;
         }
 
-        std::vector<T*> GetAll() const { return itemsArray; }
+        std::vector<T*> GetAll() const {
+            std::vector<T*> result;
+
+            for (T* item : itemsList)
+                result.push_back(item);
+
+            return result;
+        }
 
         bool Add(const std::string& name, T* item) {
             if (items.find(name) != items.end()) {
@@ -28,35 +35,33 @@ namespace smartin::utils {
             }
 
             items[name] = item;
-            itemsArray.push_back(item);
+            itemsList.push_back(item);
             return true;
         }
 
-        void Remove(const std::string& name) {
-            T* item = items[name];
+        void Remove(T* item) {
             if (item != nullptr) {
-                for (int i = 0; i < itemsArray.size(); i++) {
-                    if (itemsArray[i] == item)
-                        itemsArray[i] = nullptr;
-                }
+                itemsList.remove(&(*item));
 
-                items[name] = nullptr;
+                for (const auto& [name, _item] : items) {
+                    if (item == _item) {
+                        items[name] = nullptr;
+                        break;
+                    }
+                }
 
                 delete item;
             }
         }
 
         ~AssetPool() {
-            for (T* item : itemsArray)
-                delete item;
-
-            itemsArray.clear();
+            itemsList.clear();
             items.clear();
         }
 
     private:
         std::map<std::string, T*> items;
-        std::vector<T*> itemsArray;
+        std::list<T*> itemsList;
     };
 }
 

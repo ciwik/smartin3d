@@ -51,9 +51,8 @@ void smartin::base::App::Close() {
 }
 
 smartin::base::App::~App() {
-    // TODO: Use utils::DestroyXXX()
     for (Actor* actor : utils::GetAllActors())
-        delete actor;
+        utils::DestroyActor(actor);
 
     for (Job* job : jobs)
         delete job;

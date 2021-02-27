@@ -3,7 +3,6 @@
 
 #include <array>
 #include <string>
-#include <vector>
 
 #include "base/Actor.h"
 #include "base/Camera.h"
@@ -39,15 +38,15 @@ namespace smartin::utils {
                                const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
                                const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    void DestroyActor(const std::string& name);
+    void DestroyActor(base::Actor* actor);
 
     graphics::Shader* GetShader(const std::string& name = DEFAULT_SHADER_NAME);
     graphics::Shader* CreateShader(const std::string& name = DEFAULT_SHADER_NAME);
-    void DestroyShader(const std::string& name);
+    void DestroyShader(graphics::Shader* shader);
 
     graphics::Texture* GetTexture(const std::string& name);
     graphics::Texture* CreateTexture(const std::string& name, const std::string& fileName);
-    void DestroyTexture(const std::string& name);
+    void DestroyTexture(graphics::Texture* texture);
 
     graphics::Skybox* GetSkybox();
     graphics::Skybox* CreateSkybox(const std::array<std::string, 6>& faceTexturePaths);
@@ -60,7 +59,7 @@ namespace smartin::utils {
                                        const std::string& textureName = EMPTY,
                                        const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
                                        const std::string& shaderName = DEFAULT_SHADER_NAME);
-    void DestroyMaterial(const std::string& name);
+    void DestroyMaterial(graphics::Material* material);
 
     namespace holders {
         static AssetPool<graphics::Texture> textures;

@@ -6,6 +6,8 @@ void smartin::base::Actor::Update() {
 
 smartin::base::Actor::~Actor() {
     delete transform;
+    for (smartin::graphics::Appearance* appearance : appearances)
+        delete appearance;
 }
 
 void smartin::base::Actor::Render() {
@@ -27,4 +29,13 @@ void smartin::base::Actor::AddAppearance(smartin::graphics::Appearance* appearan
 
 bool smartin::base::Actor::IsRenderable() const {
     return !appearances.empty();
+}
+
+std::vector<smartin::graphics::Material*> smartin::base::Actor::GetAllUsedMaterials() const {
+    std::vector<smartin::graphics::Material*> materials;
+
+    for (smartin::graphics::Appearance* appearance : appearances)
+        materials.push_back(appearance->material);
+
+    return materials;
 }

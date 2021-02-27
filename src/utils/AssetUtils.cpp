@@ -36,8 +36,11 @@ smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, con
     return camera;
 }
 
-void smartin::utils::DestroyActor(const std::string& name) {
-    holders::actors.Remove(name);
+void smartin::utils::DestroyActor(smartin::base::Actor* actor) {
+    for (graphics::Material* material : actor->GetAllUsedMaterials())
+        DestroyMaterial(material);
+
+    holders::actors.Remove(actor);
 }
 
 // Assets
@@ -62,8 +65,8 @@ smartin::graphics::Shader* smartin::utils::CreateShader(const std::string& name)
     return shader;
 }
 
-void smartin::utils::DestroyShader(const std::string& name) {
-    holders::shaders.Remove(name);
+void smartin::utils::DestroyShader(smartin::graphics::Shader* shader) {
+    holders::shaders.Remove(shader);
 }
 
 smartin::graphics::Texture* smartin::utils::GetTexture(const std::string& name) {
@@ -79,8 +82,8 @@ smartin::graphics::Texture* smartin::utils::CreateTexture(const std::string& nam
     return texture;
 }
 
-void smartin::utils::DestroyTexture(const std::string& name) {
-    holders::textures.Remove(name);
+void smartin::utils::DestroyTexture(smartin::graphics::Texture* texture) {
+    holders::textures.Remove(texture);
 }
 
 smartin::graphics::Material* smartin::utils::GetMaterial(const std::string& name) {
@@ -123,8 +126,12 @@ smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& n
     return material;
 }
 
-void smartin::utils::DestroyMaterial(const std::string& name) {
-    holders::materials.Remove(name);
+void smartin::utils::DestroyMaterial(smartin::graphics::Material* material) {
+    graphics::Texture* texture = material->GetTexture();
+    if (texture != nullptr)
+        DestroyTexture(texture);
+
+    holders::materials.Remove(material);
 }
 
 smartin::graphics::Skybox* smartin::utils::GetSkybox() {
@@ -142,5 +149,4 @@ smartin::graphics::Skybox* smartin::utils::CreateSkybox(const std::array<std::st
 
 void smartin::utils::DestroySkybox() {
     delete holders::skybox;
-    DestroyShader(DEFAULT_SKY_SHADER_NAME);
 }

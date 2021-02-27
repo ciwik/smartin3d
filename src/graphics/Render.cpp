@@ -18,8 +18,7 @@ void smartin::graphics::RenderFor(base::Camera* camera) {
     mainShader->SetMatrix("projection", projection);
     mainShader->SetMatrix("view", view);
 
-    std::vector<base::Actor*> actors = utils::GetAllActors();
-    for (base::Actor* actor : actors) {
+    for (base::Actor* actor : utils::GetAllActors()) {
         if (!actor->IsRenderable() || !IsActorVisible(actor))
             continue;
 

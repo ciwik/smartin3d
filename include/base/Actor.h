@@ -16,6 +16,7 @@ namespace smartin::base {
 
         void AddAppearance(graphics::Appearance* appearance);
         bool IsRenderable() const;
+        std::vector<graphics::Material*> GetAllUsedMaterials() const;
         void Render();
 
         ~Actor();

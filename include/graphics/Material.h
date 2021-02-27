@@ -14,6 +14,7 @@ namespace smartin::graphics {
         Material(Shader* shader, unsigned int textureUnit = -1);
 
         inline Shader* GetShader() const { return shader; }
+        inline Texture* GetTexture() const { return texture; }
 
         void SetTexture(Texture* texture);
         void SetColor(const glm::vec3& color);

@@ -10,4 +10,6 @@ void smartin::graphics::Appearance::Render() {
     mesh->Render();
 }
 
-smartin::graphics::Appearance::~Appearance() { }
+smartin::graphics::Appearance::~Appearance() {
+    delete mesh;
+}

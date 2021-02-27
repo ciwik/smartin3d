@@ -82,4 +82,5 @@ void smartin::graphics::Skybox::Apply(GLuint textureUnit, const glm::mat4& _view
 
 smartin::graphics::Skybox::~Skybox() {
     delete mesh;
+    glDeleteTextures(1, &id);
 }
