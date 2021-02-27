@@ -164,10 +164,11 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include include/base/actors include/jobs include/3rdparty)
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include)
 
 set (HEADER_FILES
         include/base/Actor.h
+        include/base/App.h
         include/base/Camera.h
         include/base/Job.h
         include/base/Transform.h
@@ -196,6 +197,7 @@ set (HEADER_FILES
 
 set (SOURCE_FILES
         src/base/Actor.cpp
+        src/base/App.cpp
         src/base/Camera.cpp
         src/base/Transform.cpp
 

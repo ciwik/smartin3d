@@ -15,7 +15,7 @@ namespace smartin::graphics {
     public:
         Window(GLuint width, GLuint height);
 
-        void Instantiate(const std::string& title);
+        bool Instantiate(const std::string& title);
         void Init();
         void PreRender();
         void Render();

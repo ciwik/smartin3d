@@ -1,115 +1,7 @@
-#pragma comment(lib, "legacy_stdio_definitions.lib")
-
-#include <iostream>
-#include <vector>
-
-#include "base/Job.h"
-#include "utils/OpenGLContext.h"
-#include "graphics/Window.h"
-#include "utils/TimeUtils.h"
-#include "utils/AssetUtils.h"
-#include "utils/Input.h"
-#include "graphics/Render.h"
+#include "base/App.h"
 
 using namespace smartin;
 
-// Variables
-graphics::Window* window;
-std::vector<base::Job*> jobs;
-graphics::Shader* mainShader;
-graphics::Skybox* skybox;
-base::Camera* mainCamera;
-
-// Awake methods
-void CreateScene();
-graphics::Window* CreateWindow(int width, int height, const char* title);
-void CreateJobs();
-
-// Update methods
-void UpdateJobs();
-void UpdateScene();
-
-// Destroy methods
-void Exit();
-
-int main() {
-    // Log
-    utils::log::Init(std::cout);
-
-    // Window
-    window = CreateWindow(1280, 720, "Test window");
-
-    // Input
-    utils::input::mouse::settings::invertYAxis = true;
-    utils::input::mouse::settings::showCursor = false;
-    utils::input::Init(window);
-
-    // Scene
-    mainShader = utils::CreateShader();
-    mainCamera = utils::CreateCamera(45.0f, window->GetAspectRatio(), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
-    CreateScene();
-
-    skybox = utils::CreateSkybox({
-        "cupertin-lake_rt.tga",
-        "cupertin-lake_lf.tga",
-        "cupertin-lake_up.tga",
-        "cupertin-lake_dn.tga",
-        "cupertin-lake_bk.tga",
-        "cupertin-lake_ft.tga"
-    });
-
-    // Jobs
-    CreateJobs();
-
-    // Main loop
-    while (!window->IsAboutToClose()) {
-        utils::time::Update();
-        utils::input::Update();
-
-        // PreRender
-        window->PreRender();
-
-        // Update objects
-        UpdateScene();
-        UpdateJobs();
-
-        // Render
-        graphics::RenderFor(mainCamera);
-        window->Render();
-    }
-
-    Exit();
-
-    return 0;
-}
-
-void CreateScene() {
-    utils::CreateActorWithAppearance("xwing", "x-wing.obj", glm::vec3(-7.0f, 0.0f, 10.0f), glm::vec3(0.006f, 0.006f, 0.006f));
-    utils::CreateActorWithAppearance("blackhawk", "uh60.obj", glm::vec3(-8.0f, 2.0f, 0.0f), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(-90.0f, 0.0f, 0.0f));
-}
-
-void UpdateScene() {
-    for (auto actor : utils::GetAllActors())
-        actor->Update();
-}
-
-graphics::Window* CreateWindow(int width, int height, const char* title) {
-    utils::context::InitGLFW();
-
-    graphics::Window* window = new graphics::Window(width, height);
-    window->Instantiate(title);
-
-    utils::context::InitGLEW();
-    window->Init();
-
-    return window;
-}
-
-void Exit() {
-    // TODO
-}
-
-// Jobs
 class CameraMovementJob : public base::Job {
 public:
     CameraMovementJob(base::Camera* _camera, float _speed, float _turnSpeed) {
@@ -119,9 +11,6 @@ public:
     }
 
     void Tick() override {
-        if (utils::input::keyboard::IsKey(KEY_ESCAPE))
-            window->Close();
-
         glm::vec3 forward = cameraTransform->GetForward();
         glm::vec3 right = cameraTransform->GetRight();
         glm::vec3 up = cameraTransform->GetUp();
@@ -161,7 +50,6 @@ public:
             pitch = -89.0f;
 
         cameraTransform->Rotate(glm::vec3(pitch, yaw, 0.0f));
-
     }
 
 private:
@@ -169,12 +57,26 @@ private:
     float speed, turnSpeed;
 };
 
-void CreateJobs() {
-    base::Job* job = new CameraMovementJob(mainCamera, 2.0f, 0.5f);
-    jobs.push_back(job);
-}
+int main() {
+    auto app = new base::App("Test", 1280, 720);
+    app->Init();
 
-void UpdateJobs() {
-    for (auto job : jobs)
-        job->Tick();
+    app->CreateCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
+    app->SetSkybox({
+       "cupertin-lake_rt.tga",
+       "cupertin-lake_lf.tga",
+       "cupertin-lake_up.tga",
+       "cupertin-lake_dn.tga",
+       "cupertin-lake_bk.tga",
+       "cupertin-lake_ft.tga"
+    });
+
+    app->AddActor("xwing", "x-wing.obj", glm::vec3(-7.0f, 0.0f, 10.0f), glm::vec3(0.006f, 0.006f, 0.006f));
+    app->AddActor("blackhawk", "uh60.obj", glm::vec3(-8.0f, 2.0f, 0.0f), glm::vec3(0.4f, 0.4f, 0.4f), glm::vec3(-90.0f, 0.0f, 0.0f));
+
+    app->AddJob(new CameraMovementJob(app->GetCamera(), 2.0f, 0.5f));
+
+    app->Run();
+
+    return 0;
 }
