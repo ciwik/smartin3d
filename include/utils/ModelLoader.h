@@ -21,7 +21,7 @@ namespace smartin::utils {
         ModelLoader(const std::string& filePath);
 
         void Load();
-        void ConvertToAppearances(std::vector<std::unique_ptr<graphics::Appearance>>& appearances);
+        void ApplyToActor(std::shared_ptr<base::Actor> actor);
 
         ~ModelLoader();
 

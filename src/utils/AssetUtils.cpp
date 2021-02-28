@@ -16,7 +16,7 @@ std::shared_ptr<smartin::base::Actor> smartin::utils::CreateActor(const std::str
 std::shared_ptr<smartin::base::Actor> smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     auto actor = CreateActor(name, position, size, eulerAngles);
     if (actor != nullptr)
-        loaders::LoadAppearanceForActor(actor, modelFileName, GetShader(DEFAULT_SHADER_NAME));  // TODO
+        loaders::LoadAppearanceForActor(actor, modelFileName);  // TODO
 
     return actor;
 }

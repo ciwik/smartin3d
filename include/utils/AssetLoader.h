@@ -23,7 +23,7 @@ namespace smartin::utils::loaders {
     std::shared_ptr<graphics::Texture> LoadTexture(const std::string& fileName);
     std::shared_ptr<graphics::Skybox> LoadSkybox(const std::array<std::string, 6>& faceTexturePaths, std::shared_ptr<graphics::Shader> shader);
     std::shared_ptr<graphics::Shader> LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName);
-    void LoadAppearanceForActor(std::shared_ptr<base::Actor> actor, const std::string& modelFileName, std::shared_ptr<graphics::Shader> shader);
+    void LoadAppearanceForActor(std::shared_ptr<base::Actor> actor, const std::string& modelFileName);
 }
 
 #endif //SMARTIN3D_ASSETLOADER_H

@@ -20,22 +20,11 @@ smartin::base::Actor::Actor(std::shared_ptr<Transform> _transform) {
     transform = _transform;
 }
 
-void smartin::base::Actor::AddAppearance(std::unique_ptr<graphics::Appearance> appearance) {
-    if (appearance->material != nullptr && appearance->mesh != nullptr)
-        appearances.push_back(std::move(appearance));
+void smartin::base::Actor::AddAppearance(std::unique_ptr<graphics::Mesh> mesh, std::shared_ptr<graphics::Material> material) {
+    if (material != nullptr && mesh != nullptr)
+        appearances.push_back(std::make_unique<graphics::Appearance>(std::move(mesh), material));
 }
 
 bool smartin::base::Actor::IsRenderable() const {
     return !appearances.empty() && isActive;
-}
-
-std::vector<std::shared_ptr<smartin::graphics::Material>> smartin::base::Actor::GetAllUsedMaterials() const {
-    std::vector<std::shared_ptr<smartin::graphics::Material>> materials;
-
-    if (isActive) {
-        for (const auto &appearance : appearances)
-            materials.push_back(appearance->material);
-    }
-
-    return materials;
 }

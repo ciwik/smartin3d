@@ -15,6 +15,4 @@ glm::mat4 smartin::base::Camera::GetProjectionMatrix() {
     return glm::perspective(fieldOfView, aspect, nearPlane, farPlane);
 }
 
-smartin::base::Camera::~Camera() {
-
-}
+smartin::base::Camera::~Camera() { }

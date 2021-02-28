@@ -63,8 +63,5 @@ smartin::graphics::Mesh::~Mesh() {
     if (vao != 0)
         glDeleteBuffers(1, &vao);
 
-    vao = 0;
-    vbo = 0;
-    ibo = 0;
     indexNumber = 0;
 }

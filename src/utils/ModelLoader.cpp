@@ -75,14 +75,13 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
                 int idx = std::string(path.data).rfind("\\");
                 std::string fileName = std::string(path.data).substr(idx + 1);
 
-                textures[i] = loaders::LoadTexture(fileName);
+                textures[i] = CreateTexture(fileName, fileName);
             }
         }
     }
 }
 
-void smartin::utils::ModelLoader::ConvertToAppearances(std::vector<std::unique_ptr<graphics::Appearance>>& appearances) {
-    appearances.reserve(textures.size());
+void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> actor) {
     int materialCounterBase = 12 + (rand() % 918);
 
     for (int i = 0; i < meshes.size(); i++) {
@@ -94,8 +93,7 @@ void smartin::utils::ModelLoader::ConvertToAppearances(std::vector<std::unique_p
             if (material == nullptr)
                 material = utils::CreateMaterial(materialName, texture);
 
-            auto appearance = std::make_unique<graphics::Appearance>(std::move(meshes[i]), material);
-            appearances.push_back(std::move(appearance));
+            actor->AddAppearance(std::move(meshes[i]), material);
         }
     }
 }

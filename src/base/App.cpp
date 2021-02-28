@@ -33,7 +33,7 @@ void smartin::base::App::Run() {
         window->PreRender();
 
         // Update objects
-        for (const auto& actor : utils::GetAllActors())
+        for (auto& actor : utils::GetAllActors())
             actor->Update();
 
         // Update jobs
@@ -54,7 +54,7 @@ void smartin::base::App::Close() {
 }
 
 smartin::base::App::~App() {
-    for (const auto& actor : utils::GetAllActors())
+    for (auto& actor : utils::GetAllActors())
         utils::DestroyActor(actor);
 
     jobs.clear();

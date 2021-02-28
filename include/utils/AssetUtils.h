@@ -62,7 +62,7 @@ namespace smartin::utils {
                                         const std::string& shaderName = DEFAULT_SHADER_NAME);
 
     namespace holders {
-        static AssetPool<graphics::Texture> textures;
+        static AssetPool<graphics::Texture> textures (true);
         static AssetPool<graphics::Material> materials (true);
         static AssetPool<graphics::Shader> shaders;
         static AssetPool<base::Actor> actors;

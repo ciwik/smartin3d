@@ -14,9 +14,8 @@ namespace smartin::base {
         inline std::shared_ptr<Transform> GetTransform() const { return transform; }
         virtual void Update();
 
-        void AddAppearance(std::unique_ptr<graphics::Appearance> appearance);
+        void AddAppearance(std::unique_ptr<graphics::Mesh> mesh, std::shared_ptr<graphics::Material> material);
         bool IsRenderable() const;
-        std::vector<std::shared_ptr<graphics::Material>> GetAllUsedMaterials() const;
         void Render();
 
         ~Actor();

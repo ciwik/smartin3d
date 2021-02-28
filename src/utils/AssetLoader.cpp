@@ -53,15 +53,10 @@ std::shared_ptr<smartin::graphics::Shader> smartin::utils::loaders::LoadShader(c
     return shader;
 }
 
-void smartin::utils::loaders::LoadAppearanceForActor(std::shared_ptr<base::Actor> actor, const std::string& modelFileName, std::shared_ptr<smartin::graphics::Shader> shader) {
+void smartin::utils::loaders::LoadAppearanceForActor(std::shared_ptr<base::Actor> actor, const std::string& modelFileName) {
     std::string modelFilePath = BuildPath(MODELS_DIR, modelFileName);
 
     auto loader = std::make_unique<ModelLoader>(modelFilePath);
     loader->Load();
-
-    std::vector<std::unique_ptr<graphics::Appearance>> appearances;
-    loader->ConvertToAppearances(appearances);
-
-    for (auto& appearance : appearances)
-        actor->AddAppearance(std::move(appearance));
+    loader->ApplyToActor(actor);
 }
