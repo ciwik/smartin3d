@@ -26,14 +26,16 @@ void smartin::base::Actor::AddAppearance(std::unique_ptr<graphics::Appearance> a
 }
 
 bool smartin::base::Actor::IsRenderable() const {
-    return !appearances.empty();
+    return !appearances.empty() && isActive;
 }
 
 std::vector<std::shared_ptr<smartin::graphics::Material>> smartin::base::Actor::GetAllUsedMaterials() const {
     std::vector<std::shared_ptr<smartin::graphics::Material>> materials;
 
-    for (const auto& appearance : appearances)
-        materials.push_back(appearance->material);
+    if (isActive) {
+        for (const auto &appearance : appearances)
+            materials.push_back(appearance->material);
+    }
 
     return materials;
 }

@@ -11,7 +11,7 @@ namespace smartin::utils {
     template<class T>
     class AssetPool {
     public:
-        AssetPool() {}
+        AssetPool(bool _autoCollect = false) : autoCollect(_autoCollect) { }
 
         std::shared_ptr<T> Get(const std::string& name) {
             if (items.find(name) != items.end())
@@ -40,16 +40,34 @@ namespace smartin::utils {
         }
 
         void Remove(std::shared_ptr<T> item) {
-            if (item != nullptr) {
+            if (item != nullptr)
+                toCollect.push_back(item);
+        }
+
+        void CollectGarbage() {
+            if (autoCollect) {
+                for (auto const &item : itemsList) {
+                    if (item.use_count() == 2)  // if object is referenced only in pool
+                        toCollect.push_back(item);
+                }
+            }
+
+            for (auto const& item : toCollect) {
                 itemsList.remove(item);
 
-                for (const auto& [name, _item] : items) {
+                std::string name= "";
+                for (const auto& [_name, _item] : items) {
                     if (item == _item) {
-                        items[name] = nullptr;
+                        name = _name;
                         break;
                     }
                 }
+
+                if (!name.empty())
+                    items.erase(name);
             }
+
+            toCollect.clear();
         }
 
         ~AssetPool() {
@@ -60,6 +78,9 @@ namespace smartin::utils {
     private:
         std::map<std::string, std::shared_ptr<T>> items;
         std::list<std::shared_ptr<T>> itemsList;
+        std::vector<std::shared_ptr<T>> toCollect;
+
+        bool autoCollect;
     };
 }
 

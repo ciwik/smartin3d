@@ -51,6 +51,8 @@ namespace smartin::base {
         static const unsigned int DEFAULT_WINDOW_WIDTH = 1280;
         static const unsigned int DEFAULT_WINDOW_HEIGHT = 720;
 
+        static const unsigned int FRAMES_BEFORE_GC = 100;
+
         const std::string DEFAULT_SHADER_NAME = "default";
         const std::string DEFAULT_SKY_SHADER_NAME = "skybox";
     };

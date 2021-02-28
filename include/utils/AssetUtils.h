@@ -20,6 +20,8 @@ namespace smartin::utils {
     const std::string VERTEX_SHADER_EXTENSION = "vshader";
     const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
 
+    void CollectGarbage();
+
     std::shared_ptr<base::Actor> FindActor(const std::string& name);
     std::vector<std::shared_ptr<base::Actor>> GetAllActors();
 
@@ -46,7 +48,6 @@ namespace smartin::utils {
 
     std::shared_ptr<graphics::Texture> GetTexture(const std::string& name);
     std::shared_ptr<graphics::Texture> CreateTexture(const std::string& name, const std::string& fileName);
-    void DestroyTexture(std::shared_ptr<graphics::Texture> texture);
 
     std::shared_ptr<graphics::Skybox> GetSkybox();
     std::shared_ptr<graphics::Skybox> CreateSkybox(const std::array<std::string, 6>& faceTexturePaths);
@@ -59,11 +60,10 @@ namespace smartin::utils {
                                         const std::string& textureName = EMPTY,
                                         const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
                                         const std::string& shaderName = DEFAULT_SHADER_NAME);
-    void DestroyMaterial(std::shared_ptr<graphics::Material> material);
 
     namespace holders {
         static AssetPool<graphics::Texture> textures;
-        static AssetPool<graphics::Material> materials;
+        static AssetPool<graphics::Material> materials (true);
         static AssetPool<graphics::Shader> shaders;
         static AssetPool<base::Actor> actors;
         static std::shared_ptr<graphics::Skybox> skybox;

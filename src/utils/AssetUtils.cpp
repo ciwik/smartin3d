@@ -37,12 +37,7 @@ std::shared_ptr<smartin::base::Camera> smartin::utils::CreateCamera(float fov, f
 }
 
 void smartin::utils::DestroyActor(std::shared_ptr<smartin::base::Actor> actor) {
-    if (actor == nullptr)
-        return;
-
-    for (auto& material : actor->GetAllUsedMaterials())
-        DestroyMaterial(material);
-
+    actor->SetActive(false);
     holders::actors.Remove(actor);
 }
 
@@ -81,10 +76,6 @@ std::shared_ptr<smartin::graphics::Texture> smartin::utils::CreateTexture(const 
         holders::textures.Add(name, texture);
 
     return texture;
-}
-
-void smartin::utils::DestroyTexture(std::shared_ptr<smartin::graphics::Texture> texture) {
-    holders::textures.Remove(texture);
 }
 
 std::shared_ptr<smartin::graphics::Material> smartin::utils::GetMaterial(const std::string& name) {
@@ -127,17 +118,6 @@ std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(cons
     return material;
 }
 
-void smartin::utils::DestroyMaterial(std::shared_ptr<smartin::graphics::Material> material) {
-    if (material == nullptr)
-        return;
-
-    auto texture = material->GetTexture();
-    if (texture != nullptr)
-        DestroyTexture(texture);
-
-    holders::materials.Remove(material);
-}
-
 std::shared_ptr<smartin::graphics::Skybox> smartin::utils::GetSkybox() {
     return holders::skybox;
 }
@@ -153,4 +133,10 @@ std::shared_ptr<smartin::graphics::Skybox> smartin::utils::CreateSkybox(const st
 
 void smartin::utils::DestroySkybox() {
     holders::skybox = nullptr;
+}
+
+void smartin::utils::CollectGarbage() {
+    holders::actors.CollectGarbage();
+    holders::materials.CollectGarbage();
+    holders::textures.CollectGarbage();
 }

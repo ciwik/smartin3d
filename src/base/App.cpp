@@ -24,6 +24,9 @@ void smartin::base::App::Run() {
     // Main loop
     while (!window->IsAboutToClose()) {
         utils::time::Update();
+        if (utils::time::GetFrameCount() % FRAMES_BEFORE_GC == 0)
+            utils::CollectGarbage();
+
         utils::input::Update();
 
         // PreRender
