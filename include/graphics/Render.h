@@ -11,8 +11,8 @@
 #include "utils/AssetUtils.h"
 
 namespace smartin::graphics {
-    bool IsActorVisible(base::Actor* actor);
-    void RenderFor(base::Camera* camera);
+    bool IsActorVisible(std::shared_ptr<base::Actor> actor);
+    void RenderFor(std::shared_ptr<base::Camera> camera);
 }
 
 #endif //SMARTIN3D_RENDER_H

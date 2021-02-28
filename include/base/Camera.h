@@ -9,7 +9,7 @@
 namespace smartin::base {
     class Camera : public Actor {
     public:
-        Camera(Transform* transform = new Transform()) : Actor(transform) { }
+        Camera(std::shared_ptr<Transform> transform = std::make_shared<Transform>()) : Actor(transform) { }
 
         void Update() override;
 

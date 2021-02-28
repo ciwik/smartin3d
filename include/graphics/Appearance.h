@@ -9,14 +9,14 @@
 namespace smartin::graphics {
     class Appearance {
     public:
-        Appearance(Mesh* mesh, Material* material);
+        Appearance(std::unique_ptr<Mesh> mesh, std::shared_ptr<Material> material);
 
         void Render();
 
         ~Appearance();
 
-        Mesh* mesh = nullptr;
-        Material* material = nullptr;
+        std::unique_ptr<Mesh> mesh = nullptr;
+        std::shared_ptr<Material> material = nullptr;
     };
 }
 

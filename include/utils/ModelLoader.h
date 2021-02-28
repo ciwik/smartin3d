@@ -21,7 +21,7 @@ namespace smartin::utils {
         ModelLoader(const std::string& filePath);
 
         void Load();
-        void ConvertToAppearances(std::vector<graphics::Appearance*>& appearances);
+        void ConvertToAppearances(std::vector<std::unique_ptr<graphics::Appearance>>& appearances);
 
         ~ModelLoader();
 
@@ -30,8 +30,8 @@ namespace smartin::utils {
         void LoadMesh(aiMesh* mesh, const aiScene* scene);
         void LoadMaterials(const aiScene* scene);
 
-        std::vector<graphics::Mesh*> meshes;
-        std::vector<graphics::Texture*> textures;
+        std::vector<std::unique_ptr<graphics::Mesh>> meshes;
+        std::vector<std::shared_ptr<graphics::Texture>> textures;
         std::vector<unsigned int> meshToTexture;
 
         std::string filePath;

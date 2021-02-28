@@ -1,7 +1,7 @@
 #include "graphics/Appearance.h"
 
-smartin::graphics::Appearance::Appearance(smartin::graphics::Mesh* _mesh, smartin::graphics::Material* _material) {
-    mesh = _mesh;
+smartin::graphics::Appearance::Appearance(std::unique_ptr<Mesh> _mesh, std::shared_ptr<Material> _material) {
+    mesh = std::move(_mesh);
     material = _material;
 }
 
@@ -10,6 +10,4 @@ void smartin::graphics::Appearance::Render() {
     mesh->Render();
 }
 
-smartin::graphics::Appearance::~Appearance() {
-    delete mesh;
-}
+smartin::graphics::Appearance::~Appearance() { }

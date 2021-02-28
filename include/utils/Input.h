@@ -11,7 +11,7 @@
 #include "TimeUtils.h"
 
 namespace smartin::utils::input {
-    void Init(graphics::Window* window);
+    void Init(std::shared_ptr<graphics::Window> window);
     void Update();
 
     namespace keyboard {

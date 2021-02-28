@@ -40,7 +40,7 @@ smartin::graphics::Skybox::Skybox(int _width, int _height) {
     height = _height;
 }
 
-bool smartin::graphics::Skybox::Load(const std::array<unsigned char*, 6> &facesImageData, smartin::graphics::Shader* _shader) {
+bool smartin::graphics::Skybox::Load(const std::array<unsigned char*, 6> &facesImageData, std::shared_ptr<smartin::graphics::Shader> _shader) {
     shader = _shader;
     if (shader == nullptr)
         return false;
@@ -57,7 +57,7 @@ bool smartin::graphics::Skybox::Load(const std::array<unsigned char*, 6> &facesI
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    mesh = new Mesh();
+    mesh = std::make_unique<Mesh>();
     mesh->Init(skyboxMeshVertices, skyboxMeshIndices, 64, 36);
 
     return true;
@@ -81,6 +81,5 @@ void smartin::graphics::Skybox::Apply(GLuint textureUnit, const glm::mat4& _view
 }
 
 smartin::graphics::Skybox::~Skybox() {
-    delete mesh;
     glDeleteTextures(1, &id);
 }

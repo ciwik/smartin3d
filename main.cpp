@@ -4,8 +4,8 @@ using namespace smartin;
 
 class CameraMovementJob : public base::Job {
 public:
-    CameraMovementJob(base::Camera* _camera, float _speed, float _turnSpeed) {
-        cameraTransform = _camera->GetTransform();
+    CameraMovementJob(std::shared_ptr<base::Camera> camera, float _speed, float _turnSpeed) {
+        cameraTransform = camera->GetTransform();
         speed = _speed;
         turnSpeed = _turnSpeed;
     }
@@ -53,7 +53,7 @@ public:
     }
 
 private:
-    base::Transform* cameraTransform;
+    std::shared_ptr<base::Transform> cameraTransform;
     float speed, turnSpeed;
 };
 
@@ -62,6 +62,9 @@ public:
     void Tick() override {
         if (utils::input::keyboard::IsKeyDown(KEY_SPACE))
             utils::DestroyActor(utils::FindActor("xwing"));
+
+        if (utils::input::keyboard::IsKeyDown(KEY_LEFT_SHIFT))
+            utils::DestroySkybox();
     }
 };
 
@@ -87,8 +90,8 @@ int main() {
                   glm::vec3(0.4f, 0.4f, 0.4f),
                   glm::vec3(-90.0f, 0.0f, 0.0f));
 
-    app->AddJob(new CameraMovementJob(app->GetCamera(), 2.0f, 0.5f));
-    app->AddJob(new XwingDestroyJob());
+    app->AddJob(std::make_unique<CameraMovementJob>(app->GetCamera(), 2.0f, 0.5f));
+    app->AddJob(std::make_unique<XwingDestroyJob>());
 
     app->Run();
     delete app;

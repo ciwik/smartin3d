@@ -23,7 +23,7 @@ namespace smartin::base {
         void Run();
         void Close();
 
-        inline Camera* GetCamera() const { return mainCamera; }
+        inline std::shared_ptr<Camera> GetCamera() const { return mainCamera; }
 
         void CreateCamera(const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
                           const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),
@@ -34,7 +34,7 @@ namespace smartin::base {
                       const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
                       const glm::vec3& size = glm::vec3 (1.0f, 1.0f, 1.0f),
                       const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
-        void AddJob(Job* job);
+        void AddJob(std::unique_ptr<Job> job);
 
         ~App();
 
@@ -44,9 +44,9 @@ namespace smartin::base {
         std::string name;
         unsigned int windowWidth, windowHeight;
 
-        graphics::Window* window;
-        std::vector<base::Job*> jobs;
-        Camera* mainCamera;
+        std::shared_ptr<graphics::Window> window;
+        std::vector<std::unique_ptr<base::Job>> jobs;
+        std::shared_ptr<Camera> mainCamera;
 
         static const unsigned int DEFAULT_WINDOW_WIDTH = 1280;
         static const unsigned int DEFAULT_WINDOW_HEIGHT = 720;

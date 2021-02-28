@@ -11,12 +11,12 @@
 namespace smartin::graphics {
     class Material {
     public:
-        Material(Shader* shader, unsigned int textureUnit = -1);
+        Material(std::shared_ptr<Shader> shader, unsigned int textureUnit = -1);
 
-        inline Shader* GetShader() const { return shader; }
-        inline Texture* GetTexture() const { return texture; }
+        inline std::shared_ptr<Shader> GetShader() const { return shader; }
+        inline std::shared_ptr<Texture> GetTexture() const { return texture; }
 
-        void SetTexture(Texture* texture);
+        void SetTexture(std::shared_ptr<Texture> texture);
         void SetColor(const glm::vec3& color);
 
         void Apply();
@@ -24,11 +24,11 @@ namespace smartin::graphics {
         ~Material();
 
     private:
-        Texture* texture = nullptr;
+        std::shared_ptr<Texture> texture = nullptr;
         glm::vec3 color; bool hasColor;
         unsigned int textureUnit;
 
-        Shader* shader;
+        std::shared_ptr<Shader> shader;
     };
 }
 

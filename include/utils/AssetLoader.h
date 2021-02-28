@@ -20,10 +20,10 @@ namespace smartin::utils::loaders {
     const std::string SHADERS_DIR = "shaders/";
     const std::string MODELS_DIR = "models/";
 
-    graphics::Texture* LoadTexture(const std::string& fileName);
-    graphics::Skybox* LoadSkybox(const std::array<std::string, 6>& faceTexturePaths, graphics::Shader* shader);
-    graphics::Shader* LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName);
-    void LoadAppearanceForActor(base::Actor* actor, const std::string& modelFileName, graphics::Shader* shader);
+    std::shared_ptr<graphics::Texture> LoadTexture(const std::string& fileName);
+    std::shared_ptr<graphics::Skybox> LoadSkybox(const std::array<std::string, 6>& faceTexturePaths, std::shared_ptr<graphics::Shader> shader);
+    std::shared_ptr<graphics::Shader> LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName);
+    void LoadAppearanceForActor(std::shared_ptr<base::Actor> actor, const std::string& modelFileName, std::shared_ptr<graphics::Shader> shader);
 }
 
 #endif //SMARTIN3D_ASSETLOADER_H

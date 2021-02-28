@@ -13,22 +13,22 @@ namespace smartin::utils {
     public:
         AssetPool() {}
 
-        T* Get(const std::string& name) {
+        std::shared_ptr<T> Get(const std::string& name) {
             if (items.find(name) != items.end())
                 return items[name];
             return nullptr;
         }
 
-        std::vector<T*> GetAll() const {
-            std::vector<T*> result;
+        std::vector<std::shared_ptr<T>> GetAll() const {
+            std::vector<std::shared_ptr<T>> result;
 
-            for (T* item : itemsList)
+            for (auto& item : itemsList)
                 result.push_back(item);
 
             return result;
         }
 
-        bool Add(const std::string& name, T* item) {
+        bool Add(const std::string& name, std::shared_ptr<T> item) {
             if (items.find(name) != items.end()) {
                 smartin::utils::log::E("AssetPool", "Asset already exists: " + name);
                 return false;
@@ -39,9 +39,9 @@ namespace smartin::utils {
             return true;
         }
 
-        void Remove(T* item) {
+        void Remove(std::shared_ptr<T> item) {
             if (item != nullptr) {
-                itemsList.remove(&(*item));
+                itemsList.remove(item);
 
                 for (const auto& [name, _item] : items) {
                     if (item == _item) {
@@ -49,8 +49,6 @@ namespace smartin::utils {
                         break;
                     }
                 }
-
-                delete item;
             }
         }
 
@@ -60,8 +58,8 @@ namespace smartin::utils {
         }
 
     private:
-        std::map<std::string, T*> items;
-        std::list<T*> itemsList;
+        std::map<std::string, std::shared_ptr<T>> items;
+        std::list<std::shared_ptr<T>> itemsList;
     };
 }
 

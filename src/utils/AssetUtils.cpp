@@ -1,33 +1,33 @@
 #include "utils/AssetUtils.h"
 
 // Actors
-smartin::base::Actor* smartin::utils::FindActor(const std::string& name) {
+std::shared_ptr<smartin::base::Actor> smartin::utils::FindActor(const std::string& name) {
     return holders::actors.Get(name);
 }
 
-smartin::base::Actor* smartin::utils::CreateActor(const std::string& name, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
-    base::Transform* transform = new base::Transform(position, size, eulerAngles);
-    smartin::base::Actor* actor = new smartin::base::Actor(transform);
+std::shared_ptr<smartin::base::Actor> smartin::utils::CreateActor(const std::string& name, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
+    auto transform = std::make_shared<base::Transform>(position, size, eulerAngles);
+    auto actor = std::make_shared<base::Actor>(transform);
     holders::actors.Add(name, actor);
 
     return actor;
 }
 
-smartin::base::Actor* smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
-    smartin::base::Actor* actor = CreateActor(name, position, size, eulerAngles);
+std::shared_ptr<smartin::base::Actor> smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
+    auto actor = CreateActor(name, position, size, eulerAngles);
     if (actor != nullptr)
         loaders::LoadAppearanceForActor(actor, modelFileName, GetShader(DEFAULT_SHADER_NAME));  // TODO
 
     return actor;
 }
 
-std::vector<smartin::base::Actor*> smartin::utils::GetAllActors() {
+std::vector<std::shared_ptr<smartin::base::Actor>> smartin::utils::GetAllActors() {
     return holders::actors.GetAll();
 }
 
-smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, const glm::vec3& position, const glm::vec3& eulerAngles) {
-    base::Transform* transform = new base::Transform(position, glm::vec3(0.0f, 0.0f, 0.0f), eulerAngles);
-    base::Camera* camera = new base::Camera(transform);
+std::shared_ptr<smartin::base::Camera> smartin::utils::CreateCamera(float fov, float aspect, const glm::vec3& position, const glm::vec3& eulerAngles) {
+    auto transform = std::make_shared<base::Transform>(position, glm::vec3(0.0f, 0.0f, 0.0f), eulerAngles);
+    auto camera = std::make_shared<base::Camera>(transform);
     camera->fieldOfView = fov;
     camera->aspect = aspect;
 
@@ -36,45 +36,46 @@ smartin::base::Camera* smartin::utils::CreateCamera(float fov, float aspect, con
     return camera;
 }
 
-void smartin::utils::DestroyActor(smartin::base::Actor* actor) {
-    for (graphics::Material* material : actor->GetAllUsedMaterials())
+void smartin::utils::DestroyActor(std::shared_ptr<smartin::base::Actor> actor) {
+    if (actor == nullptr)
+        return;
+
+    for (auto& material : actor->GetAllUsedMaterials())
         DestroyMaterial(material);
 
     holders::actors.Remove(actor);
 }
 
 // Assets
-smartin::graphics::Shader* smartin::utils::GetShader(const std::string& name) {
+std::shared_ptr<smartin::graphics::Shader> smartin::utils::GetShader(const std::string& name) {
     return holders::shaders.Get(name);
 }
 
-smartin::graphics::Shader* smartin::utils::CreateShader(const std::string& name) {
-    graphics::Shader* shader = nullptr;
+std::shared_ptr<smartin::graphics::Shader> smartin::utils::CreateShader(const std::string& name) {
+    std::shared_ptr<graphics::Shader> shader = nullptr;
 
     std::string vertexShaderPath = name + "." + VERTEX_SHADER_EXTENSION;
     std::string fragmentShaderPath = name + "." + FRAGMENT_SHADER_EXTENSION;
     shader = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
 
-    if (shader != nullptr && shader->Compile() && shader->Validate()) {
+    if (shader != nullptr && shader->Compile() && shader->Validate())
         holders::shaders.Add(name, shader);
-    } else {
-        delete shader;
+    else
         shader = nullptr;
-    }
 
     return shader;
 }
 
-void smartin::utils::DestroyShader(smartin::graphics::Shader* shader) {
+void smartin::utils::DestroyShader(std::shared_ptr<smartin::graphics::Shader> shader) {
     holders::shaders.Remove(shader);
 }
 
-smartin::graphics::Texture* smartin::utils::GetTexture(const std::string& name) {
+std::shared_ptr<smartin::graphics::Texture> smartin::utils::GetTexture(const std::string& name) {
     return holders::textures.Get(name);
 }
 
-smartin::graphics::Texture* smartin::utils::CreateTexture(const std::string& name, const std::string& fileName) {
-    graphics::Texture* texture = loaders::LoadTexture(fileName);
+std::shared_ptr<smartin::graphics::Texture> smartin::utils::CreateTexture(const std::string& name, const std::string& fileName) {
+    auto texture = loaders::LoadTexture(fileName);
 
     if (texture != nullptr)
         holders::textures.Add(name, texture);
@@ -82,23 +83,23 @@ smartin::graphics::Texture* smartin::utils::CreateTexture(const std::string& nam
     return texture;
 }
 
-void smartin::utils::DestroyTexture(smartin::graphics::Texture* texture) {
+void smartin::utils::DestroyTexture(std::shared_ptr<smartin::graphics::Texture> texture) {
     holders::textures.Remove(texture);
 }
 
-smartin::graphics::Material* smartin::utils::GetMaterial(const std::string& name) {
+std::shared_ptr<smartin::graphics::Material> smartin::utils::GetMaterial(const std::string& name) {
     return holders::materials.Get(name);
 }
 
-smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& name, const std::string& textureName, const glm::vec3& color, const std::string& shaderName) {
-    graphics::Material* material = nullptr;
+std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(const std::string& name, const std::string& textureName, const glm::vec3& color, const std::string& shaderName) {
+    std::shared_ptr<smartin::graphics::Material> material = nullptr;
 
-    graphics::Shader* shader = GetShader(shaderName);
+    auto shader = GetShader(shaderName);
     if (shader != nullptr) {
-        material = new graphics::Material(shader);
+        material = std::make_shared<graphics::Material>(shader);
         material->SetColor(color);
 
-        graphics::Texture* texture = GetTexture(textureName);
+        auto texture = GetTexture(textureName);
         if (texture != nullptr)
             material->SetTexture(texture);
     }
@@ -109,13 +110,13 @@ smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& n
     return material;
 }
 
-smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& name, smartin::graphics::Texture* texture) {
-    graphics::Material* material = nullptr;
+std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(const std::string& name, std::shared_ptr<smartin::graphics::Texture> texture) {
+    std::shared_ptr<graphics::Material> material = nullptr;
 
     if (texture != nullptr) {
-        graphics::Shader* shader = GetShader();
+        auto shader = GetShader();
         if (shader != nullptr) {
-            material = new graphics::Material(shader);
+            material = std::make_shared<graphics::Material>(shader);
             material->SetTexture(texture);
         }
     }
@@ -126,20 +127,23 @@ smartin::graphics::Material* smartin::utils::CreateMaterial(const std::string& n
     return material;
 }
 
-void smartin::utils::DestroyMaterial(smartin::graphics::Material* material) {
-    graphics::Texture* texture = material->GetTexture();
+void smartin::utils::DestroyMaterial(std::shared_ptr<smartin::graphics::Material> material) {
+    if (material == nullptr)
+        return;
+
+    auto texture = material->GetTexture();
     if (texture != nullptr)
         DestroyTexture(texture);
 
     holders::materials.Remove(material);
 }
 
-smartin::graphics::Skybox* smartin::utils::GetSkybox() {
+std::shared_ptr<smartin::graphics::Skybox> smartin::utils::GetSkybox() {
     return holders::skybox;
 }
 
-smartin::graphics::Skybox* smartin::utils::CreateSkybox(const std::array<std::string, 6>& faceTexturePaths) {
-    graphics::Shader* shader = utils::GetShader(DEFAULT_SKY_SHADER_NAME);
+std::shared_ptr<smartin::graphics::Skybox> smartin::utils::CreateSkybox(const std::array<std::string, 6>& faceTexturePaths) {
+    auto shader = utils::GetShader(DEFAULT_SKY_SHADER_NAME);
     if (shader == nullptr)
         shader = utils::CreateShader(DEFAULT_SKY_SHADER_NAME);
 
@@ -148,5 +152,5 @@ smartin::graphics::Skybox* smartin::utils::CreateSkybox(const std::array<std::st
 }
 
 void smartin::utils::DestroySkybox() {
-    delete holders::skybox;
+    holders::skybox = nullptr;
 }

@@ -30,11 +30,11 @@ void smartin::base::App::Run() {
         window->PreRender();
 
         // Update objects
-        for (Actor* actor : utils::GetAllActors())
+        for (const auto& actor : utils::GetAllActors())
             actor->Update();
 
         // Update jobs
-        for (Job* job : jobs)
+        for (const auto& job : jobs)
             job->Tick();
 
         // Render
@@ -51,19 +51,18 @@ void smartin::base::App::Close() {
 }
 
 smartin::base::App::~App() {
-    for (Actor* actor : utils::GetAllActors())
+    for (const auto& actor : utils::GetAllActors())
         utils::DestroyActor(actor);
 
-    for (Job* job : jobs)
-        delete job;
+    jobs.clear();
 }
 
 bool smartin::base::App::CreateWindow(int width, int height, const std::string &title) {
     utils::context::InitGLFW();
 
-    window = new graphics::Window(width, height);
+    window = std::make_shared<graphics::Window>(width, height);
     if (!window->Instantiate(title)) {
-        delete window;
+        window.reset();
         return false;
     }
 
@@ -83,8 +82,8 @@ void smartin::base::App::SetSkybox(const std::array<std::string, 6>& faceTexture
     utils::CreateSkybox(faceTexturePaths);
 }
 
-void smartin::base::App::AddJob(smartin::base::Job* job) {
-    jobs.push_back(job);
+void smartin::base::App::AddJob(std::unique_ptr<smartin::base::Job> job) {
+    jobs.push_back(std::move(job));
 }
 
 void smartin::base::App::AddActor(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {

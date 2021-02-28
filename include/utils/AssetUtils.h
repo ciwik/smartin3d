@@ -20,53 +20,53 @@ namespace smartin::utils {
     const std::string VERTEX_SHADER_EXTENSION = "vshader";
     const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
 
-    base::Actor* FindActor(const std::string& name);
-    std::vector<base::Actor*> GetAllActors();
+    std::shared_ptr<base::Actor> FindActor(const std::string& name);
+    std::vector<std::shared_ptr<base::Actor>> GetAllActors();
 
-    base::Actor* CreateActor(const std::string& name,
-                             const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
-                             const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
-                             const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+    std::shared_ptr<base::Actor> CreateActor(const std::string& name,
+                                             const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                             const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
+                                             const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    base::Actor* CreateActorWithAppearance(const std::string& name,
-                                           const std::string& modelFileName = EMPTY,
-                                           const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
-                                           const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
-                                           const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+    std::shared_ptr<base::Actor> CreateActorWithAppearance(const std::string& name,
+                                                           const std::string& modelFileName = EMPTY,
+                                                           const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                                           const glm::vec3& size = glm::vec3(1.0f, 1.0f, 1.0f),
+                                                           const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    base::Camera* CreateCamera(float fov, float aspect,
-                               const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
-                               const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
+    std::shared_ptr<base::Camera> CreateCamera(float fov, float aspect,
+                                               const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                               const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-    void DestroyActor(base::Actor* actor);
+    void DestroyActor(std::shared_ptr<base::Actor> actor);
 
-    graphics::Shader* GetShader(const std::string& name = DEFAULT_SHADER_NAME);
-    graphics::Shader* CreateShader(const std::string& name = DEFAULT_SHADER_NAME);
-    void DestroyShader(graphics::Shader* shader);
+    std::shared_ptr<graphics::Shader> GetShader(const std::string& name = DEFAULT_SHADER_NAME);
+    std::shared_ptr<graphics::Shader> CreateShader(const std::string& name = DEFAULT_SHADER_NAME);
+    void DestroyShader(std::shared_ptr<graphics::Shader> shader);
 
-    graphics::Texture* GetTexture(const std::string& name);
-    graphics::Texture* CreateTexture(const std::string& name, const std::string& fileName);
-    void DestroyTexture(graphics::Texture* texture);
+    std::shared_ptr<graphics::Texture> GetTexture(const std::string& name);
+    std::shared_ptr<graphics::Texture> CreateTexture(const std::string& name, const std::string& fileName);
+    void DestroyTexture(std::shared_ptr<graphics::Texture> texture);
 
-    graphics::Skybox* GetSkybox();
-    graphics::Skybox* CreateSkybox(const std::array<std::string, 6>& faceTexturePaths);
+    std::shared_ptr<graphics::Skybox> GetSkybox();
+    std::shared_ptr<graphics::Skybox> CreateSkybox(const std::array<std::string, 6>& faceTexturePaths);
     void DestroySkybox();
 
-    graphics::Material* GetMaterial(const std::string& name);
-    graphics::Material* CreateMaterial(const std::string& name,
-                                       graphics::Texture* texture);
-    graphics::Material* CreateMaterial(const std::string& name,
-                                       const std::string& textureName = EMPTY,
-                                       const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
-                                       const std::string& shaderName = DEFAULT_SHADER_NAME);
-    void DestroyMaterial(graphics::Material* material);
+    std::shared_ptr<graphics::Material> GetMaterial(const std::string& name);
+    std::shared_ptr<graphics::Material> CreateMaterial(const std::string& name,
+                                        std::shared_ptr<graphics::Texture> texture);
+    std::shared_ptr<graphics::Material> CreateMaterial(const std::string& name,
+                                        const std::string& textureName = EMPTY,
+                                        const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f),
+                                        const std::string& shaderName = DEFAULT_SHADER_NAME);
+    void DestroyMaterial(std::shared_ptr<graphics::Material> material);
 
     namespace holders {
         static AssetPool<graphics::Texture> textures;
         static AssetPool<graphics::Material> materials;
         static AssetPool<graphics::Shader> shaders;
         static AssetPool<base::Actor> actors;
-        static graphics::Skybox* skybox;
+        static std::shared_ptr<graphics::Skybox> skybox;
     }
 }
 

@@ -56,9 +56,9 @@ void smartin::utils::ModelLoader::LoadMesh(aiMesh* mesh, const aiScene* scene) {
             indices.push_back(face.mIndices[j]);
     }
 
-    graphics::Mesh* newMesh = new graphics::Mesh();
+    std::unique_ptr<graphics::Mesh> newMesh = std::make_unique<graphics::Mesh>();
     newMesh->Init(&vertices[0], &indices[0], vertices.size(), indices.size());
-    meshes.push_back(newMesh);
+    meshes.push_back(std::move(newMesh));
     meshToTexture.push_back(mesh->mMaterialIndex);
 }
 
@@ -81,23 +81,21 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
     }
 }
 
-void smartin::utils::ModelLoader::ConvertToAppearances(std::vector<graphics::Appearance*>& appearances) {
+void smartin::utils::ModelLoader::ConvertToAppearances(std::vector<std::unique_ptr<graphics::Appearance>>& appearances) {
     appearances.reserve(textures.size());
     int materialCounterBase = 12 + (rand() % 918);
 
     for (int i = 0; i < meshes.size(); i++) {
-        graphics::Mesh* mesh = meshes[i];
-
         unsigned int textureIdx = meshToTexture[i];
-        graphics::Texture* texture = textures[textureIdx];
+        auto texture = textures[textureIdx];
         if (texture != nullptr) {
             std::string materialName = std::to_string(materialCounterBase) + "_" + std::to_string(textureIdx);
-            graphics::Material* material = utils::GetMaterial(materialName);
+            auto material = utils::GetMaterial(materialName);
             if (material == nullptr)
                 material = utils::CreateMaterial(materialName, texture);
 
-            graphics::Appearance* appearance = new graphics::Appearance(mesh, material);
-            appearances.push_back(appearance);
+            auto appearance = std::make_unique<graphics::Appearance>(std::move(meshes[i]), material);
+            appearances.push_back(std::move(appearance));
         }
     }
 }

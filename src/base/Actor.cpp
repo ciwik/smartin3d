@@ -5,36 +5,34 @@ void smartin::base::Actor::Update() {
 }
 
 smartin::base::Actor::~Actor() {
-    delete transform;
-    for (smartin::graphics::Appearance* appearance : appearances)
-        delete appearance;
+    appearances.clear();
 }
 
 void smartin::base::Actor::Render() {
     if (!IsRenderable())
         return;
 
-    for (graphics::Appearance* appearance : appearances)
+    for (auto& appearance : appearances)
         appearance->Render();
 }
 
-smartin::base::Actor::Actor(smartin::base::Transform* _transform) {
+smartin::base::Actor::Actor(std::shared_ptr<Transform> _transform) {
     transform = _transform;
 }
 
-void smartin::base::Actor::AddAppearance(smartin::graphics::Appearance* appearance) {
+void smartin::base::Actor::AddAppearance(std::unique_ptr<graphics::Appearance> appearance) {
     if (appearance->material != nullptr && appearance->mesh != nullptr)
-        appearances.push_back(appearance);
+        appearances.push_back(std::move(appearance));
 }
 
 bool smartin::base::Actor::IsRenderable() const {
     return !appearances.empty();
 }
 
-std::vector<smartin::graphics::Material*> smartin::base::Actor::GetAllUsedMaterials() const {
-    std::vector<smartin::graphics::Material*> materials;
+std::vector<std::shared_ptr<smartin::graphics::Material>> smartin::base::Actor::GetAllUsedMaterials() const {
+    std::vector<std::shared_ptr<smartin::graphics::Material>> materials;
 
-    for (smartin::graphics::Appearance* appearance : appearances)
+    for (const auto& appearance : appearances)
         materials.push_back(appearance->material);
 
     return materials;

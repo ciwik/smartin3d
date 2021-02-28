@@ -7,23 +7,23 @@
 namespace smartin::base {
     class Actor {
     public:
-        Actor(Transform* transform = new Transform());
+        Actor(std::shared_ptr<Transform> transform = std::make_shared<Transform>());
 
         inline bool IsActive() const { return isActive; }
         inline void SetActive(bool mode) { isActive = mode; }
-        inline Transform* GetTransform() const { return transform; }
+        inline std::shared_ptr<Transform> GetTransform() const { return transform; }
         virtual void Update();
 
-        void AddAppearance(graphics::Appearance* appearance);
+        void AddAppearance(std::unique_ptr<graphics::Appearance> appearance);
         bool IsRenderable() const;
-        std::vector<graphics::Material*> GetAllUsedMaterials() const;
+        std::vector<std::shared_ptr<graphics::Material>> GetAllUsedMaterials() const;
         void Render();
 
         ~Actor();
 
     protected:
-        Transform* transform = nullptr;
-        std::vector<graphics::Appearance*> appearances;
+        std::shared_ptr<Transform> transform = nullptr;
+        std::vector<std::unique_ptr<graphics::Appearance>> appearances;
 
     private:
         bool isActive;

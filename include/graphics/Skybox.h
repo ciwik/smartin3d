@@ -12,7 +12,7 @@ namespace smartin::graphics {
     public:
         Skybox(int width, int height);
 
-        bool Load(const std::array<unsigned char*, 6>& facesImageData, Shader* shader);
+        bool Load(const std::array<unsigned char*, 6>& facesImageData, std::shared_ptr<Shader> shader);
         void Apply(GLuint textureUnit, const glm::mat4& view, const glm::mat4& projection);
 
         ~Skybox();
@@ -20,8 +20,8 @@ namespace smartin::graphics {
     private:
         GLuint id;
 
-        Mesh* mesh;
-        Shader* shader;
+        std::unique_ptr<Mesh> mesh;
+        std::shared_ptr<Shader> shader;
 
         int width, height;
     };

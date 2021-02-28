@@ -3,7 +3,7 @@
 void HandleKeys(GLFWwindow* window, int key, int code, int action, int mode);
 void HandleMouse(GLFWwindow* glfwWindow, double x, double y);
 
-void smartin::utils::input::Init(smartin::graphics::Window* window) {
+void smartin::utils::input::Init(std::shared_ptr<graphics::Window> window) {
     GLFWwindow* windowInstance = window->GetInstance();
 
     keyboard::Init(windowInstance);
@@ -11,7 +11,7 @@ void smartin::utils::input::Init(smartin::graphics::Window* window) {
     gamepad::Init(windowInstance);
 
     // Setup EventHandler object as user of the GLFW window instance
-    glfwSetWindowUserPointer(windowInstance, window);
+    glfwSetWindowUserPointer(windowInstance, window.get());
 }
 
 void smartin::utils::input::Update() {
