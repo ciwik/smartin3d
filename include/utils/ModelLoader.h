@@ -33,6 +33,7 @@ namespace smartin::utils {
         std::vector<std::unique_ptr<graphics::Mesh>> meshes;
         std::vector<std::shared_ptr<graphics::Texture>> textures;
         std::vector<unsigned int> meshToTexture;
+        std::vector<std::string> materialNames;
 
         std::string filePath;
     };

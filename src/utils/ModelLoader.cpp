@@ -67,8 +67,11 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
 
     for (size_t i = 0; i < scene->mNumMaterials; i++) {
         aiMaterial* material = scene->mMaterials[i];
-        textures[i] = nullptr;
+        aiString materialName;
+        if (material->Get(AI_MATKEY_NAME, materialName) == AI_SUCCESS)
+            materialNames[i] = materialName.data;
 
+        textures[i] = nullptr;
         if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
             aiString path;
             if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
@@ -84,13 +87,11 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
 }
 
 void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> actor) {
-    int materialCounterBase = 12 + (rand() % 918);
-
     for (int i = 0; i < meshes.size(); i++) {
         unsigned int textureIdx = meshToTexture[i];
         auto texture = textures[textureIdx];
 
-        std::string materialName = std::to_string(materialCounterBase) + "_" + std::to_string(textureIdx);
+        std::string materialName = materialNames[i];
         auto material = utils::GetMaterial(materialName);
         if (material == nullptr)
             material = utils::CreateMaterial(materialName, texture);
