@@ -102,18 +102,12 @@ std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(cons
 }
 
 std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(const std::string& name, std::shared_ptr<smartin::graphics::Texture> texture) {
-    std::shared_ptr<graphics::Material> material = nullptr;
+    std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>(GetShader());
 
-    if (texture != nullptr) {
-        auto shader = GetShader();
-        if (shader != nullptr) {
-            material = std::make_shared<graphics::Material>(shader);
-            material->SetTexture(texture);
-        }
-    }
+    if (texture != nullptr)
+        material->SetTexture(texture);
 
-    if (material != nullptr)
-        holders::materials.Add(name, material);
+    holders::materials.Add(name, material);
 
     return material;
 }

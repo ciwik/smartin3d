@@ -23,6 +23,8 @@ namespace smartin::graphics {
         GLenum type;
         int width, height, depth;
     };
+
+    void DisableTextures();
 }
 
 #endif //SMARTIN3D_TEXTURE_H

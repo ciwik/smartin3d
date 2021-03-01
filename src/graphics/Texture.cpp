@@ -34,8 +34,8 @@ void smartin::graphics::Texture::Apply(GLuint textureUnit) {
 
 smartin::graphics::Texture::~Texture() {
     glDeleteTextures(1, &id);
-    id = 0;
-    width = 0;
-    height = 0;
-    depth = 0;
+}
+
+void smartin::graphics::DisableTextures() {
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

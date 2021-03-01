@@ -27,7 +27,7 @@ namespace smartin::utils {
 
     private:
         void LoadNode(aiNode* node, const aiScene* scene);
-        void LoadMesh(aiMesh* mesh, const aiScene* scene);
+        void LoadMesh(aiMesh* mesh);
         void LoadMaterials(const aiScene* scene);
 
         std::vector<std::unique_ptr<graphics::Mesh>> meshes;

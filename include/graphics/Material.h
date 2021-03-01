@@ -25,7 +25,7 @@ namespace smartin::graphics {
 
     private:
         std::shared_ptr<Texture> texture = nullptr;
-        glm::vec3 color; bool hasColor;
+        glm::vec3 color; bool hasColor = false;
         unsigned int textureUnit;
 
         std::shared_ptr<Shader> shader;

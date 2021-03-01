@@ -89,6 +89,8 @@ int main() {
                   glm::vec3(-8.0f, 2.0f, 0.0f),
                   glm::vec3(0.4f, 0.4f, 0.4f),
                   glm::vec3(-90.0f, 0.0f, 0.0f));
+    app->AddActor("cone", "cone.obj",
+                  glm::vec3(-8.0f, 2.0f, 5.0f));
 
     app->AddJob(std::make_unique<CameraMovementJob>(app->GetCamera(), 2.0f, 0.5f));
     app->AddJob(std::make_unique<XwingDestroyJob>());

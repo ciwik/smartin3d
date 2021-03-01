@@ -24,13 +24,13 @@ smartin::utils::ModelLoader::~ModelLoader() {
 
 void smartin::utils::ModelLoader::LoadNode(aiNode* node, const aiScene* scene) {
     for (size_t i = 0; i < node->mNumMeshes; i++)
-        LoadMesh(scene->mMeshes[node->mMeshes[i]], scene);
+        LoadMesh(scene->mMeshes[node->mMeshes[i]]);
 
     for (size_t i = 0; i < node->mNumChildren; i++)
         LoadNode(node->mChildren[i], scene);
 }
 
-void smartin::utils::ModelLoader::LoadMesh(aiMesh* mesh, const aiScene* scene) {
+void smartin::utils::ModelLoader::LoadMesh(aiMesh* mesh) {
     std::vector<GLfloat> vertices;
     std::vector<unsigned int> indices;
 
@@ -56,7 +56,7 @@ void smartin::utils::ModelLoader::LoadMesh(aiMesh* mesh, const aiScene* scene) {
             indices.push_back(face.mIndices[j]);
     }
 
-    std::unique_ptr<graphics::Mesh> newMesh = std::make_unique<graphics::Mesh>();
+    auto newMesh = std::make_unique<graphics::Mesh>();
     newMesh->Init(&vertices[0], &indices[0], vertices.size(), indices.size());
     meshes.push_back(std::move(newMesh));
     meshToTexture.push_back(mesh->mMaterialIndex);
@@ -75,7 +75,9 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
                 int idx = std::string(path.data).rfind("\\");
                 std::string fileName = std::string(path.data).substr(idx + 1);
 
-                textures[i] = CreateTexture(fileName, fileName);
+                textures[i] = GetTexture(fileName);
+                if (textures[i] == nullptr)
+                    textures[i] = CreateTexture(fileName, fileName);
             }
         }
     }
@@ -87,13 +89,12 @@ void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> acto
     for (int i = 0; i < meshes.size(); i++) {
         unsigned int textureIdx = meshToTexture[i];
         auto texture = textures[textureIdx];
-        if (texture != nullptr) {
-            std::string materialName = std::to_string(materialCounterBase) + "_" + std::to_string(textureIdx);
-            auto material = utils::GetMaterial(materialName);
-            if (material == nullptr)
-                material = utils::CreateMaterial(materialName, texture);
 
-            actor->AddAppearance(std::move(meshes[i]), material);
-        }
+        std::string materialName = std::to_string(materialCounterBase) + "_" + std::to_string(textureIdx);
+        auto material = utils::GetMaterial(materialName);
+        if (material == nullptr)
+            material = utils::CreateMaterial(materialName, texture);
+
+        actor->AddAppearance(std::move(meshes[i]), material);
     }
 }
