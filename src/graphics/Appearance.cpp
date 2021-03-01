@@ -8,6 +8,7 @@ smartin::graphics::Appearance::Appearance(std::unique_ptr<Mesh> _mesh, std::shar
 void smartin::graphics::Appearance::Render() {
     material->Apply();
     mesh->Render();
+    DisableTextures();
 }
 
 smartin::graphics::Appearance::~Appearance() { }

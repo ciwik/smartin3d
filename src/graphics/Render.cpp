@@ -22,8 +22,6 @@ void smartin::graphics::RenderFor(std::shared_ptr<base::Camera> camera) {
         if (!actor->IsRenderable() || !IsActorVisible(actor))
             continue;
 
-        DisableTextures();
-
         glm::mat4 model = actor->GetTransform()->GetModelMatrix();
 
         mainShader->SetMatrix("model", model);

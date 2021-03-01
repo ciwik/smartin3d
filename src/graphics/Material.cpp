@@ -18,8 +18,7 @@ void smartin::graphics::Material::SetColor(const glm::vec3& _color) {
 }
 
 void smartin::graphics::Material::Apply() {
-    if (hasColor)
-        shader->SetVector3("mainColor", color);
+    shader->SetVector3("mainColor", hasColor ? color : defaultColor);
 
     if (texture != nullptr)
         texture->Apply(textureUnit);

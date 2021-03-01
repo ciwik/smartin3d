@@ -87,6 +87,16 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
 }
 
 void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> actor) {
+    auto defaultColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    bool hasTextures = false;
+    for (int i = 0; i < textures.size(); i++) {
+        if (textures[i] != nullptr) {
+            hasTextures = true;
+            break;
+        }
+    }
+
     for (int i = 0; i < meshes.size(); i++) {
         unsigned int textureIdx = meshToTexture[i];
         auto texture = textures[textureIdx];
@@ -95,6 +105,9 @@ void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> acto
         auto material = utils::GetMaterial(materialName);
         if (material == nullptr)
             material = utils::CreateMaterial(materialName, texture);
+
+        if (!hasTextures)
+            material->SetColor(defaultColor);
 
         actor->AddAppearance(std::move(meshes[i]), material);
     }
