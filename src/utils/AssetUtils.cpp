@@ -129,6 +129,13 @@ void smartin::utils::DestroySkybox() {
     holders::skybox = nullptr;
 }
 
+void smartin::utils::DebugPrintContent() {
+    holders::actors.DebugPrintContent("Actors");
+    holders::materials.DebugPrintContent("Materials");
+    holders::textures.DebugPrintContent("Textures");
+    holders::shaders.DebugPrintContent("Shaders");
+}
+
 void smartin::utils::CollectGarbage() {
     holders::actors.CollectGarbage();
     holders::materials.CollectGarbage();

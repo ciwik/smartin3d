@@ -2,8 +2,10 @@
 #define SMARTIN3D_ASSETPOOL_H
 
 #include <map>
-#include <string>
 #include <list>
+#include <string>
+#include <sstream>
+#include <iomanip>
 
 #include "utils/Log.h"
 
@@ -68,6 +70,16 @@ namespace smartin::utils {
             }
 
             toCollect.clear();
+        }
+
+        void DebugPrintContent(std::string tag) {
+            std::stringstream stream;
+
+            stream << "\n";
+            for (const auto& [name, item] : items)
+                stream << std::setw(24) << name << std::setw(12) << &item << "\n";
+
+            utils::log::I(tag, stream.str());
         }
 
         ~AssetPool() {

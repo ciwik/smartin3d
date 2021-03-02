@@ -20,6 +20,7 @@ namespace smartin::utils {
     const std::string VERTEX_SHADER_EXTENSION = "vshader";
     const std::string FRAGMENT_SHADER_EXTENSION = "fshader";
 
+    void DebugPrintContent();
     void CollectGarbage();
 
     std::shared_ptr<base::Actor> FindActor(const std::string& name);

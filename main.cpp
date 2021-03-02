@@ -65,6 +65,9 @@ public:
 
         if (utils::input::keyboard::IsKeyDown(KEY_LEFT_SHIFT))
             utils::DestroySkybox();
+
+        if (utils::input::keyboard::IsKeyDown(KEY_LEFT_CONTROL))
+            utils::DebugPrintContent();
     }
 };
 
