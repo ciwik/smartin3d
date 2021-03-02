@@ -234,13 +234,13 @@ target_link_libraries(smartin3dlib PUBLIC ${LIBS})
 # Enable tests
 add_subdirectory(tests)
 
-# Build a demo
-add_executable(smartin3ddemo main.cpp)
-target_link_libraries(smartin3ddemo smartin3dlib)
+# Build samples
+add_subdirectory(samples)
 
 if (WINDOWS)
-    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${ASSIMP_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
-    add_custom_command(TARGET smartin3ddemo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/assets" $<TARGET_FILE_DIR:smartin3d>/assets)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLFW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${GLEW_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+    add_custom_command(TARGET smartin3d POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${ASSIMP_DLL_PATH}" $<TARGET_FILE_DIR:smartin3d>)
+
+    add_custom_command(TARGET smartin3dlib POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:smartin3d>/smartin3dlib.lib $<TARGET_FILE_DIR:smartin3d>/smartin3d.lib)
 endif (WINDOWS)
