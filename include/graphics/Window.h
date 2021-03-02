@@ -1,8 +1,6 @@
 #ifndef SMARTIN3D_WINDOW_H
 #define SMARTIN3D_WINDOW_H
 
-#pragma comment(lib, "legacy_stdio_definitions.lib")
-
 #include <string>
 
 #include <GL/glew.h>
