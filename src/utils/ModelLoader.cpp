@@ -18,7 +18,7 @@ void smartin::utils::ModelLoader::Load() {
 
 smartin::utils::ModelLoader::~ModelLoader() {
     meshes.clear();
-    meshToTexture.clear();
+    meshToMaterial.clear();
     textures.clear();
 }
 
@@ -59,24 +59,26 @@ void smartin::utils::ModelLoader::LoadMesh(aiMesh* mesh) {
     auto newMesh = std::make_unique<graphics::Mesh>();
     newMesh->Init(&vertices[0], &indices[0], vertices.size(), indices.size());
     meshes.push_back(std::move(newMesh));
-    meshToTexture.push_back(mesh->mMaterialIndex);
+    meshToMaterial.push_back(mesh->mMaterialIndex);
 }
 
 void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
     textures.resize(scene->mNumMaterials);
+    materialNames.resize(scene->mNumMaterials);
 
     for (size_t i = 0; i < scene->mNumMaterials; i++) {
         aiMaterial* material = scene->mMaterials[i];
-        aiString materialName;
-        if (material->Get(AI_MATKEY_NAME, materialName) == AI_SUCCESS)
-            materialNames[i] = materialName.data;
+
+        aiString aiMaterialName;
+        if (material->Get(AI_MATKEY_NAME, aiMaterialName) == AI_SUCCESS)
+            materialNames[i] = std::string(aiMaterialName.C_Str());
 
         textures[i] = nullptr;
         if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
-            aiString path;
-            if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
-                int idx = std::string(path.data).rfind("\\");
-                std::string fileName = std::string(path.data).substr(idx + 1);
+            aiString aiTexturePath;
+            if (material->GetTexture(aiTextureType_DIFFUSE, 0, &aiTexturePath) == AI_SUCCESS) {
+                int idx = std::string(aiTexturePath.data).rfind("\\");
+                std::string fileName = std::string(aiTexturePath.data).substr(idx + 1);
 
                 textures[i] = GetTexture(fileName);
                 if (textures[i] == nullptr)
@@ -98,10 +100,10 @@ void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> acto
     }
 
     for (int i = 0; i < meshes.size(); i++) {
-        unsigned int textureIdx = meshToTexture[i];
+        unsigned int textureIdx = meshToMaterial[i];
         auto texture = textures[textureIdx];
 
-        std::string materialName = materialNames[i];
+        std::string materialName = materialNames[textureIdx];
         auto material = utils::GetMaterial(materialName);
         if (material == nullptr)
             material = utils::CreateMaterial(materialName, texture);
