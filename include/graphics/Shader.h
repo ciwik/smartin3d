@@ -1,12 +1,7 @@
 #ifndef SMARTIN3D_SHADER_H
 #define SMARTIN3D_SHADER_H
 
-#include <string>
-#include <vector>
-
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "precompiled.h"
 
 #include "utils/FileUtils.h"
 #include "Texture.h"

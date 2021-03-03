@@ -1,10 +1,7 @@
 #ifndef SMARTIN3D_WINDOW_H
 #define SMARTIN3D_WINDOW_H
 
-#include <string>
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "precompiled.h"
 
 #include "utils/Log.h"
 

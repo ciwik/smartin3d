@@ -1,8 +1,7 @@
 #ifndef SMARTIN3D_LOG_H
 #define SMARTIN3D_LOG_H
 
-#include <ostream>
-#include <string>
+#include "precompiled.h"
 
 namespace smartin::utils::log {
     void Init(std::ostream& out);

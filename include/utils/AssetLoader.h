@@ -1,14 +1,9 @@
 #ifndef SMARTIN3D_ASSETLOADER_H
 #define SMARTIN3D_ASSETLOADER_H
 
-#include <array>
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "precompiled.h"
 
 #include "base/Actor.h"
-#include "utils/External.h"
 #include "utils/ModelLoader.h"
 #include "graphics/Appearance.h"
 #include "graphics/Skybox.h"

@@ -3,9 +3,7 @@
 
 #pragma comment(lib, "legacy_stdio_definitions.lib")
 
-#include <iostream>
-#include <string>
-#include <vector>
+#include "precompiled.h"
 
 #include "graphics/Window.h"
 #include "base/Job.h"

@@ -3,6 +3,7 @@ project(smartin3d)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include(cmake/PrecompiledHeader.cmake)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Detect OS
@@ -164,7 +165,7 @@ if (MACOS)
     # todo
 endif (MACOS)
 
-include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include)
+include_directories(${GLEW_INCLUDE_PATH} ${GLFW_INCLUDE_PATH} ${GLM_INCLUDE_PATH} ${ASSIMP_INCLUDE_PATH} include /)
 
 set (HEADER_FILES
         include/base/Actor.h
@@ -186,7 +187,6 @@ set (HEADER_FILES
         include/utils/AssetLoader.h
         include/utils/AssetPool.h
         include/utils/AssetUtils.h
-        include/utils/External.h
         include/utils/FileUtils.h
         include/utils/Input.h
         include/utils/Log.h
@@ -196,6 +196,8 @@ set (HEADER_FILES
 )
 
 set (SOURCE_FILES
+        precompiled.cpp
+
         src/base/Actor.cpp
         src/base/App.cpp
         src/base/Camera.cpp
@@ -225,11 +227,14 @@ set(LIBS ${OPENGL_LIBRARY} ${GLEW_LIBRARY} ${GLFW_LIBRARY} ${ASSIMP_LIBRARY})
 add_library(smartin3d SHARED ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smartin3d PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(smartin3d PUBLIC ${LIBS})
+add_precompiled_header(smartin3d precompiled.h SOURCE_CXX precompiled.cpp FORCEINCLUDE)
 
 # Build static engine library (for linking)
 add_library(smartin3dlib STATIC ${HEADER_FILES} ${SOURCE_FILES})
 set_target_properties(smartin3dlib PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(smartin3dlib PUBLIC ${LIBS})
+add_precompiled_header(smartin3dlib precompiled.h SOURCE_CXX precompiled.cpp FORCEINCLUDE)
+
 
 # Enable tests
 add_subdirectory(tests)

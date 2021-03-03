@@ -1,11 +1,8 @@
 #ifndef SMARTIN3D_TEXTURE_H
 #define SMARTIN3D_TEXTURE_H
 
-#include <GL/glew.h>
+#include "precompiled.h"
 
-#include <string>
-
-#include "utils/External.h"
 #include "utils/Log.h"
 
 namespace smartin::graphics {

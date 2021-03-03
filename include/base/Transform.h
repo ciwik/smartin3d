@@ -1,13 +1,7 @@
 #ifndef SMARTIN3D_TRANSFORM_H
 #define SMARTIN3D_TRANSFORM_H
 
-#include <math.h>
-
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include "precompiled.h"
 
 namespace smartin::base {
     class Transform final {

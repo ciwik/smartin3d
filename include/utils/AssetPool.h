@@ -1,11 +1,7 @@
 #ifndef SMARTIN3D_ASSETPOOL_H
 #define SMARTIN3D_ASSETPOOL_H
 
-#include <map>
-#include <list>
-#include <string>
-#include <sstream>
-#include <iomanip>
+#include "precompiled.h"
 
 #include "utils/Log.h"
 

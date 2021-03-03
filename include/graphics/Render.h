@@ -1,7 +1,7 @@
 #ifndef SMARTIN3D_RENDER_H
 #define SMARTIN3D_RENDER_H
 
-#include <vector>
+#include "precompiled.h"
 
 #include "base/Actor.h"
 #include "base/Camera.h"

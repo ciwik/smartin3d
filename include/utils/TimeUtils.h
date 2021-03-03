@@ -1,7 +1,7 @@
 #ifndef SMARTIN3D_TIMEUTILS_H
 #define SMARTIN3D_TIMEUTILS_H
 
-#include <GLFW/glfw3.h>
+#include "precompiled.h"
 
 namespace smartin::utils::time {
     float GetDeltaTime();

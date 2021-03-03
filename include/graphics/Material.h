@@ -1,8 +1,7 @@
 #ifndef SMARTIN3D_MATERIAL_H
 #define SMARTIN3D_MATERIAL_H
 
-#include <map>
-#include <vector>
+#include "precompiled.h"
 
 #include "graphics/Settings.h"
 #include "graphics/Shader.h"

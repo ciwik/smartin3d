@@ -1,8 +1,0 @@
-#ifndef SMARTIN3D_EXTERNAL_H
-#define SMARTIN3D_EXTERNAL_H
-
-#define STB_IMAGE_STATIC
-#define STB_IMAGE_IMPLEMENTATION
-#include "3rdparty/stb_image.h"
-
-#endif //SMARTIN3D_EXTERNAL_H

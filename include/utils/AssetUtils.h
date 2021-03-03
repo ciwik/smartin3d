@@ -1,8 +1,7 @@
 #ifndef SMARTIN3D_ASSETUTILS_H
 #define SMARTIN3D_ASSETUTILS_H
 
-#include <array>
-#include <string>
+#include "precompiled.h"
 
 #include "base/Actor.h"
 #include "base/Camera.h"

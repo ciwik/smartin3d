@@ -1,7 +1,7 @@
 #ifndef SMARTIN3D_MESH_H
 #define SMARTIN3D_MESH_H
 
-#include <GL/glew.h>
+#include "precompiled.h"
 
 namespace smartin::graphics {
     class Mesh {

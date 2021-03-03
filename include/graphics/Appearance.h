@@ -1,7 +1,7 @@
 #ifndef SMARTIN3D_APPEARANCE_H
 #define SMARTIN3D_APPEARANCE_H
 
-#include <vector>
+#include "precompiled.h"
 
 #include "graphics/Mesh.h"
 #include "graphics/Material.h"

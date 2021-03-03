@@ -1,8 +1,7 @@
 #ifndef SMARTIN3D_SKYBOX_H
 #define SMARTIN3D_SKYBOX_H
 
-#include <array>
-#include <string>
+#include "precompiled.h"
 
 #include "graphics/Mesh.h"
 #include "graphics/Shader.h"

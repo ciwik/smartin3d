@@ -3,9 +3,7 @@
 
 #define KEYS_NUMBER 348
 
-#include <bitset>
-
-#include <glm/vec2.hpp>
+#include "precompiled.h"
 
 #include "graphics/Window.h"
 #include "TimeUtils.h"

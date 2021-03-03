@@ -1,12 +1,7 @@
 #ifndef SMARTIN3D_MODEL3D_H
 #define SMARTIN3D_MODEL3D_H
 
-#include <string>
-#include <vector>
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "precompiled.h"
 
 #include "graphics/Mesh.h"
 #include "graphics/Texture.h"

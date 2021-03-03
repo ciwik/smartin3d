@@ -1,8 +1,7 @@
 #ifndef SMARTIN3D_OPENGLCONTEXT_H
 #define SMARTIN3D_OPENGLCONTEXT_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "precompiled.h"
 
 #include "utils/Log.h"
 

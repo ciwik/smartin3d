@@ -1,8 +1,7 @@
 #ifndef SMARTIN3D_FILEUTILS_H
 #define SMARTIN3D_FILEUTILS_H
 
-#include <fstream>
-#include <string>
+#include "precompiled.h"
 
 #include "Log.h"
 
