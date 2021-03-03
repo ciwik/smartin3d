@@ -11,7 +11,7 @@
 #include "utils/Log.h"
 
 namespace smartin::utils {
-    class ModelLoader {
+    class ModelLoader final {
     public:
         ModelLoader(const std::string& filePath);
 

@@ -7,7 +7,7 @@
 
 namespace smartin::utils {
     template<class T>
-    class AssetPool {
+    class AssetPool final {
     public:
         AssetPool(bool _autoCollect = false) : autoCollect(_autoCollect) { }
 

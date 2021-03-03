@@ -5,8 +5,6 @@
 
 namespace smartin::base {
     class Transform final {
-        // TODO: friend class ...
-
     public:
         Transform(const glm::vec3& position,
                   const glm::vec3& size,

@@ -13,7 +13,7 @@
 #include "graphics/Render.h"
 
 namespace smartin::base {
-    class App {
+    class App final {
     public:
         App(const std::string& name, unsigned int width = DEFAULT_WINDOW_WIDTH, unsigned int height = DEFAULT_WINDOW_HEIGHT);
 

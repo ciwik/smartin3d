@@ -7,7 +7,7 @@
 #include "graphics/Material.h"
 
 namespace smartin::graphics {
-    class Appearance {
+    class Appearance final {
     public:
         Appearance(std::unique_ptr<Mesh> mesh, std::shared_ptr<Material> material);
 

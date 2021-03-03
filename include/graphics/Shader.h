@@ -7,7 +7,7 @@
 #include "Texture.h"
 
 namespace smartin::graphics {
-    class Shader {
+    class Shader final {
     public:
         Shader(const std::string& vertexCode, const std::string& fragmentCode);
 

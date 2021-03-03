@@ -7,7 +7,7 @@
 #include "graphics/Shader.h"
 
 namespace smartin::graphics {
-    class Skybox {
+    class Skybox final {
     public:
         Skybox(int width, int height);
 

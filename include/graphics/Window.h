@@ -6,7 +6,7 @@
 #include "utils/Log.h"
 
 namespace smartin::graphics {
-    class Window {
+    class Window final {
     public:
         Window(GLuint width, GLuint height);
 

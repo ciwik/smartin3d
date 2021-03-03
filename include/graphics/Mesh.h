@@ -4,7 +4,7 @@
 #include "precompiled.h"
 
 namespace smartin::graphics {
-    class Mesh {
+    class Mesh final {
     public:
         Mesh();
 

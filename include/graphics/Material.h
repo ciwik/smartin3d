@@ -8,7 +8,7 @@
 #include "graphics/Texture.h"
 
 namespace smartin::graphics {
-    class Material {
+    class Material final {
     public:
         Material(std::shared_ptr<Shader> shader, unsigned int textureUnit = -1);
 

@@ -6,7 +6,7 @@
 #include "utils/Log.h"
 
 namespace smartin::graphics {
-    class Texture {
+    class Texture final {
     public:
         Texture(int width, int height, int depth);
 
