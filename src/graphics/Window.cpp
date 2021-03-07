@@ -4,6 +4,10 @@ smartin::graphics::Window::Window(GLuint _width, GLuint _height) :
     width(_width),
     height(_height) { }
 
+float smartin::graphics::Window::GetAspectRatio() const {
+    return static_cast<float>(width) / static_cast<float>(height);
+}
+
 bool smartin::graphics::Window::Instantiate(const std::string& title) {
     instance = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (instance == nullptr) {

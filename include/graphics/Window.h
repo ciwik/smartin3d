@@ -17,7 +17,7 @@ namespace smartin::graphics {
 
         inline GLuint GetWidth() const { return width; }
         inline GLuint GetHeight() const { return height; }
-        inline float GetAspectRatio() const { return width / (float)height; }
+        float GetAspectRatio() const;
 
         inline GLFWwindow* GetInstance() const { return instance; }
 
