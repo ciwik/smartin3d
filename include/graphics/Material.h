@@ -18,7 +18,7 @@ namespace smartin::graphics {
         void SetTexture(std::shared_ptr<Texture> texture);
         void SetColor(const glm::vec3& color);
 
-        void Apply();
+        void Apply() const;
 
         ~Material();
 
@@ -28,7 +28,7 @@ namespace smartin::graphics {
         unsigned int textureUnit;
         std::shared_ptr<Shader> shader;
 
-        const glm::vec4 defaultColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
+        static const glm::vec4 defaultColor;
     };
 }
 

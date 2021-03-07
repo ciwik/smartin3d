@@ -1,9 +1,8 @@
 #include "graphics/Window.h"
 
-smartin::graphics::Window::Window(GLuint _width, GLuint _height) {
-    width = _width;
-    height = _height;
-}
+smartin::graphics::Window::Window(GLuint _width, GLuint _height) :
+    width(_width),
+    height(_height) { }
 
 bool smartin::graphics::Window::Instantiate(const std::string& title) {
     instance = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
@@ -30,13 +29,13 @@ void smartin::graphics::Window::Init() {
     utils::log::I("OpenGL", "Window initialized");
 }
 
-void smartin::graphics::Window::PreRender() {
+void smartin::graphics::Window::PreRender() const {
     // Clear the window
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void smartin::graphics::Window::Render() {
+void smartin::graphics::Window::Render() const {
     glfwSwapBuffers(instance);
 }
 

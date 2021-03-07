@@ -35,10 +35,9 @@ const unsigned int skyboxMeshIndices[] = {
         3, 6, 7
 };
 
-smartin::graphics::Skybox::Skybox(int _width, int _height) {
-    width = _width;
-    height = _height;
-}
+smartin::graphics::Skybox::Skybox(int _width, int _height) :
+    width(_width),
+    height(_height) { }
 
 bool smartin::graphics::Skybox::Load(const std::array<unsigned char*, 6> &facesImageData, std::shared_ptr<smartin::graphics::Shader> _shader) {
     shader = _shader;

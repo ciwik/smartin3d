@@ -11,7 +11,7 @@ namespace smartin::graphics {
     public:
         Appearance(std::unique_ptr<Mesh> mesh, std::shared_ptr<Material> material);
 
-        void Render();
+        void Render() const;
 
         ~Appearance();
 

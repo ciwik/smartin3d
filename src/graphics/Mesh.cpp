@@ -1,11 +1,10 @@
 #include "graphics/Mesh.h"
 
-smartin::graphics::Mesh::Mesh() {
-    vao = 0;
-    vbo = 0;
-    ibo = 0;
-    indexNumber = 0;
-}
+smartin::graphics::Mesh::Mesh() :
+    vao(0),
+    vbo(0),
+    ibo(0),
+    indexNumber(0) { }
 
 void smartin::graphics::Mesh::Init(const GLfloat* vertices, const unsigned int* indices, unsigned int vertexNumber, unsigned int _indexNumber) {
     indexNumber = _indexNumber;
@@ -43,7 +42,7 @@ void smartin::graphics::Mesh::Init(const GLfloat* vertices, const unsigned int* 
     glBindVertexArray(0);
 }
 
-void smartin::graphics::Mesh::Render() {
+void smartin::graphics::Mesh::Render() const{
     glBindVertexArray(vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 

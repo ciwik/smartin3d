@@ -1,10 +1,9 @@
 #include "graphics/Shader.h"
 
-smartin::graphics::Shader::Shader(const std::string& _vertexCode, const std::string& _fragmentCode) {
-    vertexCode = _vertexCode;
-    fragmentCode = _fragmentCode;
-    shaderProgramId = 0;
-}
+smartin::graphics::Shader::Shader(const std::string& _vertexCode, const std::string& _fragmentCode) :
+    vertexCode(_vertexCode),
+    fragmentCode(_fragmentCode),
+    shaderProgramId(0) { }
 
 bool smartin::graphics::Shader::Compile() {
     shaderProgramId = glCreateProgram();
@@ -35,24 +34,29 @@ void smartin::graphics::Shader::Apply() {
     glUseProgram(shaderProgramId);
 }
 
-void smartin::graphics::Shader::SetFloat(const char* variable, GLfloat value) {
-    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
+void smartin::graphics::Shader::SetFloat(const std::string& variable, GLfloat value) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable.c_str());
     glUniform1f(uniformLocation, value);
 }
 
-void smartin::graphics::Shader::SetVector3(const char* variable, glm::vec3 value) {
-    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
+void smartin::graphics::Shader::SetVector3(const std::string& variable, glm::vec3 value) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable.c_str());
     glUniform3f(uniformLocation, value.x, value.y, value.z);
 }
 
-void smartin::graphics::Shader::SetVector4(const char* variable, glm::vec4 value) {
-    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
+void smartin::graphics::Shader::SetVector4(const std::string& variable, glm::vec4 value) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable.c_str());
     glUniform4f(uniformLocation, value.x, value.y, value.z, value.w);
 }
 
-void smartin::graphics::Shader::SetMatrix(const char* variable, glm::mat4 value) {
-    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
+void smartin::graphics::Shader::SetMatrix(const std::string& variable, glm::mat4 value) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable.c_str());
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void smartin::graphics::Shader::SetActiveTextureUnit(const std::string& variable, GLuint textureUnit) {
+    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable.c_str());
+    glUniform1i(uniformLocation, textureUnit);
 }
 
 smartin::graphics::Shader::~Shader() {
@@ -110,11 +114,6 @@ bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, 
     }
 
     return true;
-}
-
-void smartin::graphics::Shader::SetActiveTextureUnit(const char* variable, GLuint textureUnit) {
-    GLuint uniformLocation = glGetUniformLocation(shaderProgramId, variable);
-    glUniform1i(uniformLocation, textureUnit);
 }
 
 void smartin::graphics::DisableShaders() {

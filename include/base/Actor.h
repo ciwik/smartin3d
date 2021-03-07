@@ -16,7 +16,7 @@ namespace smartin::base {
 
         void AddAppearance(std::unique_ptr<graphics::Mesh> mesh, std::shared_ptr<graphics::Material> material);
         bool IsRenderable() const;
-        void Render();
+        void Render() const;
 
         ~Actor();
 

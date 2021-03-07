@@ -1,8 +1,6 @@
 #include "utils/ModelLoader.h"
 
-smartin::utils::ModelLoader::ModelLoader(const std::string& _filePath) {
-    filePath = _filePath;
-}
+smartin::utils::ModelLoader::ModelLoader(const std::string& _filePath) : filePath(_filePath) { }
 
 void smartin::utils::ModelLoader::Load() {
     Assimp::Importer importer;
@@ -88,7 +86,7 @@ void smartin::utils::ModelLoader::LoadMaterials(const aiScene* scene) {
     }
 }
 
-void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> actor) {
+void smartin::utils::ModelLoader::ApplyToActor(std::shared_ptr<base::Actor> actor) const {
     auto defaultColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     bool hasTextures = false;

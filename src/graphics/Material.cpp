@@ -1,11 +1,13 @@
 #include "graphics/Material.h"
 
-smartin::graphics::Material::Material(std::shared_ptr<smartin::graphics::Shader> _shader, unsigned int _textureUnit) {
-    shader = _shader;
+const glm::vec4 smartin::graphics::Material::defaultColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-    if (_textureUnit == -1)
-        _textureUnit = settings::MainTextureUnit;
-    textureUnit = _textureUnit;
+smartin::graphics::Material::Material(std::shared_ptr<smartin::graphics::Shader> _shader, unsigned int _textureUnit) :
+    shader(_shader),
+    textureUnit(_textureUnit)
+{
+    if (textureUnit == -1)
+        textureUnit = settings::MainTextureUnit;
 }
 
 void smartin::graphics::Material::SetTexture(std::shared_ptr<smartin::graphics::Texture> _texture) {
@@ -17,7 +19,7 @@ void smartin::graphics::Material::SetColor(const glm::vec3& _color) {
     hasColor = true;
 }
 
-void smartin::graphics::Material::Apply() {
+void smartin::graphics::Material::Apply() const {
     shader->SetVector3("mainColor", hasColor ? color : defaultColor);
 
     if (texture != nullptr)

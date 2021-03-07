@@ -11,7 +11,7 @@ namespace smartin::utils {
     public:
         AssetPool(bool _autoCollect = false) : autoCollect(_autoCollect) { }
 
-        std::shared_ptr<T> Get(const std::string& name) {
+        std::shared_ptr<T> Get(const std::string& name) const {
             if (items.find(name) != items.end())
                 return items[name];
             return nullptr;
@@ -68,7 +68,7 @@ namespace smartin::utils {
             toCollect.clear();
         }
 
-        void DebugPrintContent(std::string tag) {
+        void DebugPrintContent(std::string tag) const {
             std::stringstream stream;
 
             stream << "\n";
@@ -84,7 +84,7 @@ namespace smartin::utils {
         }
 
     private:
-        std::map<std::string, std::shared_ptr<T>> items;
+        mutable std::map<std::string, std::shared_ptr<T>> items;
         std::list<std::shared_ptr<T>> itemsList;
         std::vector<std::shared_ptr<T>> toCollect;
 

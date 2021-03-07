@@ -12,12 +12,18 @@ namespace smartin::base {
 
         void Update() override;
 
-        glm::mat4 GetViewMatrix();
-        glm::mat4 GetProjectionMatrix();
+        glm::mat4 GetViewMatrix() const;
+        glm::mat4 GetProjectionMatrix() const;
 
         float fieldOfView, nearPlane, farPlane, aspect;
 
         ~Camera();
+
+    private:
+        static const float DEFAULT_FIELD_OF_VIEW;
+        static const float DEFAULT_NEAR_PLANE;
+        static const float DEFAULT_FAR_PLANE;
+        static const float DEFAULT_ASPECT_RATIO;
     };
 }
 

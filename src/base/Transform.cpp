@@ -1,18 +1,18 @@
 #include "base/Transform.h"
 
-smartin::base::Transform::Transform(const glm::vec3& _position, const glm::vec3& _size, const glm::vec3& _eulerAngles) {
-    position = _position;
-    size = _size;
-    rotation = glm::quat(_eulerAngles);
-
+smartin::base::Transform::Transform(const glm::vec3& _position, const glm::vec3& _size, const glm::vec3& _eulerAngles) :
+    position(_position),
+    size(_size),
+    rotation(glm::quat(_eulerAngles))
+{
     Update();
 }
 
-smartin::base::Transform::Transform(const glm::vec3& _position, const glm::vec3& _size, const glm::quat& _rotation) {
-    position = _position;
-    size = _size;
-    rotation = _rotation;
-
+smartin::base::Transform::Transform(const glm::vec3& _position, const glm::vec3& _size, const glm::quat& _rotation) :
+    position(_position),
+    size(_size),
+    rotation(_rotation)
+{
     Update();
 }
 

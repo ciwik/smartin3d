@@ -15,11 +15,11 @@ namespace smartin::graphics {
         bool Validate();
         void Apply();
 
-        void SetFloat(const char* variable, GLfloat value);
-        void SetVector3(const char* variable, glm::vec3 value);
-        void SetVector4(const char* variable, glm::vec4 value);
-        void SetMatrix(const char* variable, glm::mat4 value);
-        void SetActiveTextureUnit(const char* variable, GLuint textureUnit);
+        void SetFloat(const std::string& variable, GLfloat value);
+        void SetVector3(const std::string& variable, glm::vec3 value);
+        void SetVector4(const std::string& variable, glm::vec4 value);
+        void SetMatrix(const std::string& variable, glm::mat4 value);
+        void SetActiveTextureUnit(const std::string& variable, GLuint textureUnit);
 
         ~Shader();
 

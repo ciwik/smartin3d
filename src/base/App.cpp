@@ -1,10 +1,9 @@
 #include "base/App.h"
 
-smartin::base::App::App(const std::string& _name, unsigned int width, unsigned int height) {
-    name = _name;
-    windowWidth = width;
-    windowHeight = height;
-}
+smartin::base::App::App(const std::string& _name, unsigned int width, unsigned int height) :
+    name(_name),
+    windowWidth(width),
+    windowHeight(height) { }
 
 void smartin::base::App::Init() {
     // Log

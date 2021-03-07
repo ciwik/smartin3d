@@ -1,12 +1,11 @@
 #include "graphics/Texture.h"
 
-smartin::graphics::Texture::Texture(int _width, int _height, int _depth) {
-    id = 0;
-
-    width = _width;
-    height = _height;
-    depth = _depth;
-
+smartin::graphics::Texture::Texture(int _width, int _height, int _depth) :
+    id(0),
+    width(_width),
+    height(_height),
+    depth(_depth)
+{
     type = depth == 4 ? GL_RGBA : GL_RGB;
 }
 
