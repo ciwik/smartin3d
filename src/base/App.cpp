@@ -22,7 +22,7 @@ void smartin::base::App::Init() {
 void smartin::base::App::Run() {
     // Main loop
     while (!window->IsAboutToClose()) {
-        auto frameEnd = std::chrono::steady_clock::now() + std::chrono::milliseconds(targetFrameDurationMs);
+        auto frameEnd = utils::time::GetRealtimeSinceStartup() + std::chrono::milliseconds(targetFrameDurationMs);
 
         utils::time::Update();
         if (utils::time::GetFrameCount() % FRAMES_BEFORE_GC == 0)
@@ -48,7 +48,8 @@ void smartin::base::App::Run() {
         if (utils::input::keyboard::IsKey(KEY_ESCAPE))
             Close();
 
-        std::this_thread::sleep_until(frameEnd);
+        if (utils::time::GetRealtimeSinceStartup() < frameEnd)
+            std::this_thread::sleep_until(frameEnd);
     }
 }
 

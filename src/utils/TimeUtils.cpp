@@ -1,22 +1,21 @@
 #include "utils/TimeUtils.h"
 
-static float deltaTime = 0.02f;
-static float currentTime;
-static float lastTime;
+static float deltaTime;
+static time_point<system_clock> currentTime;
+static time_point<system_clock> lastTime;
 static int frameCount = 0;
 
 void smartin::utils::time::Update() {
-    float time = GetRealtimeSinceStartup();
-
-    deltaTime = time - lastTime;
     lastTime = currentTime;
-    currentTime = time;
+    currentTime = GetRealtimeSinceStartup();
 
+    auto delta = duration_cast<microseconds>(currentTime - lastTime);
+    deltaTime = delta.count() / 1000000.0f;
     frameCount++;
 }
 
 float smartin::utils::time::GetDeltaTime() { return deltaTime; }
 
-float smartin::utils::time::GetRealtimeSinceStartup() { return static_cast<float>(glfwGetTime()); }
+time_point<system_clock> smartin::utils::time::GetRealtimeSinceStartup() { return system_clock::now(); }
 
 int smartin::utils::time::GetFrameCount() { return frameCount; }

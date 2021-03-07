@@ -3,9 +3,11 @@
 
 #include "precompiled.h"
 
+using namespace std::chrono;
+
 namespace smartin::utils::time {
     float GetDeltaTime();
-    float GetRealtimeSinceStartup();
+    time_point<system_clock> GetRealtimeSinceStartup();
     int GetFrameCount();
 
     void Update();
