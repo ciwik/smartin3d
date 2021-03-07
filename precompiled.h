@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <iostream>
 #include <ostream>
+#include <thread>
+#include <chrono>
 
 #include <GL/glew.h>
 

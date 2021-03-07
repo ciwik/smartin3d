@@ -22,6 +22,8 @@ void smartin::base::App::Init() {
 void smartin::base::App::Run() {
     // Main loop
     while (!window->IsAboutToClose()) {
+        auto frameEnd = std::chrono::steady_clock::now() + std::chrono::milliseconds(targetFrameDurationMs);
+
         utils::time::Update();
         if (utils::time::GetFrameCount() % FRAMES_BEFORE_GC == 0)
             utils::CollectGarbage();
@@ -45,6 +47,8 @@ void smartin::base::App::Run() {
 
         if (utils::input::keyboard::IsKey(KEY_ESCAPE))
             Close();
+
+        std::this_thread::sleep_until(frameEnd);
     }
 }
 
@@ -93,5 +97,9 @@ void smartin::base::App::AddActor(const std::string& name, const std::string& mo
         utils::CreateShader(utils::DEFAULT_SHADER_NAME);
 
     utils::CreateActorWithAppearance(name, modelFileName, position, size, eulerAngles);
+}
+
+void smartin::base::App::SetTargetFPS(unsigned int fps) {
+    targetFrameDurationMs = 1000 / fps;
 }
 

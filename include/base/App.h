@@ -34,6 +34,8 @@ namespace smartin::base {
                       const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
         void AddJob(std::unique_ptr<Job> job);
 
+        void SetTargetFPS(unsigned int fps);
+
         ~App();
 
     private:
@@ -41,6 +43,7 @@ namespace smartin::base {
 
         std::string name;
         unsigned int windowWidth, windowHeight;
+        unsigned int targetFrameDurationMs = 0.0f;
 
         std::shared_ptr<graphics::Window> window;
         std::vector<std::unique_ptr<base::Job>> jobs;
