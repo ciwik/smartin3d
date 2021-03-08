@@ -28,4 +28,4 @@ void smartin::utils::log::I(const std::string& tag, const std::string& message) 
 
 void smartin::utils::log::W(const std::string& tag, const std::string& message) { logger->Write(tag, message); }
 
-void smartin::utils::log::E(const std::string& tag, const std::string& message) { logger->Write(tag, message); }
+void smartin::utils::log::E(const smartin::utils::error::SmartinRuntimeException& exception) { logger->Write(exception.tag, exception.message); }

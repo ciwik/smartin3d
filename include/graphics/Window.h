@@ -10,7 +10,7 @@ namespace smartin::graphics {
     public:
         Window(unsigned int width, unsigned int height);
 
-        bool Instantiate(const std::string& title);
+        void Instantiate(const std::string& title);
         void Init();
         void PreRender() const;
         void Render() const;

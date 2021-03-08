@@ -20,36 +20,43 @@ void smartin::base::App::Init() {
 }
 
 void smartin::base::App::Run() {
-    // Main loop
-    while (!window->IsAboutToClose()) {
-        auto frameEnd = utils::time::GetRealtimeSinceStartup() + std::chrono::milliseconds(targetFrameDurationMs);
+    try {
 
-        utils::time::Update();
-        if (utils::time::GetFrameCount() % FRAMES_BEFORE_GC == 0)
-            utils::CollectGarbage();
+        // Main loop
+        while (!window->IsAboutToClose()) {
+            auto frameEnd = utils::time::GetRealtimeSinceStartup() + std::chrono::milliseconds(targetFrameDurationMs);
 
-        utils::input::Update();
+            utils::time::Update();
+            if (utils::time::GetFrameCount() % FRAMES_BEFORE_GC == 0)
+                utils::CollectGarbage();
 
-        // PreRender
-        window->PreRender();
+            utils::input::Update();
 
-        // Update objects
-        for (auto& actor : utils::GetAllActors())
-            actor->Update();
+            // PreRender
+            window->PreRender();
 
-        // Update jobs
-        for (const auto& job : jobs)
-            job->Tick();
+            // Update objects
+            for (auto &actor : utils::GetAllActors())
+                actor->Update();
 
-        // Render
-        graphics::RenderFor(mainCamera);
-        window->Render();
+            // Update jobs
+            for (const auto &job : jobs)
+                job->Tick();
 
-        if (utils::input::keyboard::IsKey(KEY_ESCAPE))
-            Close();
+            // Render
+            graphics::RenderFor(mainCamera);
+            window->Render();
 
-        if (utils::time::GetRealtimeSinceStartup() < frameEnd)
-            std::this_thread::sleep_until(frameEnd);
+            if (utils::input::keyboard::IsKey(KEY_ESCAPE))
+                Close();
+
+            if (utils::time::GetRealtimeSinceStartup() < frameEnd)
+                std::this_thread::sleep_until(frameEnd);
+        }
+
+    } catch (utils::error::SmartinRuntimeException& e) {
+        utils::log::E(e);
+        Close();
     }
 }
 
@@ -65,16 +72,20 @@ smartin::base::App::~App() {
 }
 
 bool smartin::base::App::CreateWindow(int width, int height, const std::string &title) {
-    utils::context::InitGLFW();
+    try {
+        utils::context::InitGLFW();
 
-    window = std::make_shared<graphics::Window>(width, height);
-    if (!window->Instantiate(title)) {
+        window = std::make_shared<graphics::Window>(width, height);
+        window->Instantiate(title);
+
+        utils::context::InitGLEW();
+        window->Init();
+    } catch (utils::error::SmartinRuntimeException& e) {
+        utils::log::E(e);
         window.reset();
         return false;
     }
 
-    utils::context::InitGLEW();
-    window->Init();
     return true;
 }
 

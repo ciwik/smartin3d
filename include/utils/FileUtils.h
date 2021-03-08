@@ -11,8 +11,8 @@ namespace smartin::utils::io {
         std::ifstream fileStream(filePath, std::ios::in);
 
         if (!fileStream.is_open()) {
-            utils::log::E("File", "Failed to read file by path: " + filePath);
-            return "";
+            fileStream.close();
+            throw error::FileNotFoundException("Failed to read file by path: " + filePath);
         }
 
         std::string line = "";

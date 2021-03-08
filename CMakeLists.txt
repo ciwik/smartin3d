@@ -187,6 +187,7 @@ set (HEADER_FILES
         include/utils/AssetLoader.h
         include/utils/AssetPool.h
         include/utils/AssetUtils.h
+        include/utils/Exceptions.h
         include/utils/FileUtils.h
         include/utils/Input.h
         include/utils/Log.h
@@ -214,6 +215,7 @@ set (SOURCE_FILES
 
         src/utils/AssetLoader.cpp
         src/utils/AssetUtils.cpp
+        src/utils/Exceptions.cpp
         src/utils/Input.cpp
         src/utils/Log.cpp
         src/utils/ModelLoader.cpp

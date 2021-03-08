@@ -5,25 +5,21 @@ smartin::graphics::Shader::Shader(const std::string& _vertexCode, const std::str
     fragmentCode(_fragmentCode),
     shaderProgramId(0) { }
 
-bool smartin::graphics::Shader::Compile() {
+void smartin::graphics::Shader::Compile() {
     shaderProgramId = glCreateProgram();
-    if (!shaderProgramId) {
-        utils::log::E("Shader", "Error creating shader program");
-        return false;
-    }
+    if (shaderProgramId == 0)
+        throw utils::error::ShaderException("Error creating shader program");
 
     if (!AddShader(vertexCode, GL_VERTEX_SHADER))
-        return false;
+        throw utils::error::ShaderException("Error creating vertex shader");
     if (!AddShader(fragmentCode, GL_FRAGMENT_SHADER))
-        return false;
+        throw utils::error::ShaderException("Error creating fragment shader");
 
     if (!CompileProgram())
-        return false;
+        throw utils::error::ShaderException("Error compiling shader program");
 
     vertexCode.clear();
     fragmentCode.clear();
-
-    return true;
 }
 
 bool smartin::graphics::Shader::Validate() {
@@ -96,7 +92,7 @@ bool smartin::graphics::Shader::CheckShaderStatus(GLuint id, GLenum checkType, c
     if (result != GL_TRUE) {
         GLchar log[1024] = { 0 };
         glGetShaderInfoLog(id, sizeof(log), NULL, log);
-        utils::log::E("Shader", "Couldn't " + tag + ": " + std::to_string(result) + "\n" + std::string(log));
+        utils::log::W("Shader", "Couldn't " + tag + ": " + std::to_string(result) + "\n" + std::string(log));
         return false;
     }
 
@@ -109,7 +105,7 @@ bool smartin::graphics::Shader::CheckProgramStatus(GLuint id, GLenum checkType, 
     if (result != GL_TRUE) {
         GLchar log[1024] = { 0 };
         glGetProgramInfoLog(id, sizeof(log), NULL, log);
-        utils::log::E("Shader", "Couldn't " + tag + ": " + std::to_string(result) + "\n" + std::string(log));
+        utils::log::W("Shader", "Couldn't " + tag + ": " + std::to_string(result) + "\n" + std::string(log));
         return false;
     }
 

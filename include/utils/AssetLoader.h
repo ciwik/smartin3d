@@ -4,6 +4,7 @@
 #include "precompiled.h"
 
 #include "base/Actor.h"
+#include "utils/Exceptions.h"
 #include "utils/ModelLoader.h"
 #include "graphics/Appearance.h"
 #include "graphics/Skybox.h"

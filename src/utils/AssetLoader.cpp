@@ -27,10 +27,8 @@ std::shared_ptr<smartin::graphics::Skybox> smartin::utils::loaders::LoadSkybox(c
     for (size_t i = 0; i < faceTexturePaths.size(); i++) {
         std::string filePath = BuildPath(SKYBOXES_DIR, faceTexturePaths[i]);
         imagesData[i] = stbi_load(filePath.c_str(), &width, &height, &bitDepth, 0);
-        if (imagesData[i] == nullptr) {
-            utils::log::E("AssetLoader", "Couldn't find file at path: " + filePath);
-            return nullptr;
-        }
+        if (imagesData[i] == nullptr)
+            throw error::AssetException("Couldn't find file at path: " + filePath);
     }
 
     skybox = std::make_shared<graphics::Skybox>(width, height);

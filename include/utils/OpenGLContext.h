@@ -6,12 +6,10 @@
 #include "utils/Log.h"
 
 namespace smartin::utils::context {
-    static bool InitGLFW() {
+    static void InitGLFW() {
         // Init GLFW
-        if (!glfwInit()) {
-            utils::log::E("OpenGL", "GLFW failed to initialize");
-            return false;
-        }
+        if (!glfwInit())
+            throw error::OpenGLException("GLFW failed to initialize");
 
         // Setup OpenGL version
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -23,23 +21,19 @@ namespace smartin::utils::context {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
         utils::log::I("OpenGL", "GLFW context initialized");
-        return true;
     }
 
-    static bool InitGLEW() {
+    static void InitGLEW() {
         // Allow modern extension features
         glewExperimental = GL_TRUE;
 
         // Init GLEW
-        if (glewInit() != GLEW_OK) {
-            utils::log::E("OpenGL", "GLEW failed to init");
-            return false;
-        }
+        if (glewInit() != GLEW_OK)
+            throw error::OpenGLException("GLEW failed to initialize");
 
         glEnable(GL_DEPTH_TEST);
 
         utils::log::I("OpenGL", "GLEW context initialized");
-        return true;
     }
 }
 

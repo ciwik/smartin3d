@@ -28,7 +28,7 @@ namespace smartin::utils {
 
         bool Add(const std::string& name, std::shared_ptr<T> item) {
             if (items.find(name) != items.end()) {
-                smartin::utils::log::E("AssetPool", "Asset already exists: " + name);
+                smartin::utils::log::W("AssetPool", "Asset already exists: " + name);
                 return false;
             }
 

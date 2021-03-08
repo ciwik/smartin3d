@@ -5,10 +5,8 @@ smartin::utils::ModelLoader::ModelLoader(const std::string& _filePath) : filePat
 void smartin::utils::ModelLoader::Load() {
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
-    if (scene == nullptr) {
-        utils::log::E("ModelLoader", "Failed to load by path: " + filePath + ":\n" + importer.GetErrorString());
-        return;
-    }
+    if (scene == nullptr)
+        throw error::FileNotFoundException("Failed to load by path: " + filePath + ":\n" + importer.GetErrorString());
 
     LoadNode(scene->mRootNode, scene);
     LoadMaterials(scene);

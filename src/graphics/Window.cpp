@@ -8,12 +8,11 @@ float smartin::graphics::Window::GetAspectRatio() const {
     return static_cast<float>(width) / static_cast<float>(height);
 }
 
-bool smartin::graphics::Window::Instantiate(const std::string& title) {
+void smartin::graphics::Window::Instantiate(const std::string& title) {
     instance = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (instance == nullptr) {
-        utils::log::E("OpenGL", "GLFW failed to create window");
         Destroy();
-        return false;
+        throw utils::error::OpenGLException("GLFW failed to create window");
     }
 
     // Get buffer size info
@@ -23,7 +22,6 @@ bool smartin::graphics::Window::Instantiate(const std::string& title) {
     glfwMakeContextCurrent(instance);
 
     utils::log::I("OpenGL", "Window instantiated");
-    return true;
 }
 
 void smartin::graphics::Window::Init() {

@@ -11,7 +11,7 @@ namespace smartin::graphics {
     public:
         Shader(const std::string& vertexCode, const std::string& fragmentCode);
 
-        bool Compile();
+        void Compile();
         bool Validate();
         void Apply();
 

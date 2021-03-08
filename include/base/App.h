@@ -10,6 +10,7 @@
 #include "utils/Input.h"
 #include "utils/OpenGLContext.h"
 #include "utils/AssetUtils.h"
+#include "utils/Exceptions.h"
 #include "graphics/Render.h"
 
 namespace smartin::base {

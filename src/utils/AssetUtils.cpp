@@ -15,8 +15,13 @@ std::shared_ptr<smartin::base::Actor> smartin::utils::CreateActor(const std::str
 
 std::shared_ptr<smartin::base::Actor> smartin::utils::CreateActorWithAppearance(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     auto actor = CreateActor(name, position, size, eulerAngles);
-    if (actor != nullptr)
-        loaders::LoadAppearanceForActor(actor, modelFileName);  // TODO
+
+    try {
+        if (actor != nullptr)
+            loaders::LoadAppearanceForActor(actor, modelFileName);
+    } catch (error::SmartinRuntimeException& e) {
+        utils::log::W("Asset", "Couldn't load appearence '" + modelFileName + "' for actor '" + name + "'");
+    }
 
     return actor;
 }
@@ -47,18 +52,23 @@ std::shared_ptr<smartin::graphics::Shader> smartin::utils::GetShader(const std::
 }
 
 std::shared_ptr<smartin::graphics::Shader> smartin::utils::CreateShader(const std::string& name) {
-    std::shared_ptr<graphics::Shader> shader = nullptr;
+    try {
+        std::shared_ptr<graphics::Shader> shader = nullptr;
 
-    std::string vertexShaderPath = name + "." + VERTEX_SHADER_EXTENSION;
-    std::string fragmentShaderPath = name + "." + FRAGMENT_SHADER_EXTENSION;
-    shader = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
+        std::string vertexShaderPath = name + "." + VERTEX_SHADER_EXTENSION;
+        std::string fragmentShaderPath = name + "." + FRAGMENT_SHADER_EXTENSION;
+        shader = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
 
-    if (shader != nullptr && shader->Compile() && shader->Validate())
-        holders::shaders.Add(name, shader);
-    else
-        shader = nullptr;
-
-    return shader;
+        if (shader != nullptr) {
+            shader->Compile();
+            shader->Validate();
+            holders::shaders.Add(name, shader);
+        }
+        return shader;
+    } catch (error::ShaderException& e) {
+        utils::log::E(e);
+        return nullptr;
+    }
 }
 
 void smartin::utils::DestroyShader(std::shared_ptr<smartin::graphics::Shader> shader) {
@@ -70,7 +80,13 @@ std::shared_ptr<smartin::graphics::Texture> smartin::utils::GetTexture(const std
 }
 
 std::shared_ptr<smartin::graphics::Texture> smartin::utils::CreateTexture(const std::string& name, const std::string& fileName) {
-    auto texture = loaders::LoadTexture(fileName);
+    std::shared_ptr<graphics::Texture> texture = nullptr;
+
+    try {
+        texture = loaders::LoadTexture(fileName);
+    } catch (error::FileNotFoundException& e) {
+        log::E(e);
+    }
 
     if (texture != nullptr)
         holders::textures.Add(name, texture);
@@ -121,7 +137,12 @@ std::shared_ptr<smartin::graphics::Skybox> smartin::utils::CreateSkybox(const st
     if (shader == nullptr)
         shader = utils::CreateShader(DEFAULT_SKY_SHADER_NAME);
 
-    holders::skybox = loaders::LoadSkybox(faceTexturePaths, shader);
+    try {
+        holders::skybox = loaders::LoadSkybox(faceTexturePaths, shader);
+    } catch (error::SmartinRuntimeException& e) {
+        log::E(e);
+    }
+
     return holders::skybox;
 }
 
