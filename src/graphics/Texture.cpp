@@ -1,6 +1,6 @@
 #include "graphics/Texture.h"
 
-smartin::graphics::Texture::Texture(int _width, int _height, int _depth) :
+smartin::graphics::Texture::Texture(unsigned int _width, unsigned int _height, unsigned int _depth) :
     id(0),
     width(_width),
     height(_height),

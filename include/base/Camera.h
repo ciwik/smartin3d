@@ -8,7 +8,7 @@
 namespace smartin::base {
     class Camera : public Actor {
     public:
-        Camera(std::shared_ptr<Transform> transform = std::make_shared<Transform>());
+        explicit Camera(std::shared_ptr<Transform> transform = std::make_shared<Transform>());
 
         void Update() override;
 

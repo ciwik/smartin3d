@@ -1,6 +1,6 @@
 #include "graphics/Window.h"
 
-smartin::graphics::Window::Window(GLuint _width, GLuint _height) :
+smartin::graphics::Window::Window(unsigned int _width, unsigned int _height) :
     width(_width),
     height(_height) { }
 

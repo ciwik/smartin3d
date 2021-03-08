@@ -7,7 +7,7 @@
 namespace smartin::base {
     class Actor {
     public:
-        Actor(std::shared_ptr<Transform> transform = std::make_shared<Transform>());
+        explicit Actor(std::shared_ptr<Transform> transform = std::make_shared<Transform>());
 
         inline bool IsActive() const { return isActive; }
         inline void SetActive(bool mode) { isActive = mode; }

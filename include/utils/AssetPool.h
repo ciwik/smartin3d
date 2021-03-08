@@ -9,7 +9,7 @@ namespace smartin::utils {
     template<class T>
     class AssetPool final {
     public:
-        AssetPool(bool _autoCollect = false) : autoCollect(_autoCollect) { }
+        explicit AssetPool(bool _autoCollect = false) : autoCollect(_autoCollect) { }
 
         std::shared_ptr<T> Get(const std::string& name) const {
             if (items.find(name) != items.end())

@@ -8,7 +8,7 @@
 namespace smartin::graphics {
     class Window final {
     public:
-        Window(GLuint width, GLuint height);
+        Window(unsigned int width, unsigned int height);
 
         bool Instantiate(const std::string& title);
         void Init();

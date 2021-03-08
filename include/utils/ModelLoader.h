@@ -13,7 +13,7 @@
 namespace smartin::utils {
     class ModelLoader final {
     public:
-        ModelLoader(const std::string& filePath);
+        explicit ModelLoader(const std::string& filePath);
 
         void Load();
         void ApplyToActor(std::shared_ptr<base::Actor> actor) const;

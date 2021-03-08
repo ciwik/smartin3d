@@ -8,7 +8,7 @@
 namespace smartin::graphics {
     class Texture final {
     public:
-        Texture(int width, int height, int depth);
+        Texture(unsigned int width, unsigned int height, unsigned int depth);
 
         bool Load(unsigned char* imageData);
         void Apply(GLuint textureUnit);
@@ -18,7 +18,7 @@ namespace smartin::graphics {
     private:
         GLuint id;
         GLenum type;
-        int width, height, depth;
+        unsigned int width, height, depth;
     };
 
     void DisableTextures();
