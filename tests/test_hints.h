@@ -1,11 +1,8 @@
 #ifndef SMARTIN3D_TEST_HINTS_H
 #define SMARTIN3D_TEST_HINTS_H
 
-#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
-
 #include <cmath>
-
 #include <glm/glm.hpp>
 
 #define REQUIRE_EQ(x, y) REQUIRE(x == y)

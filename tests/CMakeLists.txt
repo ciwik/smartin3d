@@ -18,8 +18,7 @@ if (NOT Catch2_FOUND)
     FetchContent_MakeAvailable(Catch2)
 endif()
 
-set (TEST_FILES
-        transform_tests.cpp)
+set (TEST_FILES main.cpp transform_tests.cpp asset_pool_tests.cpp)
 
 add_executable(tests test_hints.h ${TEST_FILES})
 target_link_libraries(tests smartin3dlib Catch2::Catch2)
