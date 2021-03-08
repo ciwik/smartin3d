@@ -1,5 +1,7 @@
 #include "utils/TimeUtils.h"
 
+using namespace std::chrono;
+
 static float deltaTime;
 static time_point<system_clock> currentTime;
 static time_point<system_clock> lastTime;
