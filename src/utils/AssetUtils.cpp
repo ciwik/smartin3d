@@ -36,7 +36,7 @@ std::shared_ptr<smartin::base::Camera> smartin::utils::CreateCamera(float fov, f
     camera->fieldOfView = fov;
     camera->aspect = aspect;
 
-    holders::actors.Add(DEFAULT_CAMERA_NAME, camera);
+    holders::actors.Add(defaultCameraName, camera);
 
     return camera;
 }
@@ -55,8 +55,8 @@ std::shared_ptr<smartin::graphics::Shader> smartin::utils::CreateShader(const st
     try {
         std::shared_ptr<graphics::Shader> shader = nullptr;
 
-        std::string vertexShaderPath = name + "." + VERTEX_SHADER_EXTENSION;
-        std::string fragmentShaderPath = name + "." + FRAGMENT_SHADER_EXTENSION;
+        std::string vertexShaderPath = name + "." + vertexShaderExtension;
+        std::string fragmentShaderPath = name + "." + fragmentShaderExtension;
         shader = loaders::LoadShader(vertexShaderPath, fragmentShaderPath);
 
         if (shader != nullptr) {
@@ -98,7 +98,7 @@ std::shared_ptr<smartin::graphics::Material> smartin::utils::GetMaterial(const s
     return holders::materials.Get(name);
 }
 
-std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(const std::string& name, const std::string& textureName, const glm::vec3& color, const std::string& shaderName) {
+std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(const std::string& name, const std::string& shaderName, const std::string& textureName, const glm::vec3& color) {
     std::shared_ptr<smartin::graphics::Material> material = nullptr;
 
     auto shader = GetShader(shaderName);
@@ -118,7 +118,7 @@ std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(cons
 }
 
 std::shared_ptr<smartin::graphics::Material> smartin::utils::CreateMaterial(const std::string& name, std::shared_ptr<smartin::graphics::Texture> texture) {
-    std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>(GetShader());
+    std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>(GetShader(graphics::defaultShaderName));
 
     if (texture != nullptr)
         material->SetTexture(texture);
@@ -133,9 +133,9 @@ std::shared_ptr<smartin::graphics::Skybox> smartin::utils::GetSkybox() {
 }
 
 std::shared_ptr<smartin::graphics::Skybox> smartin::utils::CreateSkybox(const std::array<std::string, 6>& faceTexturePaths) {
-    auto shader = utils::GetShader(DEFAULT_SKY_SHADER_NAME);
+    auto shader = utils::GetShader(graphics::skyboxShaderName);
     if (shader == nullptr)
-        shader = utils::CreateShader(DEFAULT_SKY_SHADER_NAME);
+        shader = utils::CreateShader(graphics::skyboxShaderName);
 
     try {
         holders::skybox = loaders::LoadSkybox(faceTexturePaths, shader);

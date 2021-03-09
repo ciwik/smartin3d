@@ -94,8 +94,8 @@ void smartin::base::App::CreateCamera(const glm::vec3& position, const glm::vec3
 }
 
 void smartin::base::App::SetSkybox(const std::array<std::string, 6>& faceTexturePaths) {
-    if (utils::GetShader(utils::DEFAULT_SKY_SHADER_NAME) == nullptr)
-        utils::CreateShader(utils::DEFAULT_SKY_SHADER_NAME);
+    if (utils::GetShader(graphics::skyboxShaderName) == nullptr)
+        utils::CreateShader(graphics::skyboxShaderName);
 
     utils::CreateSkybox(faceTexturePaths);
 }
@@ -105,8 +105,8 @@ void smartin::base::App::AddJob(std::unique_ptr<smartin::base::Job> job) {
 }
 
 void smartin::base::App::AddActor(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
-    if (utils::GetShader(utils::DEFAULT_SHADER_NAME) == nullptr)
-        utils::CreateShader(utils::DEFAULT_SHADER_NAME);
+    if (utils::GetShader(graphics::defaultShaderName) == nullptr)
+        utils::CreateShader(graphics::defaultShaderName);
 
     utils::CreateActorWithAppearance(name, modelFileName, position, size, eulerAngles);
 }

@@ -96,11 +96,9 @@ void smartin::base::Transform::Update() {
     modelMatrix = mat;
 }
 
-smartin::base::Transform::~Transform() {
-
-}
+smartin::base::Transform::~Transform() { }
 
 // Axes
-glm::vec3 smartin::base::Transform::rightAxis = glm::vec3(1.0f, 0.0f, 0.0f);
-glm::vec3 smartin::base::Transform::upAxis = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 smartin::base::Transform::forwardAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+const glm::vec3 smartin::base::Transform::rightAxis = glm::vec3(1.0f, 0.0f, 0.0f);
+const glm::vec3 smartin::base::Transform::upAxis = glm::vec3(0.0f, 1.0f, 0.0f);
+const glm::vec3 smartin::base::Transform::forwardAxis = glm::vec3(0.0f, 0.0f, 1.0f);

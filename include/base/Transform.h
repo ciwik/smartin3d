@@ -47,7 +47,7 @@ namespace smartin::base {
         glm::mat4 modelMatrix;
 
         // Axes
-        static glm::vec3 rightAxis, upAxis, forwardAxis;
+        static const glm::vec3 rightAxis, upAxis, forwardAxis;
     };
 }
 

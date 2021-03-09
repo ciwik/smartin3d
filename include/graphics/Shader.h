@@ -37,6 +37,12 @@ private:
     };
 
     void DisableShaders();
+
+    static const std::string unlitShaderName = "unlit";
+    static const std::string directionalMapShaderName = "directional_shadow";
+    static const std::string omniDirectionalMapShaderName = "omni_shadow";
+    static const std::string skyboxShaderName = "skybox";
+    static const std::string defaultShaderName = unlitShaderName;
 }
 
 #endif //SMARTIN3D_SHADER_H

@@ -6,13 +6,13 @@ void smartin::graphics::RenderFor(std::shared_ptr<base::Camera> camera) {
 
     auto skybox = utils::GetSkybox();
     if (skybox != nullptr) {
-        auto skyboxShader = utils::GetShader("skybox");
+        auto skyboxShader = utils::GetShader(graphics::skyboxShaderName);
         skyboxShader->Apply();
-        skyboxShader->SetActiveTextureUnit("skybox", settings::SkyboxTextureUnit);
+        skyboxShader->SetActiveTextureUnit(graphics::skyboxShaderName, settings::SkyboxTextureUnit);
         skybox->Apply(settings::SkyboxTextureUnit, view, projection);
     }
 
-    auto mainShader = utils::GetShader();   // TODO
+    auto mainShader = utils::GetShader(graphics::defaultShaderName);
     mainShader->Apply();
     mainShader->SetActiveTextureUnit("mainTex", settings::MainTextureUnit);
     mainShader->SetMatrix("projection", projection);
