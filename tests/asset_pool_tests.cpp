@@ -12,13 +12,11 @@ TEST_CASE("Garbage collection in asset pool", "[require]") {
 
     {
         auto actor = std::make_shared<smartin::base::Actor>();
-        REQUIRE_EQ(actor.use_count(), 1);
-
         pool.Add(actorName, actor);
-        REQUIRE_EQ(actor.use_count(), 3);
+        REQUIRE_EQ(pool.Get(actorName), actor);
 
         pool.CollectGarbage();
-        REQUIRE_EQ(actor.use_count(), 3);
+        REQUIRE_EQ(pool.Get(actorName), actor);
     }
 
     pool.Remove(pool.Get(actorName));
