@@ -8,13 +8,13 @@ using namespace smartin;
 class XwingDestroyJob : public base::Job {
 public:
     void Tick() override {
-        if (utils::input::keyboard::IsKeyDown(utils::input::KEY_SPACE))
+        if (utils::input::keyboard::IsKeyDown(utils::input::space))
             utils::DestroyActor(utils::FindActor("xwing"));
 
-        if (utils::input::keyboard::IsKeyDown(utils::input::KEY_LEFT_SHIFT))
+        if (utils::input::keyboard::IsKeyDown(utils::input::l_shift))
             utils::DestroySkybox();
 
-        if (utils::input::keyboard::IsKeyDown(utils::input::KEY_LEFT_CONTROL))
+        if (utils::input::keyboard::IsKeyDown(utils::input::l_ctrl))
             utils::DebugPrintContent();
     }
 };

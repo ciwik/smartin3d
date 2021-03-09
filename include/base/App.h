@@ -16,7 +16,7 @@
 namespace smartin::base {
     class App final {
     public:
-        App(const std::string& name, unsigned int width = DEFAULT_WINDOW_WIDTH, unsigned int height = DEFAULT_WINDOW_HEIGHT);
+        App(const std::string& name, unsigned int width = defaultWindowWidth, unsigned int height = defaultWindowHeight);
 
         void Init();
         void Run();
@@ -50,10 +50,10 @@ namespace smartin::base {
         std::vector<std::unique_ptr<base::Job>> jobs;
         std::shared_ptr<Camera> mainCamera;
 
-        static const unsigned int DEFAULT_WINDOW_WIDTH = 1280;
-        static const unsigned int DEFAULT_WINDOW_HEIGHT = 720;
+        static const unsigned int defaultWindowWidth = 1280;
+        static const unsigned int defaultWindowHeight = 720;
 
-        static const unsigned int FRAMES_BEFORE_GC = 100;
+        static const unsigned int framesBeforeGc = 100;
     };
 }
 

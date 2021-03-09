@@ -101,6 +101,6 @@ smartin::base::Transform::~Transform() {
 }
 
 // Axes
-glm::vec3 smartin::base::Transform::RIGHT = glm::vec3(1.0f, 0.0f, 0.0f);
-glm::vec3 smartin::base::Transform::UP = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 smartin::base::Transform::FORWARD = glm::vec3(0.0f, 0.0f, 1.0f);
+glm::vec3 smartin::base::Transform::rightAxis = glm::vec3(1.0f, 0.0f, 0.0f);
+glm::vec3 smartin::base::Transform::upAxis = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::vec3 smartin::base::Transform::forwardAxis = glm::vec3(0.0f, 0.0f, 1.0f);

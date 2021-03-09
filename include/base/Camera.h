@@ -20,10 +20,10 @@ namespace smartin::base {
         ~Camera();
 
     private:
-        static const float DEFAULT_FIELD_OF_VIEW;
-        static const float DEFAULT_NEAR_PLANE;
-        static const float DEFAULT_FAR_PLANE;
-        static const float DEFAULT_ASPECT_RATIO;
+        static const float defaultFieldOfView;
+        static const float defaultNearPlane;
+        static const float defaultFarPlane;
+        static const float defaultAspectRatio;
     };
 }
 

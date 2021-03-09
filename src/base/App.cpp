@@ -27,7 +27,7 @@ void smartin::base::App::Run() {
             auto frameEnd = utils::time::GetRealtimeSinceStartup() + std::chrono::milliseconds(targetFrameDurationMs);
 
             utils::time::Update();
-            if (utils::time::GetFrameCount() % FRAMES_BEFORE_GC == 0)
+            if (utils::time::GetFrameCount() % framesBeforeGc == 0)
                 utils::CollectGarbage();
 
             utils::input::Update();
@@ -47,7 +47,7 @@ void smartin::base::App::Run() {
             graphics::RenderFor(mainCamera);
             window->Render();
 
-            if (utils::input::keyboard::IsKey(utils::input::KEY_ESCAPE))
+            if (utils::input::keyboard::IsKey(utils::input::esc))
                 Close();
 
             if (utils::time::GetRealtimeSinceStartup() < frameEnd)

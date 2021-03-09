@@ -21,19 +21,19 @@ public:
         // Keys
         glm::vec3 direction = glm::vec3(0.0f, 0.0f, 0.0f);
 
-        if (utils::input::keyboard::IsKey(utils::input::KEY_W))
+        if (utils::input::keyboard::IsKey(utils::input::w))
             direction += forward;
-        if (utils::input::keyboard::IsKey(utils::input::KEY_S))
+        if (utils::input::keyboard::IsKey(utils::input::s))
             direction -= forward;
 
-        if (utils::input::keyboard::IsKey(utils::input::KEY_A))
+        if (utils::input::keyboard::IsKey(utils::input::a))
             direction += right;
-        if (utils::input::keyboard::IsKey(utils::input::KEY_D))
+        if (utils::input::keyboard::IsKey(utils::input::d))
             direction -= right;
 
-        if (utils::input::keyboard::IsKey(utils::input::KEY_R))
+        if (utils::input::keyboard::IsKey(utils::input::r))
             direction += up;
-        if (utils::input::keyboard::IsKey(utils::input::KEY_F))
+        if (utils::input::keyboard::IsKey(utils::input::w))
             direction -= up;
 
         if (direction != glm::vec3(0.0f, 0.0f, 0.0f)) {
