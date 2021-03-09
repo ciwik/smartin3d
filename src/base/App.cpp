@@ -47,7 +47,7 @@ void smartin::base::App::Run() {
             graphics::RenderFor(mainCamera);
             window->Render();
 
-            if (utils::input::keyboard::IsKey(KEY_ESCAPE))
+            if (utils::input::keyboard::IsKey(utils::input::KEY_ESCAPE))
                 Close();
 
             if (utils::time::GetRealtimeSinceStartup() < frameEnd)

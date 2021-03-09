@@ -46,11 +46,11 @@ void smartin::utils::input::keyboard::Update() {
     prevKeysMask = keysMask;
 }
 
-bool smartin::utils::input::keyboard::IsKey(int key) { return keysMask[key]; }
+bool smartin::utils::input::keyboard::IsKey(smartin::utils::input::KeyCode key) { return keysMask[key]; }
 
-bool smartin::utils::input::keyboard::IsKeyUp(int key) { return prevKeysMask[key] && !keysMask[key]; }
+bool smartin::utils::input::keyboard::IsKeyUp(smartin::utils::input::KeyCode key) { return prevKeysMask[key] && !keysMask[key]; }
 
-bool smartin::utils::input::keyboard::IsKeyDown(int key) { return !prevKeysMask[key] && keysMask[key]; }
+bool smartin::utils::input::keyboard::IsKeyDown(smartin::utils::input::KeyCode key) { return !prevKeysMask[key] && keysMask[key]; }
 
 
 // Mouse
