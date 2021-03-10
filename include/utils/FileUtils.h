@@ -10,10 +10,8 @@ namespace smartin::utils::io {
         std::string result;
         std::ifstream fileStream(filePath, std::ios::in);
 
-        if (!fileStream.is_open()) {
-            fileStream.close();
+        if (!fileStream.is_open())
             throw error::FileNotFoundException("Failed to read file by path: " + filePath);
-        }
 
         std::string line = "";
         while (!fileStream.eof()) {
