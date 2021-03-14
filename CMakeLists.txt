@@ -183,6 +183,8 @@ set (HEADER_FILES
         include/graphics/Skybox.h
         include/graphics/Texture.h
         include/graphics/Window.h
+        include/graphics/lighting/Light.h
+        include/graphics/lighting/ShadowMap.h
 
         include/utils/AssetLoader.h
         include/utils/AssetPool.h
@@ -212,6 +214,8 @@ set (SOURCE_FILES
         src/graphics/Skybox.cpp
         src/graphics/Texture.cpp
         src/graphics/Window.cpp
+        src/graphics/lighting/Light.cpp
+        src/graphics/lighting/ShadowMap.cpp
 
         src/utils/AssetLoader.cpp
         src/utils/AssetUtils.cpp
