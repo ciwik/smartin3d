@@ -150,9 +150,38 @@ void smartin::utils::DestroySkybox() {
     holders::skybox = nullptr;
 }
 
+std::shared_ptr<smartin::graphics::lighting::Light> smartin::utils::GetLight(const std::string& name) {
+    return holders::lights.Get(name);
+}
+
+std::shared_ptr<smartin::graphics::lighting::Light> smartin::utils::GetMainLight() {
+    return holders::mainLight;
+}
+
+std::vector<std::shared_ptr<smartin::graphics::lighting::Light>> smartin::utils::GetAllLights() {
+    return holders::lights.GetAll();
+}
+
+std::shared_ptr<smartin::graphics::lighting::Light> smartin::utils::CreateDirectionalLight(const std::string &name, glm::vec3 color, glm::vec3 direction,
+                                                                                           float ambientIntensity, float diffuseIntensity, bool main) {
+    auto light = std::make_shared<graphics::lighting::DirectionalLight>(1024, 1024, color, direction, ambientIntensity, diffuseIntensity);
+    holders::lights.Add(name, light);
+    if (main)
+        holders::mainLight = light;
+
+    return light;
+}
+
+void smartin::utils::DestroyLight(std::shared_ptr<graphics::lighting::Light> light) {
+    if (light == holders::mainLight)
+        holders::mainLight = nullptr;
+    holders::lights.Remove(light);
+}
+
 void smartin::utils::DebugPrintContent() {
     holders::actors.DebugPrintContent("Actors");
     holders::materials.DebugPrintContent("Materials");
+    holders::lights.DebugPrintContent("Lights");
     holders::textures.DebugPrintContent("Textures");
     holders::shaders.DebugPrintContent("Shaders");
 }

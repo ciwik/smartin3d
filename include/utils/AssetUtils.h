@@ -6,6 +6,8 @@
 #include "base/Actor.h"
 #include "base/Camera.h"
 #include "graphics/Skybox.h"
+#include "graphics/lighting/Light.h"
+#include "graphics/lighting/DirectionalLight.h"
 #include "utils/AssetLoader.h"
 #include "utils/AssetPool.h"
 
@@ -57,11 +59,23 @@ namespace smartin::utils {
                                         const std::string& textureName = "",
                                         const glm::vec3& color = glm::vec3(0.0f, 0.0f, 0.0f));
 
+    std::shared_ptr<graphics::lighting::Light> GetLight(const std::string& name);
+    std::shared_ptr<graphics::lighting::Light> GetMainLight();
+    std::vector<std::shared_ptr<graphics::lighting::Light>> GetAllLights();
+    std::shared_ptr<graphics::lighting::Light> CreateDirectionalLight(const std::string& name,
+                                                                      glm::vec3 color, glm::vec3 direction,
+                                                                      float ambientIntensity, float diffuseIntensity,
+                                                                      bool main = false);
+    void DestroyLight(std::shared_ptr<graphics::lighting::Light> light);
+
     namespace holders {
         static AssetPool<graphics::Texture> textures (true);
         static AssetPool<graphics::Material> materials (true);
+        static AssetPool<graphics::lighting::Light> lights (true);
         static AssetPool<graphics::Shader> shaders;
         static AssetPool<base::Actor> actors;
+
+        static std::shared_ptr<graphics::lighting::Light> mainLight;
         static std::shared_ptr<graphics::Skybox> skybox;
     }
 }

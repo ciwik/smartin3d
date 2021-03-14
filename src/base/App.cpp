@@ -115,3 +115,9 @@ void smartin::base::App::SetTargetFPS(unsigned int fps) {
     targetFrameDurationMs = 1000 / fps;
 }
 
+void smartin::base::App::AddDirectionalLight(const std::string& name, glm::vec3 direction, bool main, glm::vec3 color,
+                                             float ambientIntensity, float diffuseIntensity) {
+    if (utils::GetLight(name) == nullptr)
+        utils::CreateDirectionalLight(name, color, direction, ambientIntensity, diffuseIntensity, main);
+}
+

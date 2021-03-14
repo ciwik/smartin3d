@@ -38,6 +38,13 @@ namespace smartin::base {
 
         void AddJob(std::unique_ptr<Job> job);
 
+        void AddDirectionalLight(const std::string& name,
+                                 glm::vec3 direction,
+                                 bool main = false,
+                                 glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f),
+                                 float ambientIntensity = 0.5f,
+                                 float diffuseIntensity = 0.5f);
+
         void SetTargetFPS(unsigned int fps);
 
         ~App();
