@@ -65,7 +65,7 @@ if (utils::input::keyboard::IsKey(utils::input::space))
 ```
 if (utils::input::keyboard::IsKeyDown(utils::input::space))
 ```
-### Checking if key was released
+### Checking if key was released on current frame
 ```
 if (utils::input::keyboard::IsKeyUp(utils::input::space))
 ```
