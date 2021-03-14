@@ -1,13 +1,13 @@
 #include "utils/AssetLoader.h"
 
 std::string BuildPath(const std::string& directory, const std::string& file) {
-    return smartin::utils::loaders::ASSETS_ROOT_DIR + directory + file;
+    return smartin::utils::loaders::assetsRootDir + directory + file;
 }
 
 std::shared_ptr<smartin::graphics::Texture> smartin::utils::loaders::LoadTexture(const std::string& fileName) {
     std::shared_ptr<smartin::graphics::Texture> texture = nullptr;
 
-    std::string filePath = BuildPath(TEXTURES_DIR, fileName);
+    std::string filePath = BuildPath(texturesDir, fileName);
     int width, height, depth;
     unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &depth, 0);
     if (data != nullptr) {
@@ -25,7 +25,7 @@ std::shared_ptr<smartin::graphics::Skybox> smartin::utils::loaders::LoadSkybox(c
 
     int width, height, bitDepth;
     for (size_t i = 0; i < faceTexturePaths.size(); i++) {
-        std::string filePath = BuildPath(SKYBOXES_DIR, faceTexturePaths[i]);
+        std::string filePath = BuildPath(skyboxesDir, faceTexturePaths[i]);
         imagesData[i] = stbi_load(filePath.c_str(), &width, &height, &bitDepth, 0);
         if (imagesData[i] == nullptr)
             throw error::AssetException("Couldn't find file at path: " + filePath);
@@ -41,8 +41,8 @@ std::shared_ptr<smartin::graphics::Skybox> smartin::utils::loaders::LoadSkybox(c
 }
 
 std::shared_ptr<smartin::graphics::Shader> smartin::utils::loaders::LoadShader(const std::string& vertexCodeName, const std::string& fragmentCodeName) {
-    std::string vertexCodePath = BuildPath(SHADERS_DIR, vertexCodeName);
-    std::string fragmentCodePath = BuildPath(SHADERS_DIR, fragmentCodeName);
+    std::string vertexCodePath = BuildPath(shadersDir, vertexCodeName);
+    std::string fragmentCodePath = BuildPath(shadersDir, fragmentCodeName);
 
     std::string vertexCode = smartin::utils::io::ReadFile(vertexCodePath);
     std::string fragmentCode = smartin::utils::io::ReadFile(fragmentCodePath);
@@ -52,7 +52,7 @@ std::shared_ptr<smartin::graphics::Shader> smartin::utils::loaders::LoadShader(c
 }
 
 void smartin::utils::loaders::LoadAppearanceForActor(std::shared_ptr<base::Actor> actor, const std::string& modelFileName) {
-    std::string modelFilePath = BuildPath(MODELS_DIR, modelFileName);
+    std::string modelFilePath = BuildPath(modelsDir, modelFileName);
 
     auto loader = std::make_unique<ModelLoader>(modelFilePath);
     loader->Load();

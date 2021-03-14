@@ -10,11 +10,11 @@
 #include "graphics/Skybox.h"
 
 namespace smartin::utils::loaders {
-    const std::string ASSETS_ROOT_DIR = "assets/";
-    const std::string TEXTURES_DIR = "textures/";
-    const std::string SKYBOXES_DIR = TEXTURES_DIR + "skyboxes/";
-    const std::string SHADERS_DIR = "shaders/";
-    const std::string MODELS_DIR = "models/";
+    static const std::string assetsRootDir = "assets/";
+    static const std::string texturesDir = "textures/";
+    static const std::string skyboxesDir = texturesDir + "skyboxes/";
+    static const std::string shadersDir = "shaders/";
+    static const std::string modelsDir = "models/";
 
     std::shared_ptr<graphics::Texture> LoadTexture(const std::string& fileName);
     std::shared_ptr<graphics::Skybox> LoadSkybox(const std::array<std::string, 6>& faceTexturePaths, std::shared_ptr<graphics::Shader> shader);
