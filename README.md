@@ -1,7 +1,7 @@
 # smartin3d
 Modest 3D game engine, written only for educational purposes.
 
-Currently, this project runs on Windows, but may also be built for Linux and Mac OS if the required libraries exist on the system. It requires GLEW, GLFW, GLM, assimp. Paths to these libs can be set manually as command line arguments to cmake, i.e. ```cmake . -DGLEW_ROOT=... -DGLFW32_ROOT=... -DGLM_ROOT=... -DASSIMP_ROOT=...```.
+Currently, this project runs on Windows, but may also be built for Linux and Mac OS if the required libraries exist on the system. It requires GLEW, GLFW, GLM, assimp. Paths to these libraries can be set manually as command line arguments to cmake, i.e. ```cmake . -DGLEW_ROOT=... -DGLFW32_ROOT=... -DGLM_ROOT=... -DASSIMP_ROOT=...```.
 
 ## Code snippets
 ### App creation
