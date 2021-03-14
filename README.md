@@ -59,56 +59,54 @@ smartin::utils::time::GetDeltaTime();
 ```
 ### Checking if key is pressed
 ```
-if (utils::input::keyboard::IsKey(utils::input::space))
+if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::space))
 ```
 ### Checking if key was pressed down on current frame
 ```
-if (utils::input::keyboard::IsKeyDown(utils::input::space))
+if (smartin::utils::input::keyboard::IsKeyDown(smartin::utils::input::space))
 ```
 ### Checking if key was released on current frame
 ```
-if (utils::input::keyboard::IsKeyUp(utils::input::space))
+if (smartin::utils::input::keyboard::IsKeyUp(smartin::utils::input::space))
 ```
 ### Full job example
 This job controls input and provides camera movement.
 ```
-class CameraMovementJob : public base::Job {
+class CameraMovementJob : public smartin::base::Job {
 public:
-    CameraMovementJob(std::shared_ptr<base::Camera> camera, float _speed, float _turnSpeed) :
+    CameraMovementJob(shared_ptr<smartin::base::Camera> camera, float _speed, float _turnSpeed) :
         cameraTransform(camera->GetTransform()),
         speed(_speed),
         turnSpeed(_turnSpeed) { }
 
     void Tick() override {
-        glm::vec3 forward = cameraTransform->GetForward();
-        glm::vec3 right = cameraTransform->GetRight();
-        glm::vec3 up = cameraTransform->GetUp();
+        vec3 forward = cameraTransform->GetForward();
+        vec3 right = cameraTransform->GetRight();
+        vec3 up = cameraTransform->GetUp();
 
         // Keys
-        glm::vec3 direction = glm::vec3(0.0f, 0.0f, 0.0f);
+        vec3 direction = vec3(0.0f, 0.0f, 0.0f);
 
-        if (utils::input::keyboard::IsKey(utils::input::w))
+        if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::w))
             direction += forward;
-        if (utils::input::keyboard::IsKey(utils::input::s))
+        if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::s))
             direction -= forward;
 
-        if (utils::input::keyboard::IsKey(utils::input::a))
+        if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::a))
             direction += right;
-        if (utils::input::keyboard::IsKey(utils::input::d))
+        if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::d))
             direction -= right;
 
-        if (utils::input::keyboard::IsKey(utils::input::r))
+        if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::r))
             direction += up;
-        if (utils::input::keyboard::IsKey(utils::input::w))
+        if (smartin::utils::input::keyboard::IsKey(smartin::utils::input::w))
             direction -= up;
 
-        if (direction != glm::vec3(0.0f, 0.0f, 0.0f)) {
-            direction = utils::time::GetDeltaTime() * speed * glm::normalize(direction);
-            cameraTransform->Move(direction);
-        }
+        direction = smartin::utils::time::GetDeltaTime() * speed * normalize(direction);
+        cameraTransform->Move(direction);
 
         // Mouse
-        glm::vec2 mouseDelta = utils::input::mouse::GetCursorDelta();
+        vec2 mouseDelta = smartin::utils::input::mouse::GetCursorDelta();
         mouseDelta *= turnSpeed;
 
         float yaw = -mouseDelta.x;
@@ -118,11 +116,11 @@ public:
         else if (pitch < -89.0f)
             pitch = -89.0f;
 
-        cameraTransform->Rotate(glm::vec3(pitch, yaw, 0.0f));
+        cameraTransform->Rotate(vec3(pitch, yaw, 0.0f));
     }
 
 private:
-    std::shared_ptr<base::Transform> cameraTransform;
+    shared_ptr<smartin::base::Transform> cameraTransform;
     float speed, turnSpeed;
 };
 ```
