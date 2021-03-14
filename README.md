@@ -70,7 +70,7 @@ if (smartin::utils::input::keyboard::IsKeyDown(smartin::utils::input::space))
 if (smartin::utils::input::keyboard::IsKeyUp(smartin::utils::input::space))
 ```
 ### Full job example
-This job controls input and provides camera movement.
+This job processes the input and provides camera movement.
 ```
 class CameraMovementJob : public smartin::base::Job {
 public:
