@@ -5,13 +5,13 @@ Currently, this project runs on Windows, but may also be built for Linux and Mac
 
 ## Code snippets
 ### App creation
-Simply create an App object, put the application name and windows size in the constructor, and call the Init() method.
+Simply create an ```App``` object, put the application name and windows size in the constructor, and call the ```Init()``` method.
 ```
 smartin::base::App app("App name", 1280, 720);
 app.Init();
 ```
 ### Loading actor from file
-Put the name of the actor, the name of a 3D model file located in the "models" subdirectory, and (optionally) position, size, and rotation (in Euler angles) of the actor.
+Put the name of the actor, the name of a 3D model file located in the "assets/models" subdirectory, and (optionally) position, size, and rotation (in Euler angles) of the actor.
 ```
 app.AddActor("cone", "cone.obj",
              vec3(-8.0f, 2.0f, 5.0f),
@@ -40,7 +40,7 @@ Put position, rotation in Euler angles, and field of view.
 app.CreateCamera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, -60.0f, 0.0f), 45.0f);
 ```
 ### Job description
-Create a job class inherited from the base::Job, override Tick() method called every frame before rendering pass.
+Create a job class inherited from the ```base::Job```, override ```Tick()``` method called every frame before rendering pass.
 ```
 class CameraMovementJob : public smartin::base::Job
 ```
