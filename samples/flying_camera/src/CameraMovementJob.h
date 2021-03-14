@@ -7,11 +7,10 @@ using namespace smartin;
 
 class CameraMovementJob : public base::Job {
 public:
-    CameraMovementJob(std::shared_ptr<base::Camera> camera, float _speed, float _turnSpeed) {
-        cameraTransform = camera->GetTransform();
-        speed = _speed;
-        turnSpeed = _turnSpeed;
-    }
+    CameraMovementJob(std::shared_ptr<base::Camera> camera, float _speed, float _turnSpeed) :
+        cameraTransform(camera->GetTransform()),
+        speed(_speed),
+        turnSpeed(_turnSpeed) { }
 
     void Tick() override {
         glm::vec3 forward = cameraTransform->GetForward();
