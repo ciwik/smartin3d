@@ -76,7 +76,7 @@ auto cone = smartin::utils::FindActor("cone");
 ```
 auto material = smartin::utils::GetMaterial("cone_mat");
 ```
-### Full job example
+### Job example
 This job processes the input and provides camera movement.
 ```
 class CameraMovementJob : public smartin::base::Job {
