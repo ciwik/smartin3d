@@ -47,7 +47,7 @@ class CameraMovementJob : public smartin::base::Job
 ### Job registration
 Put an instance of the custom job to the application.
 ```
-app.AddJob(make_unique<CameraMovementJob>(app.GetCamera(), 10.0f, 1.0f));
+app.AddJob<CameraMovementJob>(app.GetCamera(), 10.0f, 1.0f);
 ```
 ### Start application
 ```
@@ -55,7 +55,7 @@ app.Run();
 ```
 ### Getting delta time
 ```
-smartin::utils::time::GetDeltaTime();
+auto dt = smartin::utils::time::GetDeltaTime();
 ```
 ### Checking if key is pressed
 ```
