@@ -47,7 +47,7 @@ namespace smartin::base {
 
         template<class TJob, typename... Args>
         void AddJob(Args... args) {
-            static_assert(std::is_base_of<Job, TJob>::value, "Job should be derived from base::Job class");
+            static_assert(std::is_base_of<Job, TJob>::value, "Job must be derived from base::Job class");
             jobs.push_back(std::make_unique<TJob>(args...));
         }
 
