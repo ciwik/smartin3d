@@ -64,33 +64,9 @@ void smartin::base::App::Close() {
     window->Close();
 }
 
-smartin::base::App::~App() {
-    for (auto& actor : utils::GetAllActors())
-        utils::DestroyActor(actor);
-
-    jobs.clear();
-}
-
-bool smartin::base::App::CreateWindow(int width, int height, const std::string &title) {
-    try {
-        utils::context::InitGLFW();
-
-        window = std::make_shared<graphics::Window>(width, height);
-        window->Instantiate(title);
-
-        utils::context::InitGLEW();
-        window->Init();
-    } catch (utils::error::SmartinRuntimeException& e) {
-        utils::log::E(e);
-        window.reset();
-        return false;
-    }
-
-    return true;
-}
-
-void smartin::base::App::CreateCamera(const glm::vec3& position, const glm::vec3& eulerAngles, float fov) {
+std::shared_ptr<smartin::base::Camera> smartin::base::App::CreateCamera(const glm::vec3& position, const glm::vec3& eulerAngles, float fov) {
     mainCamera = utils::CreateCamera(fov, window->GetAspectRatio(), position, eulerAngles);
+    return mainCamera;
 }
 
 void smartin::base::App::SetSkybox(const std::array<std::string, 6>& faceTexturePaths) {
@@ -117,3 +93,27 @@ void smartin::base::App::AddDirectionalLight(const std::string& name, glm::vec3 
         utils::CreateDirectionalLight(name, color, direction, ambientIntensity, diffuseIntensity, main);
 }
 
+smartin::base::App::~App() {
+    for (auto& actor : utils::GetAllActors())
+        utils::DestroyActor(actor);
+
+    jobs.clear();
+}
+
+bool smartin::base::App::CreateWindow(int width, int height, const std::string &title) {
+    try {
+        utils::context::InitGLFW();
+
+        window = std::make_shared<graphics::Window>(width, height);
+        window->Instantiate(title);
+
+        utils::context::InitGLEW();
+        window->Init();
+    } catch (utils::error::SmartinRuntimeException& e) {
+        utils::log::E(e);
+        window.reset();
+        return false;
+    }
+
+    return true;
+}

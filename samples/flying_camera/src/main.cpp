@@ -10,7 +10,7 @@ int main() {
     app.Init();
     app.SetTargetFPS(120);
 
-    app.CreateCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
+    auto camera = app.CreateCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -60.0f, 0.0f));
     app.SetSkybox({
         "cupertin-lake_rt.tga",
         "cupertin-lake_lf.tga",
@@ -30,7 +30,7 @@ int main() {
     app.AddActor("cone", "cone.obj",
                  glm::vec3(-8.0f, 2.0f, 5.0f));
 
-    app.AddJob<CameraMovementJob>(app.GetCamera(), 10.0f, 1.0f);
+    app.AddJob<CameraMovementJob>(camera, 10.0f, 1.0f);
     app.AddJob<XwingDestroyJob>();
 
     app.Run();

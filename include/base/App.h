@@ -24,9 +24,9 @@ namespace smartin::base {
 
         inline std::shared_ptr<Camera> GetCamera() const { return mainCamera; }
 
-        void CreateCamera(const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
-                          const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),
-                          float fov = 45.0f);
+        std::shared_ptr<Camera> CreateCamera(const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f),
+                                             const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f),
+                                             float fov = 45.0f);
 
         void SetSkybox(const std::array<std::string, 6>& faceTexturePaths);
 
