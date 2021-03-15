@@ -69,6 +69,13 @@ if (smartin::utils::input::keyboard::IsKeyDown(smartin::utils::input::space))
 ```
 if (smartin::utils::input::keyboard::IsKeyUp(smartin::utils::input::space))
 ```
+### Search over actors and assets
+```
+auto cone = smartin::utils::FindActor("cone");
+```
+```
+auto material = smartin::utils::GetMaterial("cone_mat");
+```
 ### Full job example
 This job processes the input and provides camera movement.
 ```
@@ -123,4 +130,32 @@ private:
     shared_ptr<smartin::base::Transform> cameraTransform;
     float speed, turnSpeed;
 };
+```
+### main() example
+```
+int main() {
+    smartin::base::App app("App name", 1280, 720);
+    app.Init();
+    app.SetTargetFPS(120);
+
+    auto camera = app.CreateCamera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, -60.0f, 0.0f));
+    app.SetSkybox({
+      "skybox_rt.tga",
+      "skybox_lf.tga",
+      "skybox_up.tga",
+      "skybox_dn.tga",
+      "skybox_bk.tga",
+      "skybox_ft.tga"
+    });
+
+    app.AddActor("xwing", "x-wing.obj",
+                 vec3(-7.0f, 0.0f, 10.0f),
+                 vec3(0.006f, 0.006f, 0.006f));
+    app.AddActor("cone", "cone.obj",
+                 vec3(-8.0f, 2.0f, 5.0f));
+
+    app.AddJob<CameraMovementJob>(camera, 10.0f, 1.0f);
+
+    app.Run();
+}
 ```
