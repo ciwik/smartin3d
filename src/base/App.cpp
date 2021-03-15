@@ -100,10 +100,6 @@ void smartin::base::App::SetSkybox(const std::array<std::string, 6>& faceTexture
     utils::CreateSkybox(faceTexturePaths);
 }
 
-void smartin::base::App::AddJob(std::unique_ptr<smartin::base::Job> job) {
-    jobs.push_back(std::move(job));
-}
-
 void smartin::base::App::AddActor(const std::string& name, const std::string& modelFileName, const glm::vec3& position, const glm::vec3& size, const glm::vec3& eulerAngles) {
     if (utils::GetShader(graphics::defaultShaderName) == nullptr)
         utils::CreateShader(graphics::defaultShaderName);

@@ -36,8 +36,6 @@ namespace smartin::base {
                       const glm::vec3& size = glm::vec3 (1.0f, 1.0f, 1.0f),
                       const glm::vec3& eulerAngles = glm::vec3(0.0f, 0.0f, 0.0f));
 
-        void AddJob(std::unique_ptr<Job> job);
-
         void AddDirectionalLight(const std::string& name,
                                  glm::vec3 direction,
                                  bool main = false,
@@ -46,6 +44,12 @@ namespace smartin::base {
                                  float diffuseIntensity = 0.5f);
 
         void SetTargetFPS(unsigned int fps);
+
+        template<class TJob, typename... Args>
+        void AddJob(Args... args) {
+            static_assert(std::is_base_of<Job, TJob>::value, "Job should be derived from base::Job class");
+            jobs.push_back(std::make_unique<TJob>(args...));
+        }
 
         ~App();
 
