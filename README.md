@@ -10,13 +10,44 @@ Simply create an ```App``` object, put the application name and windows size in 
 smartin::base::App app("App name", 1280, 720);
 app.Init();
 ```
+### Actor creation
+Put the name of the actor and (optionally) position, size, and rotation (in Euler angles) of the actor.
+```
+smartin::utils::CreateActor("actor",
+                            vec3(-8.0f, 2.0f, 5.0f),
+                            vec3(0.4f, 0.4f, 0.4f),
+                            vec3(-90.0f, 0.0f, 0.0f));
+```
+### Camera creation
+Put position, rotation in Euler angles, and field of view.
+```
+app.CreateCamera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, -60.0f, 0.0f), 45.0f);
+```
 ### Loading actor from file
 Put the name of the actor, the name of a 3D model file located in the "assets/models" subdirectory, and (optionally) position, size, and rotation (in Euler angles) of the actor.
+```
+smartin::utils::CreateActorWithAppearance("cone", "cone.obj",
+                                          vec3(-8.0f, 2.0f, 5.0f),
+                                          vec3(0.4f, 0.4f, 0.4f),
+                                          vec3(-90.0f, 0.0f, 0.0f));
+```
+or just
 ```
 app.AddActor("cone", "cone.obj",
              vec3(-8.0f, 2.0f, 5.0f),
              vec3(0.4f, 0.4f, 0.4f),
              vec3(-90.0f, 0.0f, 0.0f));
+```
+### Search over actors and assets
+```
+auto cone = smartin::utils::FindActor("cone");
+```
+```
+auto material = smartin::utils::GetMaterial("cone_mat");
+```
+### Actor destroyment
+```
+smartin::utils::DestroyActor(smartin::utils::FindActor("cone"));
 ```
 ### Loading skybox
 Put names of 6 skybox textures located in the "assets/textures/skyboxes" subdirectory.
@@ -33,11 +64,6 @@ app.SetSkybox({
 ### Setting target FPS
 ```
 app.SetTargetFPS(120);
-```
-### Camera creation
-Put position, rotation in Euler angles, and field of view.
-```
-app.CreateCamera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, -60.0f, 0.0f), 45.0f);
 ```
 ### Job description
 Create a job class inherited from the ```base::Job```, override ```Tick()``` method called every frame before rendering pass.
@@ -68,13 +94,6 @@ if (smartin::utils::input::keyboard::IsKeyDown(smartin::utils::input::space))
 ### Checking if key was released on current frame
 ```
 if (smartin::utils::input::keyboard::IsKeyUp(smartin::utils::input::space))
-```
-### Search over actors and assets
-```
-auto cone = smartin::utils::FindActor("cone");
-```
-```
-auto material = smartin::utils::GetMaterial("cone_mat");
 ```
 ### Job example
 This job processes the input and provides camera movement.
